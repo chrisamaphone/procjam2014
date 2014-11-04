@@ -1,0 +1,93 @@
+character : type.
+alice : character.
+bob : character.
+
+room : type.
+front_hall : room.
+bathroom : room.
+courtyard : room.
+bedroom : room.
+
+adj : room -> room -> type.
+- : adj front_hall bathroom.
+- : adj front_hall bedroom.
+- : adj front_hall courtyard.
+- : adj bathroom front_hall.
+- : adj bathroom courtyard.
+- : adj bathroom bedroom.
+- : adj courtyard front_hall.
+- : adj courtyard bathroom.
+- : adj courtyard bedroom.
+- : adj bedroom front_hall.
+- : adj bedroom bathroom.
+- : adj bedroom courtyard.
+
+loc : character -> room -> type.
+
+object : type.
+revolver : object.
+maltese_falcon : object.
+dead_body : object.
+
+portable : object -> type.
+portable/revolver : portable revolver.
+portable/mf : portable maltese_falcon.
+
+object_loc : type.
+has : character -> object_loc.
+inroom : room -> object_loc.
+
+loc_o : object -> object_loc -> type.
+
+init : type =
+{ loc alice bedroom * loc bob front_hall *
+    loc_o revolver (inroom bedroom) 
+           * loc_o maltese_falcon (inroom courtyard) 
+           * loc_o dead_body (inroom bathroom) }.
+
+%% actions
+
+% interact with location
+
+move : Pi C. Pi R. Pi R'. loc C R * adj R R' -o {loc C R'}.
+
+% interact with objects
+
+pickup : Pi C. Pi R. Pi O. loc C R * loc_o O (inroom R) * portable O
+             -o {loc C R * loc_o O (has C)}.
+
+drop   : Pi C. Pi R. Pi O. loc C R * loc_o O (has C)
+             -o {loc C R * loc_o O (inroom R)}.
+
+observe : Pi C. Pi R. Pi O. loc C R * loc_o O (inroom R)
+              -o {loc C R * loc_o O (inroom R)}.
+
+% interact with other character
+
+comment_on_location
+: Pi C. Pi C'. Pi R. loc C R * loc C' R -o {loc C R * loc C' R}.
+
+greet
+: Pi C. Pi C'. Pi R. loc C R * loc C' R -o {loc C R * loc C' R}.
+
+
+% interact with object AND other character
+
+observe_with : Pi C. Pi C'. Pi R. Pi O. loc C R * loc C' R * loc_o O (has C')
+                   -o {loc C R * loc C' R * loc_o O (has C')}.
+
+threaten_with_revolver 
+  : Pi C. Pi C'. Pi R. 
+    loc C R * loc C' R * loc_o revolver (has C)
+                   -o {loc C R * loc C' R * loc_o revolver (has C)}.
+
+% termination actions
+leave : loc C front_hall * loc C' front_hall -o {1}.
+
+#trace * init.
+
+#query * * * 10 
+init -o
+{loc_o maltese_falcon MFloc *
+ loc_o dead_body DBloc *
+ loc_o revolver RevolverLoc }.

@@ -1,0 +1,120 @@
+character : type.
+alice : character.
+bob : character.
+
+cloaked : character -> type.
+notcloaked : character -> type.
+
+room : type.
+foyer : room.
+bar : room.
+cloakroom : room.
+
+adj : room -> room -> type.
+- : adj bar foyer.
+- : adj bar cloakroom.
+- : adj foyer cloakroom.
+
+adj/sym : adj A B -> adj B A.
+
+loc : character -> room -> type.
+
+object : type.
+cloak_of_darkness : object.
+
+portable : object -> type.
+portable/cod : portable cloak_of_darkness.
+
+object_loc : type.
+has : character -> object_loc.
+inroom : room -> object_loc.
+onhook : object_loc.
+
+loc_o : object -> object_loc -> type.
+
+nat : type.
+z : nat.
+s : nat -> nat.
+disturbances : character -> nat -> type.
+
+leq : nat -> nat -> type.
+leqz : leq z N.
+leqs : leq (s N) (s M)
+       <- leq N M.
+max : nat = (s (s (s z))).
+
+init : type =
+{ loc alice foyer * loc bob foyer * notcloaked bob 
+    * disturbances alice z * disturbances bob z
+    * loc_o cloak_of_darkness (has alice) * cloaked alice }.
+
+result : type.
+win : result.
+lose : nat -> result.
+
+score : character -> result -> type.
+
+%% actions
+
+% interact with location
+
+move : Pi C. Pi R. Pi R'. loc C R * adj R R' -o {loc C R'}.
+
+% do anything in the bar while wearing/not wearing the cloak
+look : Pi C. loc C bar * cloaked C * disturbances C N
+           -o {loc C bar * cloaked C * disturbances C (s N)}.
+
+look_win : Pi C. loc C bar * notcloaked C * disturbances C D * leq D max
+           -o {score C win}.
+
+look_lose : Pi C.loc C bar * notcloaked C * disturbances C D * leq max D
+            -o {score C (lose D)}.
+
+% drop the cloak in the cloakroom
+drop_cloak : Pi C. loc C cloakroom * loc_o cloak_of_darkness (has C)
+           * cloaked C
+           -o {loc C cloakroom * notcloaked C
+                * loc_o cloak_of_darkness (inroom cloakroom)}.
+
+pickup_cloak : Pi C. loc C R * loc_o cloak_of_darkness (inroom R)
+            * notcloaked C
+           -o {loc C R * loc_o cloak_of_darkness (has C)
+                  * cloaked C}.
+
+hang_cloak : Pi C. loc C cloakroom * loc_o cloak_of_darkness (has C)
+           * cloaked C
+           -o {loc C cloakroom * notcloaked C
+                * loc_o cloak_of_darkness onhook}.
+
+unhang_cloak : Pi C. loc C cloakroom * loc_o cloak_of_darkness onhook
+             * notcloaked C
+             -o {loc C cloakroom * cloaked C
+                  * loc_o cloak_of_darkness (has C)}.
+
+% observe any room OTHER THAN the bar...
+observe_foyer 
+  : Pi C. loc C foyer -o {loc C foyer}.
+
+observe_cloakroom
+  : Pi C. loc C cloakroom -o {loc C cloakroom}.
+
+
+% interact with other character
+
+comment_on_location
+: Pi C. Pi C'. Pi R. loc C R * loc C' R -o {loc C R * loc C' R}.
+
+greet
+: Pi C. Pi C'. Pi R. loc C R * loc C' R -o {loc C R * loc C' R}.
+
+
+% interact with object AND other character
+
+observe_with : Pi C. Pi C'. Pi R. Pi O. loc C R * loc C' R * loc_o O (has C')
+                   -o {loc C R * loc C' R * loc_o O (has C')}.
+
+#trace * init.
+
+#query * * * 1 init -o {loc_o cloak_of_darkness WhereCloak *
+                        score alice AliceScore *
+                        score bob BobScore}.
