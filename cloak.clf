@@ -61,7 +61,7 @@ score : character -> result -> type.
 move : Pi C. Pi R. Pi R'. loc C R * adj R R' -o {loc C R'}.
 
 % do anything in the bar while wearing/not wearing the cloak
-look : Pi C. loc C bar * cloaked C * disturbances C N
+mess_about : Pi C. loc C bar * cloaked C * disturbances C N
            -o {loc C bar * cloaked C * disturbances C (s N)}.
 
 look_win : Pi C. loc C bar * notcloaked C * disturbances C D * leq D max
@@ -115,6 +115,7 @@ observe_with : Pi C. Pi C'. Pi R. Pi O. loc C R * loc C' R * loc_o O (has C')
 
 #trace * init.
 
-#query * * * 1 init -o {loc_o cloak_of_darkness WhereCloak *
+#query * * * 10 
+               init -o {loc_o cloak_of_darkness WhereCloak *
                         score alice AliceScore *
                         score bob BobScore}.

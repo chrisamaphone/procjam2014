@@ -1,4 +1,155 @@
-Query (*, *, *, 1) init -o {loc_o cloak_of_darkness #WhereCloak * (score alice #AliceScore * score bob #BobScore)}.
+Celf ver 2.9. Copyright (C) 2011
+[reading cloak.clf]
+character: type.
+alice: character.
+bob: character.
+cloaked: character -> type.
+notcloaked: character -> type.
+room: type.
+foyer: room.
+bar: room.
+cloakroom: room.
+adj: room -> room -> type.
+-: adj bar foyer.
+-: adj bar cloakroom.
+-: adj foyer cloakroom.
+adj/sym: Pi A: room. Pi B: room. adj A B -> adj B A.
+loc: character -> room -> type.
+object: type.
+cloak_of_darkness: object.
+portable: object -> type.
+portable/cod: portable cloak_of_darkness.
+object_loc: type.
+has: character -> object_loc.
+inroom: room -> object_loc.
+onhook: object_loc.
+loc_o: object -> object_loc -> type.
+nat: type.
+z: nat.
+s: nat -> nat.
+disturbances: character -> nat -> type.
+leq: nat -> nat -> type.
+leqz: Pi N: nat. leq z N.
+leqs: Pi M: nat. Pi N: nat. leq N M -> leq (s !N) (s !M).
+max: nat = s !(s !(s !z)).
+init: Type = {loc alice foyer * (loc bob foyer * (notcloaked bob * (disturbances alice z * (disturbances bob z * (loc_o cloak_of_darkness (has !alice) * cloaked alice)))))}.
+result: type.
+win: result.
+lose: nat -> result.
+score: character -> result -> type.
+move: Pi C: character. Pi R: room. Pi R': room. (loc C R * adj R R') -o {loc C R'}.
+mess_about: Pi N: nat. Pi C: character. (loc C bar * (cloaked C * disturbances C N)) -o {loc C bar * (cloaked C * disturbances C (s !N))}.
+look_win: Pi D: nat. Pi C: character. (loc C bar * (notcloaked C * (disturbances C D * leq D (s !(s !(s !z)))))) -o {score C win}.
+look_lose: Pi D: nat. Pi C: character. (loc C bar * (notcloaked C * (disturbances C D * leq (s !(s !(s !z))) D))) -o {score C (lose !D)}.
+drop_cloak: Pi C: character. (loc C cloakroom * (loc_o cloak_of_darkness (has !C) * cloaked C)) -o {loc C cloakroom * (notcloaked C * loc_o cloak_of_darkness (inroom !cloakroom))}.
+pickup_cloak: Pi R: room. Pi C: character. (loc C R * (loc_o cloak_of_darkness (inroom !R) * notcloaked C)) -o {loc C R * (loc_o cloak_of_darkness (has !C) * cloaked C)}.
+hang_cloak: Pi C: character. (loc C cloakroom * (loc_o cloak_of_darkness (has !C) * cloaked C)) -o {loc C cloakroom * (notcloaked C * loc_o cloak_of_darkness onhook)}.
+unhang_cloak: Pi C: character. (loc C cloakroom * (loc_o cloak_of_darkness onhook * notcloaked C)) -o {loc C cloakroom * (cloaked C * loc_o cloak_of_darkness (has !C))}.
+observe_foyer: Pi C: character. loc C foyer -o {loc C foyer}.
+observe_cloakroom: Pi C: character. loc C cloakroom -o {loc C cloakroom}.
+comment_on_location: Pi C: character. Pi C': character. Pi R: room. (loc C R * loc C' R) -o {loc C R * loc C' R}.
+greet: Pi C: character. Pi C': character. Pi R: room. (loc C R * loc C' R) -o {loc C R * loc C' R}.
+observe_with: Pi C: character. Pi C': character. Pi R: room. Pi O: object. (loc C R * (loc C' R * loc_o O (has !C'))) -o {loc C R * (loc C' R * loc_o O (has !C'))}.
+Trace * init
+-- init lin
+-- loc alice foyer lin, loc bob foyer lin, notcloaked bob lin, 
+   disturbances alice z lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin
+-- notcloaked bob lin, disturbances alice z lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   loc bob foyer lin, loc alice foyer lin
+-- notcloaked bob lin, disturbances alice z lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   loc bob foyer lin, loc alice foyer lin
+-- notcloaked bob lin, disturbances alice z lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   loc bob foyer lin, loc alice bar lin
+-- notcloaked bob lin, disturbances alice z lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   loc alice bar lin, loc bob cloakroom lin
+-- notcloaked bob lin, disturbances alice z lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   loc alice bar lin, loc bob cloakroom lin
+-- notcloaked bob lin, disturbances alice z lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   loc alice bar lin, loc bob cloakroom lin
+-- notcloaked bob lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, loc bob cloakroom lin, 
+   loc alice bar lin, cloaked alice lin, disturbances alice (s !z) lin
+-- notcloaked bob lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, loc alice bar lin, 
+   cloaked alice lin, disturbances alice (s !z) lin, loc bob bar lin
+-- notcloaked bob lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   disturbances alice (s !z) lin, loc alice bar lin, loc bob bar lin
+-- notcloaked bob lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, loc bob bar lin, 
+   loc alice bar lin, cloaked alice lin, disturbances alice (s !(s !z)) lin
+-- notcloaked bob lin, disturbances bob z lin, 
+   loc_o cloak_of_darkness (has !alice) lin, loc bob bar lin, 
+   cloaked alice lin, disturbances alice (s !(s !z)) lin, loc alice foyer lin
+-- loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   disturbances alice (s !(s !z)) lin, loc alice foyer lin, score bob win lin
+-- loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   disturbances alice (s !(s !z)) lin, score bob win lin, loc alice foyer lin
+-- loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   disturbances alice (s !(s !z)) lin, score bob win lin, loc alice bar lin
+-- loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   disturbances alice (s !(s !z)) lin, score bob win lin, loc alice foyer lin
+-- loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   disturbances alice (s !(s !z)) lin, score bob win lin, loc alice foyer lin
+-- loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   disturbances alice (s !(s !z)) lin, score bob win lin, loc alice foyer lin
+-- loc_o cloak_of_darkness (has !alice) lin, cloaked alice lin, 
+   disturbances alice (s !(s !z)) lin, score bob win lin, 
+   loc alice cloakroom lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, 
+   loc alice cloakroom lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, 
+   loc alice cloakroom lin, cloaked alice lin, 
+   loc_o cloak_of_darkness (has !alice) lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, cloaked alice lin, 
+   loc_o cloak_of_darkness (has !alice) lin, loc alice cloakroom lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, 
+   loc alice cloakroom lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, 
+   loc alice cloakroom lin, cloaked alice lin, 
+   loc_o cloak_of_darkness (has !alice) lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, 
+   loc alice cloakroom lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice bar lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice foyer lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice foyer lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice foyer lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice cloakroom lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice cloakroom lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice cloakroom lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice bar lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice cloakroom lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, 
+   loc alice cloakroom lin, cloaked alice lin, 
+   loc_o cloak_of_darkness (has !alice) lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, 
+   loc alice cloakroom lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin
+-- disturbances alice (s !(s !z)) lin, score bob win lin, notcloaked alice lin, 
+   loc_o cloak_of_darkness onhook lin, loc alice bar lin
+-- score bob win lin, loc_o cloak_of_darkness onhook lin, score alice win lin
+Success: 38 steps
+Query (*, *, *, 10) init -o {loc_o cloak_of_darkness #WhereCloak * (score alice #AliceScore * score bob #BobScore)}.
+Iteration 1
 Solution: \X1. {
     let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
     let {[X9, X10]} = greet !bob !alice !foyer [X3, X2] in 
@@ -15,7 +166,7 @@ Solution: \X1. {
     let {X27} = move !alice !cloakroom !bar [X24, adj/sym !(adj/sym !(adj/sym !-1))] in 
     let {X28} = move !bob !foyer !cloakroom [X23, -2] in 
     let {X29} = observe_cloakroom !bob X28 in 
-    let {[X30, [X31, X32]]} = look !alice [X27, [X26, X5]] in 
+    let {[X30, [X31, X32]]} = mess_about !alice [X27, [X26, X5]] in 
     let {X33} = observe_cloakroom !bob X29 in 
     let {X34} = move !bob !cloakroom !foyer [X33, adj/sym !-2] in 
     let {X35} = observe_foyer !bob X34 in 
@@ -30,10 +181,10 @@ Solution: \X1. {
     let {X51} = move !alice !foyer !bar [X50, adj/sym !-] in 
     let {X52} = observe_cloakroom !bob X49 in 
     let {X53} = observe_cloakroom !bob X52 in 
-    let {[X54, [X55, X56]]} = look !alice [X51, [X31, X32]] in 
+    let {[X54, [X55, X56]]} = mess_about !alice [X51, [X31, X32]] in 
     let {X57} = observe_cloakroom !bob X53 in 
-    let {[X58, [X59, X60]]} = look !alice [X54, [X55, X56]] in 
-    let {[X61, [X62, X63]]} = look !alice [X58, [X59, X60]] in 
+    let {[X58, [X59, X60]]} = mess_about !alice [X54, [X55, X56]] in 
+    let {[X61, [X62, X63]]} = mess_about !alice [X58, [X59, X60]] in 
     let {X64} = move !alice !bar !cloakroom [X61, adj/sym !(adj/sym !-1)] in 
     let {[X65, X66]} = comment_on_location !bob !alice !cloakroom [X57, X64] in 
     let {[X67, [X68, X69]]} = hang_cloak !alice [X66, [X45, X62]] in 
@@ -50,12 +201,12 @@ Solution: \X1. {
     let {X87} = observe_cloakroom !bob X86 in 
     let {X88} = move !bob !cloakroom !bar [X87, adj/sym !-1] in 
     let {X89} = move !alice !foyer !cloakroom [X85, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-2)))))] in 
-    let {[X90, [X91, X92]]} = look !bob [X88, [X74, X6]] in 
+    let {[X90, [X91, X92]]} = mess_about !bob [X88, [X74, X6]] in 
     let {X93} = observe_cloakroom !alice X89 in 
-    let {[X94, [X95, X96]]} = look !bob [X90, [X91, X92]] in 
+    let {[X94, [X95, X96]]} = mess_about !bob [X90, [X91, X92]] in 
     let {X97} = observe_cloakroom !alice X93 in 
-    let {[X98, [X99, X100]]} = look !bob [X94, [X95, X96]] in 
-    let {[X101, [X102, X103]]} = look !bob [X98, [X99, X100]] in 
+    let {[X98, [X99, X100]]} = mess_about !bob [X94, [X95, X96]] in 
+    let {[X101, [X102, X103]]} = mess_about !bob [X98, [X99, X100]] in 
     let {X104} = observe_cloakroom !alice X97 in 
     let {X105} = move !bob !bar !foyer [X101, -] in 
     let {X106} = move !alice !cloakroom !bar [X104, adj/sym !-1] in 
@@ -65,7 +216,7 @@ Solution: \X1. {
     let {X110} = move !bob !foyer !cloakroom [X109, -2] in 
     let {X111} = move !bob !cloakroom !foyer [X110, adj/sym !-2] in 
     let {X112} = move !bob !foyer !bar [X111, adj/sym !-] in 
-    let {[X113, [X114, X115]]} = look !bob [X112, [X102, X103]] in 
+    let {[X113, [X114, X115]]} = mess_about !bob [X112, [X102, X103]] in 
     let {X116} = move !bob !bar !cloakroom [X113, -1] in 
     let {X117} = observe_cloakroom !bob X116 in 
     let {[X118, [X119, X120]]} = hang_cloak !bob [X117, [X78, X114]] in 
@@ -91,7 +242,7 @@ Solution: \X1. {
     let {X146} = observe_foyer !bob X145 in 
     let {X147} = move !bob !foyer !cloakroom [X146, -2] in 
     let {X148} = move !bob !cloakroom !bar [X147, adj/sym !-1] in 
-    let {[X149, [X150, X151]]} = look !bob [X148, [X129, X115]] in 
+    let {[X149, [X150, X151]]} = mess_about !bob [X148, [X129, X115]] in 
     let {X152} = move !bob !bar !foyer [X149, adj/sym !(adj/sym !-)] in 
     let {X153} = move !bob !foyer !bar [X152, adj/sym !(adj/sym !(adj/sym !-))] in 
     let {X154} = move !bob !bar !foyer [X153, -] in 
@@ -104,8 +255,8 @@ Solution: \X1. {
     let {X161} = move !bob !foyer !cloakroom [X160, adj/sym !(adj/sym !-2)] in 
     let {X162} = observe_cloakroom !bob X161 in 
     let {X163} = move !bob !cloakroom !bar [X162, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-1))))))] in 
-    let {[X164, [X165, X166]]} = look !bob [X163, [X150, X151]] in 
-    let {[X167, [X168, X169]]} = look !bob [X164, [X165, X166]] in 
+    let {[X164, [X165, X166]]} = mess_about !bob [X163, [X150, X151]] in 
+    let {[X167, [X168, X169]]} = mess_about !bob [X164, [X165, X166]] in 
     let {X170} = move !bob !bar !foyer [X167, adj/sym !(adj/sym !-)] in 
     let {X171} = observe_foyer !bob X170 in 
     let {X172} = observe_foyer !bob X171 in 
@@ -114,26 +265,26 @@ Solution: \X1. {
     let {X175} = observe_foyer !bob X174 in 
     let {X176} = move !bob !foyer !cloakroom [X175, -2] in 
     let {X177} = move !bob !cloakroom !bar [X176, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-1))))] in 
-    let {[X178, [X179, X180]]} = look !bob [X177, [X168, X169]] in 
-    let {[X181, [X182, X183]]} = look !bob [X178, [X179, X180]] in 
+    let {[X178, [X179, X180]]} = mess_about !bob [X177, [X168, X169]] in 
+    let {[X181, [X182, X183]]} = mess_about !bob [X178, [X179, X180]] in 
     let {X184} = move !bob !bar !foyer [X181, -] in 
     let {X185} = observe_foyer !bob X184 in 
     let {X186} = observe_foyer !bob X185 in 
     let {X187} = move !bob !foyer !bar [X186, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-))))] in 
-    let {[X188, [X189, X190]]} = look !bob [X187, [X182, X183]] in 
+    let {[X188, [X189, X190]]} = mess_about !bob [X187, [X182, X183]] in 
     let {X191} = move !bob !bar !foyer [X188, adj/sym !(adj/sym !-)] in 
     let {X192} = move !bob !foyer !cloakroom [X191, adj/sym !(adj/sym !-2)] in 
     let {[X193, [X194, X195]]} = hang_cloak !bob [X192, [X128, X189]] in 
     let {[X196, [X197, X198]]} = unhang_cloak !bob [X193, [X195, X194]] in 
     let {X199} = move !bob !cloakroom !bar [X196, adj/sym !-1] in 
-    let {[X200, [X201, X202]]} = look !bob [X199, [X197, X190]] in 
-    let {[X203, [X204, X205]]} = look !bob [X200, [X201, X202]] in 
+    let {[X200, [X201, X202]]} = mess_about !bob [X199, [X197, X190]] in 
+    let {[X203, [X204, X205]]} = mess_about !bob [X200, [X201, X202]] in 
     let {X206} = move !bob !bar !foyer [X203, -] in 
     let {X207} = move !bob !foyer !bar [X206, adj/sym !-] in 
     let {X208} = move !bob !bar !foyer [X207, adj/sym !(adj/sym !-)] in 
     let {X209} = move !bob !foyer !bar [X208, adj/sym !-] in 
-    let {[X210, [X211, X212]]} = look !bob [X209, [X204, X205]] in 
-    let {[X213, [X214, X215]]} = look !bob [X210, [X211, X212]] in 
+    let {[X210, [X211, X212]]} = mess_about !bob [X209, [X204, X205]] in 
+    let {[X213, [X214, X215]]} = mess_about !bob [X210, [X211, X212]] in 
     let {X216} = move !bob !bar !foyer [X213, -] in 
     let {X217} = move !bob !foyer !cloakroom [X216, -2] in 
     let {[X218, [X219, X220]]} = hang_cloak !bob [X217, [X198, X214]] in 
@@ -147,7 +298,7 @@ Solution: \X1. {
     let {[X228, [X229, X230]]} = unhang_cloak !bob [X227, [X220, X219]] in 
     let {X231} = move !bob !cloakroom !foyer [X228, adj/sym !-2] in 
     let {X232} = move !bob !foyer !bar [X231, adj/sym !-] in 
-    let {[X233, [X234, X235]]} = look !bob [X232, [X229, X215]] in 
+    let {[X233, [X234, X235]]} = mess_about !bob [X232, [X229, X215]] in 
     let {X236} = move !bob !bar !cloakroom [X233, -1] in 
     let {X237} = observe_cloakroom !bob X236 in 
     let {[X238, [X239, X240]]} = drop_cloak !bob [X237, [X230, X234]] in 
@@ -156,3 +307,480 @@ Solution: \X1. {
  #AliceScore = lose !(s !(s !(s !(s !z))))
  #BobScore = lose !(s !(s !(s !(s !(s !(s !(s !(s !(s !(s !(s !(s !(s !(s !(s !(s !z))))))))))))))))
  #WhereCloak = inroom !cloakroom
+Iteration 2
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {[X9, X10]} = greet !alice !bob !foyer [X2, X3] in 
+    let {X11} = move !bob !foyer !bar [X10, adj/sym !(adj/sym !(adj/sym !-))] in 
+    let {X12} = look_win !bob [X11, [X4, [X6, leqz]]] in 
+    let {X13} = observe_foyer !alice X9 in 
+    let {X14} = observe_foyer !alice X13 in 
+    let {X15} = move !alice !foyer !cloakroom [X14, -2] in 
+    let {X16} = move !alice !cloakroom !foyer [X15, adj/sym !-2] in 
+    let {X17} = move !alice !foyer !cloakroom [X16, -2] in 
+    let {X18} = move !alice !cloakroom !foyer [X17, adj/sym !-2] in 
+    let {X19} = move !alice !foyer !cloakroom [X18, -2] in 
+    let {X20} = observe_cloakroom !alice X19 in 
+    let {[X21, [X22, X23]]} = drop_cloak !alice [X20, [X7, X8]] in 
+    let {X24} = observe_cloakroom !alice X21 in 
+    let {X25} = move !alice !cloakroom !bar [X24, adj/sym !-1] in 
+    let {X26} = look_win !alice [X25, [X22, [X5, leqz]]] in [X23, [X26, X12]]}
+ #AliceScore = win
+ #BobScore = win
+ #WhereCloak = inroom !cloakroom
+Iteration 3
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {X9} = observe_foyer !bob X3 in 
+    let {X10} = observe_foyer !bob X9 in 
+    let {X11} = observe_foyer !alice X2 in 
+    let {[X12, X13]} = greet !alice !bob !foyer [X11, X10] in 
+    let {X14} = observe_foyer !alice X12 in 
+    let {X15} = observe_foyer !bob X13 in 
+    let {[X16, [X17, X18]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X15, [X14, X7]] in 
+    let {X19} = move !bob !foyer !cloakroom [X16, adj/sym !(adj/sym !-2)] in 
+    let {X20} = observe_cloakroom !bob X19 in 
+    let {X21} = observe_foyer !alice X17 in 
+    let {X22} = move !alice !foyer !bar [X21, adj/sym !-] in 
+    let {[X23, [X24, X25]]} = mess_about !alice [X22, [X8, X5]] in 
+    let {X26} = move !alice !bar !foyer [X23, -] in 
+    let {X27} = observe_cloakroom !bob X20 in 
+    let {X28} = move !alice !foyer !cloakroom [X26, -2] in 
+    let {X29} = move !bob !cloakroom !bar [X27, adj/sym !-1] in 
+    let {X30} = observe_cloakroom !alice X28 in 
+    let {X31} = move !alice !cloakroom !bar [X30, adj/sym !(adj/sym !(adj/sym !-1))] in 
+    let {[X32, [X33, X34]]} = observe_with !bob !alice !bar !cloak_of_darkness [X29, [X31, X18]] in 
+    let {[X35, X36]} = greet !alice !bob !bar [X33, X32] in 
+    let {[X37, [X38, X39]]} = mess_about !alice [X35, [X24, X25]] in 
+    let {[X40, X41]} = comment_on_location !bob !alice !bar [X36, X37] in 
+    let {[X42, [X43, X44]]} = observe_with !bob !alice !bar !cloak_of_darkness [X40, [X41, X34]] in 
+    let {[X45, X46]} = comment_on_location !alice !bob !bar [X43, X42] in 
+    let {X47} = look_win !bob [X46, [X4, [X6, leqz]]] in 
+    let {[X48, [X49, X50]]} = mess_about !alice [X45, [X38, X39]] in 
+    let {[X51, [X52, X53]]} = mess_about !alice [X48, [X49, X50]] in 
+    let {X54} = move !alice !bar !foyer [X51, -] in 
+    let {X55} = observe_foyer !alice X54 in 
+    let {X56} = move !alice !foyer !cloakroom [X55, adj/sym !(adj/sym !-2)] in 
+    let {X57} = move !alice !cloakroom !foyer [X56, adj/sym !-2] in 
+    let {X58} = move !alice !foyer !cloakroom [X57, -2] in 
+    let {X59} = move !alice !cloakroom !bar [X58, adj/sym !-1] in 
+    let {X60} = move !alice !bar !foyer [X59, -] in 
+    let {X61} = move !alice !foyer !cloakroom [X60, -2] in 
+    let {X62} = observe_cloakroom !alice X61 in 
+    let {X63} = move !alice !cloakroom !bar [X62, adj/sym !-1] in 
+    let {X64} = move !alice !bar !cloakroom [X63, -1] in 
+    let {X65} = observe_cloakroom !alice X64 in 
+    let {[X66, [X67, X68]]} = hang_cloak !alice [X65, [X44, X52]] in 
+    let {[X69, [X70, X71]]} = unhang_cloak !alice [X66, [X68, X67]] in 
+    let {[X72, [X73, X74]]} = hang_cloak !alice [X69, [X71, X70]] in 
+    let {X75} = move !alice !cloakroom !foyer [X72, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {X76} = observe_foyer !alice X75 in 
+    let {X77} = observe_foyer !alice X76 in 
+    let {X78} = observe_foyer !alice X77 in 
+    let {X79} = observe_foyer !alice X78 in 
+    let {X80} = move !alice !foyer !bar [X79, adj/sym !-] in 
+    let {X81} = look_lose !alice [X80, [X73, [X53, leqs !(leqs !(leqs !leqz))]]] in [X74, [X81, X47]]}
+ #AliceScore = lose !(s !(s !(s !(s !z))))
+ #BobScore = win
+ #WhereCloak = onhook
+Iteration 4
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {[X9, [X10, X11]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X3, [X2, X7]] in 
+    let {[X12, X13]} = greet !bob !alice !foyer [X9, X10] in 
+    let {[X14, [X15, X16]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X12, [X13, X11]] in 
+    let {[X17, X18]} = comment_on_location !alice !bob !foyer [X15, X14] in 
+    let {[X19, X20]} = greet !alice !bob !foyer [X17, X18] in 
+    let {X21} = move !bob !foyer !cloakroom [X20, -2] in 
+    let {X22} = observe_cloakroom !bob X21 in 
+    let {X23} = observe_foyer !alice X19 in 
+    let {X24} = observe_cloakroom !bob X22 in 
+    let {X25} = observe_foyer !alice X23 in 
+    let {X26} = observe_cloakroom !bob X24 in 
+    let {X27} = observe_foyer !alice X25 in 
+    let {X28} = observe_cloakroom !bob X26 in 
+    let {X29} = observe_foyer !alice X27 in 
+    let {X30} = observe_cloakroom !bob X28 in 
+    let {X31} = observe_foyer !alice X29 in 
+    let {X32} = move !alice !foyer !cloakroom [X31, -2] in 
+    let {[X33, [X34, X35]]} = hang_cloak !alice [X32, [X16, X8]] in 
+    let {X36} = observe_cloakroom !bob X30 in 
+    let {X37} = observe_cloakroom !bob X36 in 
+    let {X38} = observe_cloakroom !alice X33 in 
+    let {X39} = move !bob !cloakroom !bar [X37, adj/sym !-1] in 
+    let {X40} = look_win !bob [X39, [X4, [X6, leqz]]] in 
+    let {X41} = observe_cloakroom !alice X38 in 
+    let {X42} = move !alice !cloakroom !bar [X41, adj/sym !-1] in 
+    let {X43} = look_win !alice [X42, [X34, [X5, leqz]]] in [X35, [X43, X40]]}
+ #AliceScore = win
+ #BobScore = win
+ #WhereCloak = onhook
+Iteration 5
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {[X9, X10]} = comment_on_location !bob !alice !foyer [X3, X2] in 
+    let {X11} = observe_foyer !alice X10 in 
+    let {X12} = observe_foyer !alice X11 in 
+    let {[X13, X14]} = greet !alice !bob !foyer [X12, X9] in 
+    let {[X15, X16]} = greet !alice !bob !foyer [X13, X14] in 
+    let {[X17, [X18, X19]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X16, [X15, X7]] in 
+    let {X20} = move !alice !foyer !bar [X18, adj/sym !-] in 
+    let {X21} = move !alice !bar !cloakroom [X20, -1] in 
+    let {X22} = observe_foyer !bob X17 in 
+    let {X23} = observe_foyer !bob X22 in 
+    let {X24} = move !alice !cloakroom !bar [X21, adj/sym !(adj/sym !(adj/sym !-1))] in 
+    let {[X25, [X26, X27]]} = mess_about !alice [X24, [X8, X5]] in 
+    let {X28} = observe_foyer !bob X23 in 
+    let {[X29, [X30, X31]]} = mess_about !alice [X25, [X26, X27]] in 
+    let {X32} = move !alice !bar !cloakroom [X29, -1] in 
+    let {[X33, [X34, X35]]} = drop_cloak !alice [X32, [X19, X30]] in 
+    let {[X36, [X37, X38]]} = pickup_cloak !alice [X33, [X35, X34]] in 
+    let {[X39, [X40, X41]]} = hang_cloak !alice [X36, [X37, X38]] in 
+    let {X42} = move !alice !cloakroom !bar [X39, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-1))))))] in 
+    let {X43} = look_win !alice [X42, [X40, [X31, leqs !(leqs !leqz)]]] in 
+    let {X44} = move !bob !foyer !cloakroom [X28, -2] in 
+    let {[X45, [X46, X47]]} = unhang_cloak !bob [X44, [X41, X4]] in 
+    let {[X48, [X49, X50]]} = hang_cloak !bob [X45, [X47, X46]] in 
+    let {X51} = move !bob !cloakroom !bar [X48, adj/sym !-1] in 
+    let {X52} = move !bob !bar !cloakroom [X51, -1] in 
+    let {X53} = observe_cloakroom !bob X52 in 
+    let {X54} = move !bob !cloakroom !foyer [X53, adj/sym !-2] in 
+    let {X55} = move !bob !foyer !cloakroom [X54, -2] in 
+    let {X56} = move !bob !cloakroom !bar [X55, adj/sym !-1] in 
+    let {X57} = look_win !bob [X56, [X49, [X6, leqz]]] in [X50, [X43, X57]]}
+ #AliceScore = win
+ #BobScore = win
+ #WhereCloak = onhook
+Iteration 6
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {X9} = observe_foyer !alice X2 in 
+    let {[X10, X11]} = comment_on_location !bob !alice !foyer [X3, X9] in 
+    let {[X12, X13]} = comment_on_location !bob !alice !foyer [X10, X11] in 
+    let {X14} = observe_foyer !alice X13 in 
+    let {[X15, X16]} = greet !alice !bob !foyer [X14, X12] in 
+    let {[X17, [X18, X19]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X16, [X15, X7]] in 
+    let {[X20, X21]} = greet !alice !bob !foyer [X18, X17] in 
+    let {X22} = move !bob !foyer !cloakroom [X21, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-2)))))] in 
+    let {X23} = observe_cloakroom !bob X22 in 
+    let {X24} = observe_foyer !alice X20 in 
+    let {X25} = observe_foyer !alice X24 in 
+    let {X26} = observe_cloakroom !bob X23 in 
+    let {X27} = observe_foyer !alice X25 in 
+    let {X28} = move !bob !cloakroom !foyer [X26, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {[X29, X30]} = comment_on_location !alice !bob !foyer [X27, X28] in 
+    let {X31} = move !bob !foyer !cloakroom [X30, -2] in 
+    let {X32} = observe_cloakroom !bob X31 in 
+    let {X33} = observe_foyer !alice X29 in 
+    let {X34} = move !alice !foyer !bar [X33, adj/sym !-] in 
+    let {X35} = move !bob !cloakroom !bar [X32, adj/sym !-1] in 
+    let {[X36, [X37, X38]]} = mess_about !alice [X34, [X8, X5]] in 
+    let {[X39, [X40, X41]]} = observe_with !bob !alice !bar !cloak_of_darkness [X35, [X36, X19]] in 
+    let {X42} = move !alice !bar !foyer [X40, -] in 
+    let {X43} = observe_foyer !alice X42 in 
+    let {X44} = look_win !bob [X39, [X4, [X6, leqz]]] in 
+    let {X45} = observe_foyer !alice X43 in 
+    let {X46} = observe_foyer !alice X45 in 
+    let {X47} = move !alice !foyer !bar [X46, adj/sym !(adj/sym !(adj/sym !-))] in 
+    let {X48} = move !alice !bar !foyer [X47, adj/sym !(adj/sym !-)] in 
+    let {X49} = observe_foyer !alice X48 in 
+    let {X50} = move !alice !foyer !bar [X49, adj/sym !-] in 
+    let {[X51, [X52, X53]]} = mess_about !alice [X50, [X37, X38]] in 
+    let {[X54, [X55, X56]]} = mess_about !alice [X51, [X52, X53]] in 
+    let {[X57, [X58, X59]]} = mess_about !alice [X54, [X55, X56]] in 
+    let {X60} = move !alice !bar !foyer [X57, -] in 
+    let {X61} = observe_foyer !alice X60 in 
+    let {X62} = move !alice !foyer !cloakroom [X61, adj/sym !(adj/sym !-2)] in 
+    let {X63} = observe_cloakroom !alice X62 in 
+    let {[X64, [X65, X66]]} = drop_cloak !alice [X63, [X41, X58]] in 
+    let {X67} = observe_cloakroom !alice X64 in 
+    let {[X68, [X69, X70]]} = pickup_cloak !alice [X67, [X66, X65]] in 
+    let {[X71, [X72, X73]]} = hang_cloak !alice [X68, [X69, X70]] in 
+    let {X74} = move !alice !cloakroom !foyer [X71, adj/sym !-2] in 
+    let {X75} = observe_foyer !alice X74 in 
+    let {X76} = move !alice !foyer !cloakroom [X75, -2] in 
+    let {X77} = move !alice !cloakroom !foyer [X76, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-2))))))))))))))] in 
+    let {X78} = move !alice !foyer !cloakroom [X77, adj/sym !(adj/sym !-2)] in 
+    let {X79} = observe_cloakroom !alice X78 in 
+    let {[X80, [X81, X82]]} = unhang_cloak !alice [X79, [X73, X72]] in 
+    let {X83} = observe_cloakroom !alice X80 in 
+    let {[X84, [X85, X86]]} = drop_cloak !alice [X83, [X82, X81]] in 
+    let {X87} = observe_cloakroom !alice X84 in 
+    let {X88} = move !alice !cloakroom !foyer [X87, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {X89} = move !alice !foyer !bar [X88, adj/sym !-] in 
+    let {X90} = move !alice !bar !cloakroom [X89, adj/sym !(adj/sym !(adj/sym !(adj/sym !-1)))] in 
+    let {X91} = observe_cloakroom !alice X90 in 
+    let {X92} = move !alice !cloakroom !foyer [X91, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {X93} = observe_foyer !alice X92 in 
+    let {X94} = move !alice !foyer !cloakroom [X93, -2] in 
+    let {X95} = observe_cloakroom !alice X94 in 
+    let {X96} = observe_cloakroom !alice X95 in 
+    let {[X97, [X98, X99]]} = pickup_cloak !alice [X96, [X86, X85]] in 
+    let {[X100, [X101, X102]]} = drop_cloak !alice [X97, [X98, X99]] in 
+    let {X103} = observe_cloakroom !alice X100 in 
+    let {X104} = move !alice !cloakroom !foyer [X103, adj/sym !-2] in 
+    let {X105} = move !alice !foyer !cloakroom [X104, adj/sym !(adj/sym !-2)] in 
+    let {[X106, [X107, X108]]} = pickup_cloak !alice [X105, [X102, X101]] in 
+    let {[X109, [X110, X111]]} = hang_cloak !alice [X106, [X107, X108]] in 
+    let {X112} = observe_cloakroom !alice X109 in 
+    let {[X113, [X114, X115]]} = unhang_cloak !alice [X112, [X111, X110]] in 
+    let {X116} = observe_cloakroom !alice X113 in 
+    let {X117} = observe_cloakroom !alice X116 in 
+    let {[X118, [X119, X120]]} = hang_cloak !alice [X117, [X115, X114]] in 
+    let {X121} = move !alice !cloakroom !foyer [X118, adj/sym !-2] in 
+    let {X122} = observe_foyer !alice X121 in 
+    let {X123} = observe_foyer !alice X122 in 
+    let {X124} = move !alice !foyer !bar [X123, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-))))] in 
+    let {X125} = look_lose !alice [X124, [X119, [X59, leqs !(leqs !(leqs !leqz))]]] in [X120, [X125, X44]]}
+ #AliceScore = lose !(s !(s !(s !(s !z))))
+ #BobScore = win
+ #WhereCloak = onhook
+Iteration 7
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {[X9, X10]} = greet !alice !bob !foyer [X2, X3] in 
+    let {[X11, [X12, X13]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X10, [X9, X7]] in 
+    let {[X14, X15]} = comment_on_location !bob !alice !foyer [X11, X12] in 
+    let {[X16, [X17, X18]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X14, [X15, X13]] in 
+    let {X19} = move !alice !foyer !cloakroom [X17, -2] in 
+    let {[X20, [X21, X22]]} = hang_cloak !alice [X19, [X18, X8]] in 
+    let {X23} = move !alice !cloakroom !foyer [X20, adj/sym !-2] in 
+    let {X24} = observe_foyer !bob X16 in 
+    let {X25} = move !alice !foyer !bar [X23, adj/sym !-] in 
+    let {X26} = move !alice !bar !cloakroom [X25, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-1)))))] in 
+    let {X27} = observe_foyer !bob X24 in 
+    let {X28} = move !bob !foyer !cloakroom [X27, -2] in 
+    let {[X29, X30]} = greet !alice !bob !cloakroom [X26, X28] in 
+    let {[X31, X32]} = comment_on_location !bob !alice !cloakroom [X30, X29] in 
+    let {[X33, [X34, X35]]} = unhang_cloak !alice [X32, [X22, X21]] in 
+    let {X36} = move !alice !cloakroom !foyer [X33, adj/sym !-2] in 
+    let {X37} = observe_cloakroom !bob X31 in 
+    let {X38} = observe_foyer !alice X36 in 
+    let {X39} = move !bob !cloakroom !foyer [X37, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {X40} = move !alice !foyer !cloakroom [X38, adj/sym !(adj/sym !-2)] in 
+    let {X41} = observe_cloakroom !alice X40 in 
+    let {X42} = observe_cloakroom !alice X41 in 
+    let {X43} = observe_cloakroom !alice X42 in 
+    let {[X44, [X45, X46]]} = drop_cloak !alice [X43, [X35, X34]] in 
+    let {[X47, [X48, X49]]} = pickup_cloak !alice [X44, [X46, X45]] in 
+    let {X50} = observe_cloakroom !alice X47 in 
+    let {[X51, [X52, X53]]} = hang_cloak !alice [X50, [X48, X49]] in 
+    let {X54} = observe_cloakroom !alice X51 in 
+    let {X55} = observe_foyer !bob X39 in 
+    let {X56} = observe_cloakroom !alice X54 in 
+    let {[X57, [X58, X59]]} = unhang_cloak !alice [X56, [X53, X52]] in 
+    let {[X60, [X61, X62]]} = drop_cloak !alice [X57, [X59, X58]] in 
+    let {[X63, [X64, X65]]} = pickup_cloak !alice [X60, [X62, X61]] in 
+    let {[X66, [X67, X68]]} = hang_cloak !alice [X63, [X64, X65]] in 
+    let {[X69, [X70, X71]]} = unhang_cloak !alice [X66, [X68, X67]] in 
+    let {[X72, [X73, X74]]} = drop_cloak !alice [X69, [X71, X70]] in 
+    let {X75} = move !bob !foyer !bar [X55, adj/sym !-] in 
+    let {X76} = look_win !bob [X75, [X4, [X6, leqz]]] in 
+    let {X77} = observe_cloakroom !alice X72 in 
+    let {X78} = move !alice !cloakroom !foyer [X77, adj/sym !-2] in 
+    let {X79} = observe_foyer !alice X78 in 
+    let {X80} = observe_foyer !alice X79 in 
+    let {X81} = observe_foyer !alice X80 in 
+    let {X82} = observe_foyer !alice X81 in 
+    let {X83} = observe_foyer !alice X82 in 
+    let {X84} = move !alice !foyer !cloakroom [X83, -2] in 
+    let {X85} = move !alice !cloakroom !foyer [X84, adj/sym !-2] in 
+    let {X86} = observe_foyer !alice X85 in 
+    let {X87} = observe_foyer !alice X86 in 
+    let {X88} = move !alice !foyer !cloakroom [X87, -2] in 
+    let {X89} = move !alice !cloakroom !foyer [X88, adj/sym !(adj/sym !(adj/sym !(adj/sym !(adj/sym !-2))))] in 
+    let {X90} = move !alice !foyer !bar [X89, adj/sym !(adj/sym !(adj/sym !-))] in 
+    let {X91} = look_win !alice [X90, [X73, [X5, leqz]]] in [X74, [X91, X76]]}
+ #AliceScore = win
+ #BobScore = win
+ #WhereCloak = inroom !cloakroom
+Iteration 8
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {[X9, X10]} = comment_on_location !bob !alice !foyer [X3, X2] in 
+    let {[X11, X12]} = comment_on_location !alice !bob !foyer [X10, X9] in 
+    let {[X13, X14]} = comment_on_location !bob !alice !foyer [X12, X11] in 
+    let {[X15, X16]} = greet !alice !bob !foyer [X14, X13] in 
+    let {[X17, X18]} = greet !bob !alice !foyer [X16, X15] in 
+    let {[X19, X20]} = comment_on_location !alice !bob !foyer [X18, X17] in 
+    let {[X21, X22]} = comment_on_location !bob !alice !foyer [X20, X19] in 
+    let {[X23, X24]} = greet !bob !alice !foyer [X21, X22] in 
+    let {X25} = observe_foyer !alice X24 in 
+    let {[X26, [X27, X28]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X23, [X25, X7]] in 
+    let {X29} = observe_foyer !alice X27 in 
+    let {[X30, [X31, X32]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X26, [X29, X28]] in 
+    let {X33} = move !bob !foyer !bar [X30, adj/sym !(adj/sym !(adj/sym !-))] in 
+    let {X34} = observe_foyer !alice X31 in 
+    let {X35} = look_win !bob [X33, [X4, [X6, leqz]]] in 
+    let {X36} = move !alice !foyer !cloakroom [X34, adj/sym !(adj/sym !-2)] in 
+    let {[X37, [X38, X39]]} = drop_cloak !alice [X36, [X32, X8]] in 
+    let {X40} = move !alice !cloakroom !foyer [X37, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {X41} = move !alice !foyer !cloakroom [X40, adj/sym !(adj/sym !-2)] in 
+    let {X42} = observe_cloakroom !alice X41 in 
+    let {[X43, [X44, X45]]} = pickup_cloak !alice [X42, [X39, X38]] in 
+    let {X46} = move !alice !cloakroom !bar [X43, adj/sym !(adj/sym !(adj/sym !-1))] in 
+    let {[X47, [X48, X49]]} = mess_about !alice [X46, [X45, X5]] in 
+    let {[X50, [X51, X52]]} = mess_about !alice [X47, [X48, X49]] in 
+    let {X53} = move !alice !bar !foyer [X50, -] in 
+    let {X54} = move !alice !foyer !cloakroom [X53, -2] in 
+    let {[X55, [X56, X57]]} = hang_cloak !alice [X54, [X44, X51]] in 
+    let {[X58, [X59, X60]]} = unhang_cloak !alice [X55, [X57, X56]] in 
+    let {X61} = observe_cloakroom !alice X58 in 
+    let {[X62, [X63, X64]]} = drop_cloak !alice [X61, [X60, X59]] in 
+    let {X65} = move !alice !cloakroom !bar [X62, adj/sym !-1] in 
+    let {X66} = move !alice !bar !foyer [X65, -] in 
+    let {X67} = observe_foyer !alice X66 in 
+    let {X68} = move !alice !foyer !cloakroom [X67, adj/sym !(adj/sym !-2)] in 
+    let {X69} = move !alice !cloakroom !bar [X68, adj/sym !-1] in 
+    let {X70} = move !alice !bar !foyer [X69, -] in 
+    let {X71} = move !alice !foyer !cloakroom [X70, -2] in 
+    let {[X72, [X73, X74]]} = pickup_cloak !alice [X71, [X64, X63]] in 
+    let {X75} = move !alice !cloakroom !foyer [X72, adj/sym !-2] in 
+    let {X76} = move !alice !foyer !bar [X75, adj/sym !-] in 
+    let {X77} = move !alice !bar !cloakroom [X76, adj/sym !(adj/sym !-1)] in 
+    let {[X78, [X79, X80]]} = drop_cloak !alice [X77, [X73, X74]] in 
+    let {X81} = move !alice !cloakroom !bar [X78, adj/sym !-1] in 
+    let {X82} = move !alice !bar !foyer [X81, adj/sym !(adj/sym !-)] in 
+    let {X83} = move !alice !foyer !cloakroom [X82, -2] in 
+    let {[X84, [X85, X86]]} = pickup_cloak !alice [X83, [X80, X79]] in 
+    let {X87} = observe_cloakroom !alice X84 in 
+    let {[X88, [X89, X90]]} = drop_cloak !alice [X87, [X85, X86]] in 
+    let {X91} = move !alice !cloakroom !bar [X88, adj/sym !-1] in 
+    let {X92} = move !alice !bar !foyer [X91, -] in 
+    let {X93} = observe_foyer !alice X92 in 
+    let {X94} = observe_foyer !alice X93 in 
+    let {X95} = observe_foyer !alice X94 in 
+    let {X96} = move !alice !foyer !cloakroom [X95, -2] in 
+    let {X97} = move !alice !cloakroom !foyer [X96, adj/sym !-2] in 
+    let {X98} = move !alice !foyer !cloakroom [X97, -2] in 
+    let {X99} = move !alice !cloakroom !foyer [X98, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {X100} = observe_foyer !alice X99 in 
+    let {X101} = observe_foyer !alice X100 in 
+    let {X102} = move !alice !foyer !bar [X101, adj/sym !-] in 
+    let {X103} = look_win !alice [X102, [X89, [X52, leqs !(leqs !leqz)]]] in [X90, [X103, X35]]}
+ #AliceScore = win
+ #BobScore = win
+ #WhereCloak = inroom !cloakroom
+Iteration 9
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {[X9, X10]} = comment_on_location !alice !bob !foyer [X2, X3] in 
+    let {[X11, [X12, X13]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X10, [X9, X7]] in 
+    let {[X14, [X15, X16]]} = observe_with !bob !alice !foyer !cloak_of_darkness [X11, [X12, X13]] in 
+    let {X17} = move !bob !foyer !cloakroom [X14, -2] in 
+    let {X18} = move !alice !foyer !cloakroom [X15, adj/sym !(adj/sym !-2)] in 
+    let {[X19, [X20, X21]]} = drop_cloak !alice [X18, [X16, X8]] in 
+    let {[X22, X23]} = comment_on_location !alice !bob !cloakroom [X19, X17] in 
+    let {X24} = move !bob !cloakroom !bar [X23, adj/sym !-1] in 
+    let {[X25, [X26, X27]]} = pickup_cloak !alice [X22, [X21, X20]] in 
+    let {X28} = observe_cloakroom !alice X25 in 
+    let {X29} = observe_cloakroom !alice X28 in 
+    let {[X30, [X31, X32]]} = hang_cloak !alice [X29, [X26, X27]] in 
+    let {[X33, [X34, X35]]} = unhang_cloak !alice [X30, [X32, X31]] in 
+    let {[X36, [X37, X38]]} = hang_cloak !alice [X33, [X35, X34]] in 
+    let {X39} = look_win !bob [X24, [X4, [X6, leqz]]] in 
+    let {X40} = observe_cloakroom !alice X36 in 
+    let {X41} = move !alice !cloakroom !bar [X40, adj/sym !-1] in 
+    let {X42} = look_win !alice [X41, [X37, [X5, leqz]]] in [X38, [X42, X39]]}
+ #AliceScore = win
+ #BobScore = win
+ #WhereCloak = onhook
+Iteration 10
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, [X6, [X7, X8]]]]]]} = X1 in 
+    let {X9} = observe_foyer !bob X3 in 
+    let {X10} = observe_foyer !alice X2 in 
+    let {[X11, X12]} = comment_on_location !bob !alice !foyer [X9, X10] in 
+    let {X13} = move !alice !foyer !bar [X12, adj/sym !(adj/sym !(adj/sym !-))] in 
+    let {X14} = observe_foyer !bob X11 in 
+    let {X15} = observe_foyer !bob X14 in 
+    let {[X16, [X17, X18]]} = mess_about !alice [X13, [X8, X5]] in 
+    let {[X19, [X20, X21]]} = mess_about !alice [X16, [X17, X18]] in 
+    let {X22} = move !bob !foyer !bar [X15, adj/sym !-] in 
+    let {[X23, [X24, X25]]} = mess_about !alice [X19, [X20, X21]] in 
+    let {[X26, X27]} = greet !bob !alice !bar [X22, X23] in 
+    let {[X28, X29]} = greet !bob !alice !bar [X26, X27] in 
+    let {[X30, [X31, X32]]} = mess_about !alice [X29, [X24, X25]] in 
+    let {X33} = move !alice !bar !cloakroom [X30, -1] in 
+    let {X34} = observe_cloakroom !alice X33 in 
+    let {X35} = observe_cloakroom !alice X34 in 
+    let {X36} = observe_cloakroom !alice X35 in 
+    let {X37} = observe_cloakroom !alice X36 in 
+    let {[X38, [X39, X40]]} = drop_cloak !alice [X37, [X7, X31]] in 
+    let {X41} = observe_cloakroom !alice X38 in 
+    let {[X42, [X43, X44]]} = pickup_cloak !alice [X41, [X40, X39]] in 
+    let {[X45, [X46, X47]]} = drop_cloak !alice [X42, [X43, X44]] in 
+    let {[X48, [X49, X50]]} = pickup_cloak !alice [X45, [X47, X46]] in 
+    let {[X51, [X52, X53]]} = drop_cloak !alice [X48, [X49, X50]] in 
+    let {X54} = move !bob !bar !foyer [X28, -] in 
+    let {X55} = move !alice !cloakroom !foyer [X51, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {[X56, X57]} = greet !alice !bob !foyer [X55, X54] in 
+    let {X58} = move !bob !foyer !cloakroom [X57, -2] in 
+    let {X59} = observe_cloakroom !bob X58 in 
+    let {X60} = observe_cloakroom !bob X59 in 
+    let {X61} = observe_cloakroom !bob X60 in 
+    let {X62} = observe_cloakroom !bob X61 in 
+    let {X63} = move !alice !foyer !cloakroom [X56, -2] in 
+    let {X64} = observe_cloakroom !alice X63 in 
+    let {X65} = observe_cloakroom !bob X62 in 
+    let {[X66, [X67, X68]]} = pickup_cloak !bob [X65, [X53, X4]] in 
+    let {[X69, [X70, X71]]} = observe_with !alice !bob !cloakroom !cloak_of_darkness [X64, [X66, X67]] in 
+    let {X72} = observe_cloakroom !alice X69 in 
+    let {[X73, [X74, X75]]} = hang_cloak !bob [X70, [X71, X68]] in 
+    let {[X76, X77]} = greet !alice !bob !cloakroom [X72, X73] in 
+    let {[X78, X79]} = greet !bob !alice !cloakroom [X77, X76] in 
+    let {[X80, [X81, X82]]} = unhang_cloak !alice [X79, [X75, X52]] in 
+    let {X83} = move !bob !cloakroom !bar [X78, adj/sym !-1] in 
+    let {X84} = observe_cloakroom !alice X80 in 
+    let {[X85, [X86, X87]]} = drop_cloak !alice [X84, [X82, X81]] in 
+    let {X88} = observe_cloakroom !alice X85 in 
+    let {[X89, [X90, X91]]} = pickup_cloak !alice [X88, [X87, X86]] in 
+    let {[X92, [X93, X94]]} = drop_cloak !alice [X89, [X90, X91]] in 
+    let {X95} = look_win !bob [X83, [X74, [X6, leqz]]] in 
+    let {[X96, [X97, X98]]} = pickup_cloak !alice [X92, [X94, X93]] in 
+    let {[X99, [X100, X101]]} = hang_cloak !alice [X96, [X97, X98]] in 
+    let {X102} = observe_cloakroom !alice X99 in 
+    let {X103} = observe_cloakroom !alice X102 in 
+    let {X104} = move !alice !cloakroom !bar [X103, adj/sym !-1] in 
+    let {X105} = move !alice !bar !cloakroom [X104, adj/sym !(adj/sym !(adj/sym !(adj/sym !-1)))] in 
+    let {[X106, [X107, X108]]} = unhang_cloak !alice [X105, [X101, X100]] in 
+    let {[X109, [X110, X111]]} = drop_cloak !alice [X106, [X108, X107]] in 
+    let {X112} = observe_cloakroom !alice X109 in 
+    let {X113} = observe_cloakroom !alice X112 in 
+    let {X114} = observe_cloakroom !alice X113 in 
+    let {[X115, [X116, X117]]} = pickup_cloak !alice [X114, [X111, X110]] in 
+    let {[X118, [X119, X120]]} = drop_cloak !alice [X115, [X116, X117]] in 
+    let {X121} = move !alice !cloakroom !foyer [X118, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {X122} = move !alice !foyer !cloakroom [X121, adj/sym !(adj/sym !-2)] in 
+    let {X123} = move !alice !cloakroom !foyer [X122, adj/sym !-2] in 
+    let {X124} = observe_foyer !alice X123 in 
+    let {X125} = move !alice !foyer !bar [X124, adj/sym !-] in 
+    let {X126} = move !alice !bar !cloakroom [X125, adj/sym !(adj/sym !(adj/sym !(adj/sym !-1)))] in 
+    let {[X127, [X128, X129]]} = pickup_cloak !alice [X126, [X120, X119]] in 
+    let {[X130, [X131, X132]]} = drop_cloak !alice [X127, [X128, X129]] in 
+    let {[X133, [X134, X135]]} = pickup_cloak !alice [X130, [X132, X131]] in 
+    let {X136} = observe_cloakroom !alice X133 in 
+    let {[X137, [X138, X139]]} = drop_cloak !alice [X136, [X134, X135]] in 
+    let {X140} = observe_cloakroom !alice X137 in 
+    let {[X141, [X142, X143]]} = pickup_cloak !alice [X140, [X139, X138]] in 
+    let {[X144, [X145, X146]]} = drop_cloak !alice [X141, [X142, X143]] in 
+    let {[X147, [X148, X149]]} = pickup_cloak !alice [X144, [X146, X145]] in 
+    let {[X150, [X151, X152]]} = hang_cloak !alice [X147, [X148, X149]] in 
+    let {X153} = observe_cloakroom !alice X150 in 
+    let {[X154, [X155, X156]]} = unhang_cloak !alice [X153, [X152, X151]] in 
+    let {[X157, [X158, X159]]} = drop_cloak !alice [X154, [X156, X155]] in 
+    let {[X160, [X161, X162]]} = pickup_cloak !alice [X157, [X159, X158]] in 
+    let {X163} = move !alice !cloakroom !foyer [X160, adj/sym !-2] in 
+    let {X164} = move !alice !foyer !cloakroom [X163, -2] in 
+    let {[X165, [X166, X167]]} = drop_cloak !alice [X164, [X161, X162]] in 
+    let {X168} = move !alice !cloakroom !foyer [X165, adj/sym !(adj/sym !(adj/sym !-2))] in 
+    let {X169} = observe_foyer !alice X168 in 
+    let {X170} = observe_foyer !alice X169 in 
+    let {X171} = observe_foyer !alice X170 in 
+    let {X172} = observe_foyer !alice X171 in 
+    let {X173} = move !alice !foyer !bar [X172, adj/sym !-] in 
+    let {X174} = look_lose !alice [X173, [X166, [X32, leqs !(leqs !(leqs !leqz))]]] in [X167, [X174, X95]]}
+ #AliceScore = lose !(s !(s !(s !(s !z))))
+ #BobScore = win
+ #WhereCloak = inroom !cloakroom
+[closing cloak.clf]
