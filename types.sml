@@ -10,7 +10,7 @@ type step = {rule: string,
              inputs: resource_var list,
              outputs: resource_var list}
 type clftrace = {consts: string list,
-                 initial resource_var list,
+                 initial: resource_var list,
                  epsilon: step list,
                  final: resource_var list}
 

@@ -76,7 +76,7 @@ structure CLFtoTwee = struct
     {name = "final", contents = [ProtoTwee.Text "final passage text"]}
 
   (* compile : CelfTrace.clftrace -> ProtoTwee.twee *)
-  fun compile {initial, epsilon, final}: ProtoTwee.twee =
+  fun compile {consts, initial, epsilon, final}: ProtoTwee.twee =
   let
     val (initial_passage, initial_var_passages) = 
       compile_initial initial epsilon
