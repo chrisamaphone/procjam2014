@@ -9,7 +9,7 @@ type step = {rule: string,
              consts: string list, 
              inputs: resource_var list,
              outputs: resource_var list}
-type clftrace = {initial: resource_var list,
+type clftrace = {initial: (string * resource_var) list,
                  epsilon: step list,
                  final: resource_var list}
 

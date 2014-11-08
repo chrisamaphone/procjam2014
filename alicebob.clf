@@ -87,7 +87,10 @@ leave : loc C front_hall * loc C' front_hall -o {1}.
 #trace * init.
 
 #query * * * 10 
-init -o
+(loc alice bedroom * loc bob front_hall *
+    loc_o revolver (inroom bedroom) 
+           * loc_o maltese_falcon (inroom courtyard) 
+           * loc_o dead_body (inroom bathroom)) -o
 {loc_o maltese_falcon MFloc *
  loc_o dead_body DBloc *
  loc_o revolver RevolverLoc }.
