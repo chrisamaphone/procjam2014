@@ -1,9 +1,5 @@
 %%
 
-%pos unit
-%start solution
-%name Trace
-
 %term
   LCURLY
 | RCURLY
@@ -21,6 +17,7 @@
 | ONE
 | SOLUTION
 | COLON
+| EOF
 
 %nonterm
   tuple of CelfTrace.resource_var list
@@ -29,6 +26,12 @@
 | first of CelfTrace.resource_var list
 | epsilon of CelfTrace.step list
 | solution of CelfTrace.clftrace
+
+%pos unit
+%start solution
+%name Trace
+%noshift EOF
+%eop EOF
 
 %%
 
