@@ -1,0 +1,55 @@
+%%
+
+%pos unit
+%start solution
+%name Trace
+
+%term
+  LCURLY
+| RCURLY
+| LBRACK
+| RBRACK
+| LET
+| EQ
+| IN
+| DOT
+| LAM
+| BANG
+| COMMA
+| XID of CelfTrace.resource_var
+| ID of string
+| ONE
+| SOLUTION
+| COLON
+
+%nonterm
+  tuple of CelfTrace.resource_var list
+| consts of string list
+| step of CelfTrace.step
+| first of CelfTrace.resource_var list
+| epsilon of CelfTrace.step list
+| solution of CelfTrace.clftrace
+
+%%
+
+solution: SOLUTION COLON LAM XID DOT LCURLY first epsilon tuple RCURLY
+({initial = first, epsilon = epsilon, final = tuple})
+
+first:  LET LCURLY tuple RCURLY EQ XID IN
+  (tuple)
+
+tuple:  ONE ([])
+      | XID ([XID])
+      | ID ([])
+      | LBRACK XID COMMA tuple RBRACK (XID::tuple)
+      | LBRACK ID COMMA tuple RBRACK (tuple)
+
+consts: ([])
+      | BANG ID consts (ID::consts)
+
+step: LET LCURLY tuple RCURLY EQ ID consts tuple IN
+      ({rule = ID, consts = consts, inputs = tuple2, outputs = tuple1}) 
+
+epsilon: ([])
+      | step epsilon (step::epsilon)
+
