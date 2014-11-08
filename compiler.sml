@@ -60,13 +60,13 @@ structure CLFtoTwee = struct
       end
       handle (Error s) => (print s; raise Match)
 
-  fun compile_initial initial e =
+  fun compile_initial inputs initial e =
   let
     (*  val name = "Start" *)
     val start_text = ProtoTwee.Text ("dummy start text")
     val displays = map display initial
-    (* XXX what link text here? *)
-    val outpassages =  map (makeVarPassage e "link text??") initial
+    val outpassages =  
+      mapi (fn (x,i) => makeVarPassage e (List.nth(inputs,i)) x) initial
   in
     (start_text::displays, outpassages)
   end
@@ -76,10 +76,10 @@ structure CLFtoTwee = struct
     {name = "final", contents = [ProtoTwee.Text "final passage text"]}
 
   (* compile : CelfTrace.clftrace -> ProtoTwee.twee *)
-  fun compile {initial, epsilon, final}: ProtoTwee.twee =
+  fun compile {consts, initial, epsilon, final}: ProtoTwee.twee =
   let
     val (initial_passage, initial_var_passages) = 
-      compile_initial initial epsilon
+      compile_initial consts initial epsilon
   in
     {start = initial_passage,
      style = ProtoTwee.Default,
