@@ -18,6 +18,11 @@
 | SOLUTION
 | COLON
 | EOF
+| QUERY
+| TENSOR
+| LOLLI
+| LPAREN
+| RPAREN
 
 %nonterm
   tuple of CelfTrace.resource_var list
@@ -26,6 +31,9 @@
 | first of CelfTrace.resource_var list
 | epsilon of CelfTrace.step list
 | solution of CelfTrace.clftrace
+| ids of string list
+| positive of string list list
+| negative of string list list * string list list
 
 %pos unit
 %start solution
@@ -55,4 +63,7 @@ step: LET LCURLY tuple RCURLY EQ ID consts tuple IN
 
 epsilon: ([])
       | step epsilon (step::epsilon)
+
+term: ([])
+      | ID ids (ID::ids)
 

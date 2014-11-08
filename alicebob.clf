@@ -87,6 +87,7 @@ leave : loc C front_hall * loc C' front_hall -o {1}.
 #trace * init.
 
 #query * * * 10 
+Pi alice. Pi bob. 
 (loc alice bedroom * loc bob front_hall *
     loc_o revolver (inroom bedroom) 
            * loc_o maltese_falcon (inroom courtyard) 
