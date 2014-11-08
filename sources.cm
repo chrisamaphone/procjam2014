@@ -5,3 +5,4 @@ Group is
   clftrace.grm
   clftrace.lex
   parser.sml
+  compiler.sml
