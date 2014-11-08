@@ -3,6 +3,7 @@ type pos = unit
 type svalue = Tokens.svalue
 type lexresult = (svalue, pos) Tokens.token
 val eof = fn () => Tokens.EOF ((), ())
+type ('a, 'b) token = ('a, 'b) Tokens.token
 
 fun mkid str = 
    if (String.sub (str, 0) = #"X")
@@ -14,9 +15,9 @@ fun mkid str =
 %%
 
 %full
-%header (functor Exp_LexFun(structure Tokens: Trace_TOKENS));
+%header (functor TraceLexFun(structure Tokens: Trace_TOKENS));
 
-any = [a-zA-Z0-9'_];
+any = [a-zA-Z0-9'_/-];
 ws = [\ \t\011\012\r];
 
 %%
@@ -38,3 +39,5 @@ ws = [\ \t\011\012\r];
 ":"        => (Tokens.COLON((),()));
 {any}+     => (mkid(yytext));
 {ws}+      => (lex());
+
+. => (raise Fail ("Unexpected character" ^ yytext));

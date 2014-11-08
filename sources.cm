@@ -3,3 +3,5 @@ Group is
   $/ml-yacc-lib.cm
   types.sml
   clftrace.grm
+  clftrace.lex
+  parser.sml
