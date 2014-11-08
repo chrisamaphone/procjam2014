@@ -1,0 +1,36 @@
+Solution: \X1. {
+    let {[X2, [X3, [X4, [X5, X6]]]]} = X1 in 
+    let {1} = leave !bob X3 in 
+    let {[X7, X8]} = pickup !alice !bedroom !revolver [X2, [X4, portable/revolver]] in 
+    let {X9} = move !alice !bedroom !front_hall [X7, -9] in 
+    let {X10} = move !alice !front_hall !bedroom [X9, -1] in 
+    let {[X11, X12]} = drop !alice !bedroom !revolver [X10, X8] in 
+    let {[X13, X14]} = observe !alice !bedroom !revolver [X11, X12] in 
+    let {X15} = move !alice !bedroom !courtyard [X13, -11] in 
+    let {[X16, X17]} = observe !alice !courtyard !maltese_falcon [X15, X5] in 
+    let {X18} = move !alice !courtyard !bedroom [X16, -8] in 
+    let {[X19, X20]} = pickup !alice !bedroom !revolver [X18, [X14, portable/revolver]] in 
+    let {X21} = move !alice !bedroom !courtyard [X19, -11] in 
+    let {[X22, X23]} = drop !alice !courtyard !revolver [X21, X20] in 
+    let {[X24, X25]} = pickup !alice !courtyard !revolver [X22, [X23, portable/revolver]] in 
+    let {X26} = move !alice !courtyard !bedroom [X24, -8] in 
+    let {[X27, X28]} = drop !alice !bedroom !revolver [X26, X25] in 
+    let {[X29, X30]} = pickup !alice !bedroom !revolver [X27, [X28, portable/revolver]] in 
+    let {[X31, X32]} = drop !alice !bedroom !revolver [X29, X30] in 
+    let {[X33, X34]} = pickup !alice !bedroom !revolver [X31, [X32, portable/revolver]] in 
+    let {X35} = move !alice !bedroom !courtyard [X33, -11] in 
+    let {X36} = move !alice !courtyard !bedroom [X35, -8] in 
+    let {X37} = move !alice !bedroom !front_hall [X36, -9] in 
+    let {X38} = move !alice !front_hall !bedroom [X37, -1] in 
+    let {[X39, X40]} = drop !alice !bedroom !revolver [X38, X34] in 
+    let {[X41, X42]} = pickup !alice !bedroom !revolver [X39, [X40, portable/revolver]] in 
+    let {X43} = move !alice !bedroom !bathroom [X41, -10] in 
+    let {[X44, X45]} = drop !alice !bathroom !revolver [X43, X42] in 
+    let {X46} = move !alice !bathroom !bedroom [X44, -5] in 
+    let {X47} = move !alice !bedroom !courtyard [X46, -11] in 
+    let {X48} = move !alice !courtyard !front_hall [X47, -6] in 
+    let {X49} = move !alice !front_hall !bathroom [X48, -] in 
+    let {[X50, X51]} = observe !alice !bathroom !revolver [X49, X45] in 
+    let {X52} = move !alice !bathroom !front_hall [X50, -3] in 
+    let {1} = leave !alice X52 in [X17, [X6, X51]]}
+
