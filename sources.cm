@@ -6,3 +6,5 @@ Group is
   clftrace.lex
   parser.sml
   compiler.sml
+  twee.sml
+  top.sml

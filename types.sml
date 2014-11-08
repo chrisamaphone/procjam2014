@@ -32,10 +32,16 @@ struct
 datatype component = Text of string 
                    | Display of string
                    | Follow of string * string
-                      
+
 type passage = {name: string,
                 contents: component list}
 
-type twee = passage list
+datatype style = Default | SimpleBox
+
+type twee = {start: component list,
+             style: style,
+             title: string,
+             author: string,
+             contents: passage list}
 
 end

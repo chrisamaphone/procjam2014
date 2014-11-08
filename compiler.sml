@@ -48,11 +48,11 @@ structure CLFtoTwee = struct
 
   fun compile_initial initial =
   let
-    val name = "Start"
+    (*  val name = "Start" *)
     val start_text = ProtoTwee.Text ("dummy start text")
     val displays = map display initial
   in
-    {name=name, contents=start_text::displays}
+    (* {name=name, contents= *) start_text::displays (* } *) 
   end
 
   (* XXX currently does not actually dependon the CelfTrace "final" field *)
@@ -60,8 +60,11 @@ structure CLFtoTwee = struct
     {name = "final", contents = [ProtoTwee.Text "final passage text"]}
 
   (* compile : CelfTrace.clftrace -> ProtoTwee.twee *)
-  fun compile {initial, epsilon, final} =
-    (compile_initial initial)::
-    ((compile_epsilon epsilon) @ ([compile_final ()]))
+  fun compile {initial, epsilon, final}: ProtoTwee.twee =
+    {start = compile_initial initial,
+     style = ProtoTwee.Default,
+     title = "Performed for you",
+     author = "Celf Sparrow",
+     contents = (compile_epsilon epsilon) @ ([compile_final ()])}
 
 end

@@ -6,26 +6,15 @@ structure Parser = struct
                                structure Lex = TraceLex
                                structure LrParser = LrParser)
 
-
-  (* 
-  * Takes a filename and returns a stateful function from int to string.
-  * : string -> (int -> string) *)
-  fun makeReader fname =
-    let
-      val ins = TextIO.openIn fname
-    in
-      fn n => TextIO.inputN (ins, n)
-    end
-
   fun parseFile fname =
   let
     val ECC_LOOKAHEAD = 15
-    val reader = makeReader fname
-    val tokstream = TraceParser.makeLexer reader
+    val ins = TextIO.openIn fname
+    val tokstream = TraceParser.makeLexer (fn n => TextIO.inputN (ins, n))
     fun error_handler (error, (), ()) = print error
     val (result, _) = 
       TraceParser.parse (ECC_LOOKAHEAD, tokstream, error_handler, ())
   in
-    result
+    result before TextIO.closeIn ins
   end
 end
