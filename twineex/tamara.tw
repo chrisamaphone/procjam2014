@@ -1,0 +1,532 @@
+:: Start
+<<display "x1">>
+
+
+:: "simple box" css [stylesheet]
+html {
+  /* Vertical colour gradient */
+  background-image: linear-gradient(to bottom,  gainsboro, silver);
+  background-image: -webkit-linear-gradient(top,  gainsboro, silver);
+  background-attachment: fixed;
+
+  /* Fallback colour */
+  background-color: silver;
+}
+body {
+  /* Remove default styles */
+  background-color: transparent;
+  margin: 10% 0 0 0;
+  font-size: 100%;
+  /* Used to center the box */
+  text-align: center;
+}
+
+#passages {
+  /* Box background (white with 70% opacity) */
+  background-color: rgba(255, 255, 255, 0.7);
+
+  /* Border */
+  border: 2px solid white;
+
+  /* Rounded corners */
+  border-radius: 1em;
+
+  /* Box width */
+  width: 60%;
+
+  /* Center the box */
+  display: inline-block;
+  min-height: 40%;
+  margin:auto;
+  margin-bottom: 5%;
+  padding: 0px;
+}
+
+.passage {
+  margin: 0px;
+  /* Inner margin within the box */
+  padding: 2em;
+
+  /* Text formatting */
+  color: black;
+  font-size: 100%;
+  text-align:justify;
+}
+
+/* No sidebar */
+#sidebar {
+  display:none;
+}
+
+/* Links */
+a.internalLink, a.externalLink {
+  color: royalblue;
+}
+a.internalLink:hover, a.externalLink:hover {
+  color: deepskyblue;
+  text-decoration: none;
+}
+
+/* Shrink the page when viewed on devices with a low screen width */
+@media screen and (max-width: 960px) {
+  .passage { font-size: 90%;}
+  #passages { width: 70%; }
+}
+@media screen and (max-width: 840px) {
+  .passage {  font-size: 87.5%; }
+  #passages { width: 80%; }
+}
+@media screen and (max-width: 720px) {
+  .passage { font-size: 75%; }
+  #passages { width: 90%; }
+}
+
+
+:: x1
+[[Begin.|all-groups-split]]
+
+
+:: StoryTitle
+Tamara
+
+
+:: init
+[opening scene]
+
+<<display "x2">>
+<<display "x3">>
+<<display "x4">>
+<<display "x5">>
+<<display "x6">>
+<<display "x7">>
+<<display "x8">>
+<<display "x9">>
+<<display "x10">>
+<<display "x11">>
+
+
+:: StoryAuthor
+Play by John Krizanc. Interpreted by Chris Martens.
+
+
+:: x8
+[[Follow D'Annunzio|a1_dannunzio_enters]]
+
+
+:: x3
+[[Follow Luisa|group-1-luisa]]
+
+
+:: x5
+[[Follow Dante|a1_dante_finzi]]
+
+
+:: x10
+[[Follow Finzi|a1_dante_finzi]]
+
+
+:: x6
+[[Follow de Spiga|all-groups-split]]
+
+
+:: x4
+[[Follow Emilia|a1_emilia_enters_]]
+
+
+:: x7
+[[Follow Aelis|a1_aelis_enters]]
+
+
+:: x9
+[[Follow Carlotta|a1_carlotta_enters]]
+
+
+:: x11
+[[Follow Mario|a1_mario_enters]]
+
+
+:: x2
+
+
+
+:: a1_dannunzio_enters
+[[Follow D'Annunzio|x13]]
+
+
+:: a1_dante_finzi
+Dante and Finzi introduce the play.
+
+
+<<display "x17">>
+<<display "x18">>
+
+
+:: a1_emilia_enters_
+<<display "x15">>
+
+
+:: a1_aelis_enters
+Aelis enters.
+
+<<display "x19">>
+
+
+:: a1_carlotta_enters
+Carlotta enters.
+
+<<display "x12">>
+
+
+:: a1_mario_enters
+
+
+
+:: x13
+
+
+
+:: x18
+[[Follow Finzi|all-groups-split]]
+
+
+:: x17
+[[Follow Dante|all-groups-split]]
+
+
+:: x15
+[[Follow Emilia|a1_emilia_exits]]
+
+
+:: x19
+[[Follow Aelis|a1_aelis_carlotta]]
+
+
+:: a1_aelis_carlotta
+<<display "x26">>
+<<display "x27">>
+
+
+:: x12
+[[Follow Carlotta.|a1_aelis_carlotta]]
+
+
+:: a1_emilia_exits
+<<display "x20">>
+
+
+:: x20
+[[Follow Emilia|group2_emilia]]
+
+
+:: all-groups-split
+Dante: "I'm going to go check on Signora Baccara."
+Finzi: "I will visit the servants of the house, Aelis and Emilia."
+de Spiga: "I will remain here."
+
+[[Follow Dante|x21]]
+[[Follow Finzi|x22]]
+[[Stay with de Spiga|x23]]
+
+
+:: x27
+[[Follow Aelis.|group-2-aelis]]
+
+
+:: x21
+<<display "group-1-luisa">>
+
+
+:: x23
+<<display "b2_despiga_monologue">>
+
+
+:: x22
+<<display "group-2-aelis">>
+
+
+:: x26
+[[Follow Carlotta.|b4_hall]]
+
+
+:: group-1-luisa
+Luisa's room.
+
+Dante enters. "Signora Baccara?" She is nowhere to be seen.
+
+Dante exits.
+
+<<display "x28">>
+<<display "x29">>
+
+
+:: b2_despiga_monologue
+de Spiga plays the piano and talks about his love for Luisa.
+
+<<display "x25">>
+
+
+:: group-2-aelis
+Finzi enters the dining room. "You will wait here for Signora Mayozer."
+
+<<display "x38">>
+<<display "x39">>
+
+
+:: x29
+[[Stay in Luisa's room|b3_luisa_monologue]]
+
+
+:: x28
+[[Follow Dante|a1_grp1_dannunzio]]
+
+
+:: x25
+[[Stay with de Spiga.|b10_atrium]]
+
+
+:: x39
+[[Stay and wait for Aelis.|b9_dining]]
+
+
+:: x38
+[[Follow Finzi.|group2_emilia]]
+
+
+:: a1_grp1_dannunzio
+Dante stops by the entrance to d'Annunzio's room. "Shh! Il Comandante is praying. You must enter the master's quarters quietly."
+
+/% <<display "x31">> %/
+<<display "x32">>
+
+
+:: group2_emilia
+Aelis enters carrying several wrapped presents. "Finzi, you should never have given Baccara that gun."
+
+"We were shopping in town and she asked me to buy it. What was I to do?"
+
+Finzi steps out into the hall, and Aelis closes the dining room door. Emilia suddenly appears in the hall, standing at the door to the Leda.
+
+"Ah, Emilia," says Finzi. "Will you show these guests to the Leda?"
+
+<<display "x41">>
+<<display "x42">>
+
+
+:: b3_luisa_monologue
+The closet door opens slightly. Luisa sticks her arm out and slowly allows some rose petals to fall to the floor from her hand.
+
+"...he loves me not."
+
+She pushes the door fully open.
+
+"The place for bullets is through the heart."
+
+She comes out of the closet.
+
+"Luisa is getting morbid, Luisa isn't getting anything, anyone. Luisa was getting dressed to meet Madame Tamara de Lempicka."
+
+She sees a gun on the bed with six bullets lying next to it.
+
+[...]
+
+<<display "x30">>
+
+
+:: x32
+[[Stay with d'Annunzio.|b6_dannunzio]]
+
+
+:: x31
+[[Follow Dante.|b10_atrium]]
+
+
+:: b9_dining
+"Ahh! Excuse moi." Aelis catches her breath and closes the door. "I'm so glad you were able to be with us this evening. I must tell you that there was some question as to whether Roma would allow Il Comandante any more guests but fortunately they relented."
+
+She notices the dinner plates still on the table.
+
+"Emilia!" she shouts, pulling a cord to summon the servant. "I'm so embarrassed."
+
+[etc]
+
+<<display "x40">>
+
+
+:: x42
+[[Follow Emilia.|b7_leda]]
+
+
+:: x41
+[[Stay with Finzi.|b4_hall]]
+
+
+:: b6_dannunzio
+d'Annunzio is kneeling in the centre of the room, leaning on his sword, and he holds a letter in his hand.
+
+"Where is she? Where is the woman who'll save me from this terrible nocturnal orgy of silence; who will show me once again, perhaps for the last time, an unknown aspect of love?"
+
+<<display "x35">>
+
+
+:: b10_atrium
+Dante enters, and de Spiga stops playing.
+
+"I don't know that opera," says Dante.
+
+"It doesn't exist yet, Dante."
+
+[They converse.]
+
+Dante goes to the front window; de Spiga continues playing the piano.
+
+<<display "x33">>
+<<display "x34">>
+
+
+:: x40
+[[Follow Aelis.|c12_atrium]]
+
+
+:: b7_leda
+Emilia enters the Leda and closes the door. She begins to straighten the bed.
+
+"Me, I clean and serve. And Il Comandante still needs to bring the Polish one. ..."
+
+<<display "x43">>
+
+
+:: b4_hall
+Finzi continues down the hall, where he finds Carlotta collecting Rosary beads from the floor.
+
+[They talk]
+
+Carlotta: "One day Il Duce will need you back, Finzi, ecause the country needs decisive men. I just know you'll be first secretary to the Interior again. Just wait."
+
+She kisses him and runs away laughing.
+
+<<display "x44">>
+<<display "x45">>
+
+
+:: x30
+Luisa exits toward d'Annunzio's room.
+
+[[Follow Luisa|b11_luisa_confrontation]]
+
+
+:: x35
+[[Stay with d'Annunzio|b11_luisa_confrontation]]
+
+
+:: x33
+[[Stay with Dante.|c12_atrium]]
+
+
+:: x34
+[[Stay with de Spiga.|c12_atrium]]
+
+
+:: x43
+[[Stay with Emilia.|b8_leda]]
+
+
+:: x45
+[[Follow Carlotta.|b8_leda]]
+
+
+:: x44
+[[Follow Finzi.|b5_hall]]
+
+
+:: b11_luisa_confrontation
+Luisa enters d'Annunzio's room. She stops in the center of the room, pointing a gun at d'Annunzio.
+
+"You upset me, Luisa," he begins. "Did we not agree that our affair--"
+
+"Relationship."
+
+"...was to be forgotten?"
+
+Luisa exits to the stairs and osbserves the action in the Atrium from above.
+
+<<display "x36">>
+<<display "x37">>
+
+
+:: b8_leda
+Carlotta runs into the Leda through the side door and throws herself on the bed.
+
+"I kissed him! I kissed him!"
+
+"Who did you kiss, Signorina?" asks Emilia.
+
+Carlotta suddenly notices Emilia. "What are you doing here?"
+
+[they converse.]
+
+<<display "x46">>
+<<display "x47">>
+
+
+:: b5_hall
+"Wait." Finzi says.
+
+"Wait. I've been waiting for years... waiting to get back to Roma, waiting for Luisa..."
+
+<<display "x48">>
+
+
+:: x36
+[[follow d'Annunzio|c12_atrium]] /% eventually c_final %/
+
+
+:: x37
+[[Follow Luisa|c12_atrium]]
+
+
+:: x47
+Carlotta exits to the atrium.
+[[Follow Carlotta.|c12_atrium]]
+
+
+:: x46
+Emilia exits to the dining room to gather plates.
+[[Follow Emilia.|c12_gunshot]]
+
+
+:: x48
+Finzi exits toward the atrium. [[Follow Finzi|c12_atrium]]
+
+
+:: c12_atrium
+de Spiga sits playing the piano. Dante stares out the window. 
+
+Aelis enters, carrying some presents.
+
+Finzi enters.
+
+"When will the world be quiet?" says Aelis.
+"There would be no need for fascists, if there was silence." replies de Spiga.
+"Aelis, a woman needs a gun. Living in this house, Luisa is at risk. She could be kidnapped by Communists, held for ransom," argues Finzi.
+"We're already hostages!" says de Spiga.
+
+[...]
+
+Carlotta enters, leaping and wearing a tutu.
+
+[she and Aelis converse.]
+
+Finzi exits. /% eventually link to finzi office here %/
+
+d'Annunzio enters.
+
+A [[gunshot|c12_gunshot]] sounds.
+
+
+
+:: c12_gunshot
+Luisa is on the stairs overlooking the atrium with a gun in her hand. She fires the gun again.
+
+"It's alive."
+
+
