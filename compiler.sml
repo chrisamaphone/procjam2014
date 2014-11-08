@@ -1,6 +1,15 @@
 structure CLFtoTwee = struct
 
+  (* util *) 
   fun member x = List.exists (fn x' => x = x')
+
+  fun mapi' i f [] = []
+    | mapi' i f (x::xs) = (f(x,i))::(mapi' (i+1) f xs)
+
+  fun mapi f l = mapi' 0 f l
+
+
+  (***)
 
   fun lookupConsumer e xi = 
   let
@@ -10,20 +19,23 @@ structure CLFtoTwee = struct
     List.find xi_finder e
   end
 
+  fun passageName rule inputs = rule^Int.toString(hd inputs)
+
   exception Error of string
 
-  fun makeVarPassage e xi =
+  fun makeVarPassage e linkText xi  =
   let
     val name = "X"^(Int.toString xi)
     val consumer = (* rule that consumes xi *)
       lookupConsumer e xi
   in
     case consumer of
-         NONE => {name=name, contents=[ProtoTwee.Follow("Follow ?", "final")]}
+         NONE => {name=name, contents=[ProtoTwee.Follow(linkText, "final")]}
           (* raise Error ("Couldn't find consumer of var "^name) *)
        | SOME {rule, consts, inputs, outputs} =>
           let
-            val contents = ProtoTwee.Follow ("Follow ?",rule)
+            val contents = 
+              ProtoTwee.Follow (linkText, passageName rule inputs)
           in
             {name=name, contents=[contents]}
           end
@@ -34,11 +46,13 @@ structure CLFtoTwee = struct
   fun compile_epsilon [] = []
     | compile_epsilon ({rule, consts, inputs, outputs}::e) =
       let
-        val rulepassage_name = rule
+        val rulepassage_name = passageName rule inputs
         val displays =  map display outputs
-        val scenetext = ProtoTwee.Text ("dummy scene text")
+        val scenetext = ProtoTwee.Text 
+          ("dummy scene text for "^rule^" "^(String.concatWith " " consts))
         val rulepassage_contents = scenetext::displays
-        val outpassages = map (makeVarPassage e) outputs
+        fun mkOutPassage (x, i) = makeVarPassage e (List.nth (consts,i)) x
+        val outpassages = mapi mkOutPassage outputs
       in
         {name = rulepassage_name,
           contents = rulepassage_contents}
@@ -46,25 +60,32 @@ structure CLFtoTwee = struct
       end
       handle (Error s) => (print s; raise Match)
 
-  fun compile_initial initial =
+  fun compile_initial initial e =
   let
     (*  val name = "Start" *)
     val start_text = ProtoTwee.Text ("dummy start text")
     val displays = map display initial
+    (* XXX what link text here? *)
+    val outpassages =  map (makeVarPassage e "link text??") initial
   in
-    (* {name=name, contents= *) start_text::displays (* } *) 
+    (start_text::displays, outpassages)
   end
 
-  (* XXX currently does not actually dependon the CelfTrace "final" field *)
+  (* XXX currently does not actually depend on the CelfTrace "final" field *)
   fun compile_final () =
     {name = "final", contents = [ProtoTwee.Text "final passage text"]}
 
   (* compile : CelfTrace.clftrace -> ProtoTwee.twee *)
   fun compile {initial, epsilon, final}: ProtoTwee.twee =
-    {start = compile_initial initial,
+  let
+    val (initial_passage, initial_var_passages) = 
+      compile_initial initial epsilon
+  in
+    {start = initial_passage,
      style = ProtoTwee.Default,
      title = "Performed for you",
      author = "Celf Sparrow",
-     contents = (compile_epsilon epsilon) @ ([compile_final ()])}
+     contents = initial_var_passages @ (compile_epsilon epsilon) @ ([compile_final ()])}
+  end
 
 end
