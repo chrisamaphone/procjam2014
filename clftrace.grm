@@ -37,7 +37,7 @@
 
 %%
 
-solution: SOLUTION COLON LAM lams tuple DOT LCURLY first epsilon tuple RCURLY
+solution: SOLUTION COLON LAM lams tuple DOT LCURLY epsilon tuple RCURLY
 ({consts = lams, initial = tuple1, epsilon = epsilon, final = tuple2})
 
 lams: ([])
