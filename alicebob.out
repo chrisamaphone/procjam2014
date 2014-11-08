@@ -1,8 +1,6 @@
 Celf ver 2.9. Copyright (C) 2011
 [reading alicebob.clf]
 character: type.
-alice: character.
-bob: character.
 room: type.
 front_hall: room.
 bathroom: room.
@@ -33,7 +31,7 @@ object_loc: type.
 has: character -> object_loc.
 inroom: room -> object_loc.
 loc_o: object -> object_loc -> type.
-init: Type = {loc alice bedroom * (loc bob front_hall * (loc_o revolver (inroom !bedroom) * (loc_o maltese_falcon (inroom !courtyard) * loc_o dead_body (inroom !bathroom))))}.
+init: Type = {Exists alice: character. Exists bob: character. loc alice bedroom * (loc bob front_hall * (loc_o revolver (inroom !bedroom) * (loc_o maltese_falcon (inroom !courtyard) * loc_o dead_body (inroom !bathroom))))}.
 move: Pi C: character. Pi R: room. Pi R': room. (loc C R * adj R R') -o {loc C R'}.
 pickup: Pi C: character. Pi R: room. Pi O: object. (loc C R * (loc_o O (inroom !R) * portable O)) -o {loc C R * loc_o O (has !C)}.
 drop: Pi C: character. Pi R: room. Pi O: object. (loc C R * loc_o O (has !C)) -o {loc C R * loc_o O (inroom !R)}.
@@ -45,117 +43,649 @@ threaten_with_revolver: Pi C: character. Pi C': character. Pi R: room. (loc C R 
 leave: Pi C: character. Pi C': character. (loc C front_hall * loc C' front_hall) -o {1}.
 Trace * init
 -- init lin
--- loc alice bedroom lin, loc bob front_hall lin, 
-   loc_o revolver (inroom !bedroom) lin, 
+-- alice:character, bob:character, loc alice bedroom lin, 
+   loc bob front_hall lin, loc_o revolver (inroom !bedroom) lin, 
    loc_o maltese_falcon (inroom !courtyard) lin, 
    loc_o dead_body (inroom !bathroom) lin
--- loc alice bedroom lin, loc_o revolver (inroom !bedroom) lin, 
+-- alice:character, bob:character, loc alice bedroom lin, 
+   loc_o revolver (inroom !bedroom) lin, 
    loc_o maltese_falcon (inroom !courtyard) lin, 
    loc_o dead_body (inroom !bathroom) lin, loc bob bedroom lin
--- loc_o revolver (inroom !bedroom) lin, 
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
    loc_o maltese_falcon (inroom !courtyard) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc alice bedroom lin, 
-   loc bob bedroom lin
--- loc_o revolver (inroom !bedroom) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc alice bedroom lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
    loc_o maltese_falcon (inroom !courtyard) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc alice bedroom lin, 
-   loc bob courtyard lin
--- loc_o revolver (inroom !bedroom) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc alice bathroom lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc_o maltese_falcon (inroom !courtyard) lin, loc bob bedroom lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, loc alice bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc_o revolver (inroom !bedroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, loc bob bedroom lin, 
+   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, loc alice bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc_o revolver (has !bob) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, loc alice bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc_o revolver (inroom !bedroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, loc alice bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc_o revolver (has !bob) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, loc alice bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc_o revolver (inroom !bedroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, loc alice bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bedroom) lin, loc bob bathroom lin
+-- alice:character, bob:character, 
    loc_o maltese_falcon (inroom !courtyard) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc alice bedroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bedroom) lin, loc bob bathroom lin, 
+   loc alice bathroom lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, 
+   loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin, 
    loc bob bathroom lin
--- loc_o maltese_falcon (inroom !courtyard) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob bathroom lin, 
-   loc alice bedroom lin, loc_o revolver (has !alice) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, loc alice bedroom lin, 
-   loc_o revolver (has !alice) lin, loc bob bathroom lin, 
-   loc_o dead_body (inroom !bathroom) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, loc alice bedroom lin, 
-   loc_o revolver (has !alice) lin, loc bob bathroom lin, 
-   loc_o dead_body (inroom !bathroom) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, loc alice bedroom lin, 
-   loc_o revolver (has !alice) lin, loc bob bathroom lin, 
-   loc_o dead_body (inroom !bathroom) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, loc bob bathroom lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc alice bedroom lin, 
-   loc_o revolver (inroom !bedroom) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, loc bob bathroom lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc alice bedroom lin, 
-   loc_o revolver (inroom !bedroom) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, loc bob bathroom lin, 
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, 
    loc_o dead_body (inroom !bathroom) lin, 
-   loc_o revolver (inroom !bedroom) lin, loc alice front_hall lin
--- loc_o maltese_falcon (inroom !courtyard) lin, loc bob bathroom lin, 
-   loc_o dead_body (inroom !bathroom) lin, 
-   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin
--- loc_o maltese_falcon (inroom !courtyard) lin, 
-   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin, 
-   loc bob bathroom lin, loc_o dead_body (inroom !bathroom) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, 
    loc_o revolver (inroom !bedroom) lin, loc bob bathroom lin, 
-   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, 
-   loc_o revolver (inroom !bedroom) lin, loc bob bathroom lin, 
-   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
--- loc_o maltese_falcon (inroom !courtyard) lin, 
-   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin
--- loc_o maltese_falcon (inroom !courtyard) lin, 
-   loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (has !alice) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (has !alice) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (has !alice) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (has !alice) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc alice courtyard lin, 
-   loc_o maltese_falcon (has !alice) lin, loc bob courtyard lin
--- loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, 
    loc_o dead_body (inroom !bathroom) lin, 
-   loc_o maltese_falcon (has !alice) lin, loc alice courtyard lin, 
+   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin, 
+   loc bob front_hall lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, 
+   loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin, 
+   loc bob bathroom lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !courtyard) lin, 
+   loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin, 
    loc bob courtyard lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc bob courtyard lin, 
-   loc alice courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, 
-   loc_o maltese_falcon (inroom !courtyard) lin, loc bob courtyard lin, 
-   loc alice courtyard lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc alice courtyard lin, 
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bedroom) lin, loc alice bathroom lin, 
    loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc_o maltese_falcon (has !bob) lin, 
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (inroom !courtyard) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bedroom) lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc alice bedroom lin
+-- alice:character, bob:character, loc bob courtyard lin, 
+   loc_o maltese_falcon (has !bob) lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc alice bedroom lin, loc_o revolver (has !alice) lin
+-- alice:character, bob:character, loc bob courtyard lin, 
+   loc_o maltese_falcon (has !bob) lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (has !alice) lin, loc alice courtyard lin
+-- alice:character, bob:character, loc_o maltese_falcon (has !bob) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob courtyard lin, 
+   loc alice courtyard lin, loc_o revolver (has !alice) lin
+-- alice:character, bob:character, loc_o maltese_falcon (has !bob) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc_o revolver (has !alice) lin, 
    loc bob courtyard lin, loc alice courtyard lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc_o maltese_falcon (has !bob) lin, 
-   loc bob courtyard lin, loc alice front_hall lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc_o maltese_falcon (has !bob) lin, 
-   loc alice front_hall lin, loc bob front_hall lin
--- loc_o revolver (inroom !bedroom) lin, 
-   loc_o dead_body (inroom !bathroom) lin, loc_o maltese_falcon (has !bob) lin
-Success: 35 steps
-Query (*, *, *, 10) (Exists bedroom: room. Exists front_hall: room. Exists alice: character. loc alice bedroom * (Exists bob: character. loc bob front_hall * (loc_o revolver (inroom !bedroom) * (loc_o maltese_falcon (inroom !courtyard) * loc_o dead_body (inroom !bathroom))))) -o {loc_o maltese_falcon #MFloc * (loc_o dead_body #DBloc * loc_o revolver #RevolverLoc)}.
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (has !alice) lin, loc alice courtyard lin, 
+   loc bob courtyard lin, loc_o maltese_falcon (has !bob) lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (has !alice) lin, loc alice courtyard lin, 
+   loc_o maltese_falcon (has !bob) lin, loc bob front_hall lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (has !alice) lin, loc_o maltese_falcon (has !bob) lin, 
+   loc bob front_hall lin, loc alice bathroom lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (has !alice) lin, loc alice bathroom lin, 
+   loc bob front_hall lin, loc_o maltese_falcon (inroom !front_hall) lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (has !alice) lin, loc alice bathroom lin, 
+   loc_o maltese_falcon (inroom !front_hall) lin, loc bob courtyard lin
+-- alice:character, bob:character, loc_o revolver (has !alice) lin, 
+   loc_o maltese_falcon (inroom !front_hall) lin, loc bob courtyard lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (has !alice) lin, 
+   loc_o maltese_falcon (inroom !front_hall) lin, loc bob courtyard lin, 
+   loc alice bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (has !alice) lin, 
+   loc_o maltese_falcon (inroom !front_hall) lin, loc alice bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bathroom lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob bathroom lin, 
+   loc alice bathroom lin, loc_o revolver (has !alice) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc_o revolver (has !alice) lin, 
+   loc alice bathroom lin, loc bob bathroom lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, 
+   loc_o revolver (has !alice) lin, loc alice bathroom lin, 
+   loc bob bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, 
+   loc_o revolver (has !alice) lin, loc alice bathroom lin, 
+   loc bob bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, 
+   loc_o revolver (has !alice) lin, loc_o dead_body (inroom !bathroom) lin, 
+   loc bob bathroom lin, loc alice bathroom lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc alice bathroom lin, 
+   loc bob bathroom lin, loc_o revolver (has !alice) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, loc alice bathroom lin, 
+   loc_o revolver (has !alice) lin, loc bob bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, loc bob bathroom lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc alice bathroom lin, 
+   loc_o revolver (inroom !bathroom) lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc alice bathroom lin, 
+   loc_o revolver (inroom !bathroom) lin, loc bob bedroom lin
+-- alice:character, bob:character, 
+   loc_o maltese_falcon (inroom !front_hall) lin, 
+   loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc alice front_hall lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc alice front_hall lin, loc_o maltese_falcon (has !alice) lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bathroom) lin, loc bob bedroom lin, 
+   loc alice front_hall lin, loc_o maltese_falcon (inroom !front_hall) lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bathroom) lin, loc alice front_hall lin, 
+   loc_o maltese_falcon (inroom !front_hall) lin, loc bob front_hall lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bathroom) lin, loc alice front_hall lin, 
+   loc bob front_hall lin, loc_o maltese_falcon (has !bob) lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bathroom) lin, loc_o maltese_falcon (has !bob) lin, 
+   loc bob front_hall lin, loc alice front_hall lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bathroom) lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice front_hall lin, loc bob courtyard lin
+-- alice:character, bob:character, loc_o dead_body (inroom !bathroom) lin, 
+   loc_o revolver (inroom !bathroom) lin, loc_o maltese_falcon (has !bob) lin, 
+   loc alice front_hall lin, loc bob bathroom lin
+-- alice:character, bob:character, loc_o revolver (inroom !bathroom) lin, 
+   loc_o maltese_falcon (has !bob) lin, loc alice front_hall lin, 
+   loc bob bathroom lin, loc_o dead_body (inroom !bathroom) lin
+-- alice:character, bob:character, loc_o revolver (inroom !bathroom) lin, 
+   loc_o maltese_falcon (has !bob) lin, loc alice front_hall lin, 
+   loc_o dead_body (inroom !bathroom) lin, loc bob front_hall lin
+-- alice:character, bob:character, loc_o revolver (inroom !bathroom) lin, 
+   loc_o maltese_falcon (has !bob) lin, loc_o dead_body (inroom !bathroom) lin
+Success: 69 steps
+Query (*, *, *, 10) Pi alice: character. Pi bob: character. (loc alice bedroom * (loc bob front_hall * (loc_o revolver (inroom !bedroom) * (loc_o maltese_falcon (inroom !courtyard) * loc_o dead_body (inroom !bathroom))))) -o {loc_o maltese_falcon #MFloc * (loc_o dead_body #DBloc * loc_o revolver #RevolverLoc)}.
 Iteration 1
+Iteration 2
+Solution: \!alice. \!bob. \[X1, [X2, [X3, [X4, X5]]]]. {
+    let {[X6, X7]} = observe !alice !bedroom !revolver [X1, X3] in 
+    let {[X8, X9]} = observe !alice !bedroom !revolver [X6, X7] in 
+    let {X10} = move !bob !front_hall !courtyard [X2, -2] in 
+    let {[X11, X12]} = observe !alice !bedroom !revolver [X8, X9] in 
+    let {[X13, X14]} = observe !bob !courtyard !maltese_falcon [X10, X4] in 
+    let {X15} = move !bob !courtyard !front_hall [X13, -6] in 
+    let {X16} = move !alice !bedroom !front_hall [X11, -9] in 
+    let {[X17, X18]} = comment_on_location !bob !alice !front_hall [X15, X16] in 
+    let {[X19, X20]} = greet !bob !alice !front_hall [X17, X18] in 
+    let {1} = leave [X19, X20] in [X14, [X5, X12]]}
+ #DBloc = inroom !bathroom
+ #MFloc = inroom !courtyard
+ #RevolverLoc = inroom !bedroom
+Iteration 3
+Iteration 4
+Solution: \!alice. \!bob. \[X1, [X2, [X3, [X4, X5]]]]. {
+    let {[X6, X7]} = observe !alice !bedroom !revolver [X1, X3] in 
+    let {[X8, X9]} = observe !alice !bedroom !revolver [X6, X7] in 
+    let {[X10, X11]} = pickup !alice !bedroom !revolver [X8, [X9, portable/revolver]] in 
+    let {[X12, X13]} = drop !alice !bedroom !revolver [X10, X11] in 
+    let {X14} = move !bob !front_hall !bedroom [X2, -1] in 
+    let {[X15, X16]} = observe !bob !bedroom !revolver [X14, X13] in 
+    let {[X17, X18]} = greet !alice !bob !bedroom [X12, X15] in 
+    let {[X19, X20]} = pickup !bob !bedroom !revolver [X18, [X16, portable/revolver]] in 
+    let {[X21, [X22, X23]]} = threaten_with_revolver !bob !alice !bedroom [X19, [X17, X20]] in 
+    let {[X24, X25]} = drop !bob !bedroom !revolver [X21, X23] in 
+    let {[X26, X27]} = pickup !bob !bedroom !revolver [X24, [X25, portable/revolver]] in 
+    let {[X28, X29]} = drop !bob !bedroom !revolver [X26, X27] in 
+    let {X30} = move !bob !bedroom !front_hall [X28, -9] in 
+    let {X31} = move !bob !front_hall !bathroom [X30, -] in 
+    let {[X32, X33]} = observe !bob !bathroom !dead_body [X31, X5] in 
+    let {[X34, X35]} = observe !alice !bedroom !revolver [X22, X29] in 
+    let {[X36, X37]} = pickup !alice !bedroom !revolver [X34, [X35, portable/revolver]] in 
+    let {[X38, X39]} = observe !bob !bathroom !dead_body [X32, X33] in 
+    let {[X40, X41]} = observe !bob !bathroom !dead_body [X38, X39] in 
+    let {[X42, X43]} = drop !alice !bedroom !revolver [X36, X37] in 
+    let {[X44, X45]} = pickup !alice !bedroom !revolver [X42, [X43, portable/revolver]] in 
+    let {[X46, X47]} = observe !bob !bathroom !dead_body [X40, X41] in 
+    let {[X48, X49]} = drop !alice !bedroom !revolver [X44, X45] in 
+    let {[X50, X51]} = pickup !alice !bedroom !revolver [X48, [X49, portable/revolver]] in 
+    let {X52} = move !alice !bedroom !front_hall [X50, -9] in 
+    let {X53} = move !bob !bathroom !bedroom [X46, -5] in 
+    let {X54} = move !alice !front_hall !bathroom [X52, -] in 
+    let {[X55, X56]} = observe !alice !bathroom !dead_body [X54, X47] in 
+    let {[X57, X58]} = drop !alice !bathroom !revolver [X55, X51] in 
+    let {X59} = move !alice !bathroom !front_hall [X57, -3] in 
+    let {X60} = move !alice !front_hall !bedroom [X59, -1] in 
+    let {[X61, X62]} = greet !bob !alice !bedroom [X53, X60] in 
+    let {[X63, X64]} = greet !bob !alice !bedroom [X61, X62] in 
+    let {X65} = move !bob !bedroom !courtyard [X63, -11] in 
+    let {X66} = move !alice !bedroom !bathroom [X64, -10] in 
+    let {X67} = move !alice !bathroom !front_hall [X66, -3] in 
+    let {[X68, X69]} = observe !bob !courtyard !maltese_falcon [X65, X4] in 
+    let {[X70, X71]} = observe !bob !courtyard !maltese_falcon [X68, X69] in 
+    let {X72} = move !alice !front_hall !bathroom [X67, -] in 
+    let {X73} = move !bob !courtyard !front_hall [X70, -6] in 
+    let {[X74, X75]} = pickup !alice !bathroom !revolver [X72, [X58, portable/revolver]] in 
+    let {[X76, X77]} = observe !alice !bathroom !dead_body [X74, X56] in 
+    let {[X78, X79]} = drop !alice !bathroom !revolver [X76, X75] in 
+    let {[X80, X81]} = pickup !alice !bathroom !revolver [X78, [X79, portable/revolver]] in 
+    let {[X82, X83]} = drop !alice !bathroom !revolver [X80, X81] in 
+    let {X84} = move !bob !front_hall !bedroom [X73, -1] in 
+    let {[X85, X86]} = pickup !alice !bathroom !revolver [X82, [X83, portable/revolver]] in 
+    let {[X87, X88]} = observe !alice !bathroom !dead_body [X85, X77] in 
+    let {[X89, X90]} = drop !alice !bathroom !revolver [X87, X86] in 
+    let {X91} = move !bob !bedroom !bathroom [X84, -10] in 
+    let {[X92, X93]} = pickup !alice !bathroom !revolver [X89, [X90, portable/revolver]] in 
+    let {[X94, X95]} = comment_on_location !alice !bob !bathroom [X92, X91] in 
+    let {[X96, X97]} = observe !alice !bathroom !dead_body [X94, X88] in 
+    let {[X98, X99]} = drop !alice !bathroom !revolver [X96, X93] in 
+    let {X100} = move !alice !bathroom !bedroom [X98, -5] in 
+    let {[X101, X102]} = pickup !bob !bathroom !revolver [X95, [X99, portable/revolver]] in 
+    let {[X103, X104]} = observe !bob !bathroom !dead_body [X101, X97] in 
+    let {[X105, X106]} = observe !bob !bathroom !dead_body [X103, X104] in 
+    let {[X107, X108]} = observe !bob !bathroom !dead_body [X105, X106] in 
+    let {X109} = move !bob !bathroom !front_hall [X107, -3] in 
+    let {X110} = move !alice !bedroom !bathroom [X100, -10] in 
+    let {[X111, X112]} = drop !bob !front_hall !revolver [X109, X102] in 
+    let {X113} = move !bob !front_hall !courtyard [X111, -2] in 
+    let {[X114, X115]} = pickup !bob !courtyard !maltese_falcon [X113, [X71, portable/mf]] in 
+    let {X116} = move !bob !courtyard !bathroom [X114, -7] in 
+    let {[X117, X118]} = drop !bob !bathroom !maltese_falcon [X116, X115] in 
+    let {[X119, X120]} = comment_on_location !bob !alice !bathroom [X117, X110] in 
+    let {[X121, X122]} = observe !bob !bathroom !maltese_falcon [X119, X118] in 
+    let {X123} = move !alice !bathroom !bedroom [X120, -5] in 
+    let {X124} = move !alice !bedroom !front_hall [X123, -9] in 
+    let {X125} = move !alice !front_hall !bathroom [X124, -] in 
+    let {[X126, X127]} = observe !bob !bathroom !dead_body [X121, X108] in 
+    let {[X128, X129]} = comment_on_location !bob !alice !bathroom [X126, X125] in 
+    let {X130} = move !alice !bathroom !courtyard [X129, -4] in 
+    let {[X131, X132]} = observe !bob !bathroom !maltese_falcon [X128, X122] in 
+    let {[X133, X134]} = pickup !bob !bathroom !maltese_falcon [X131, [X132, portable/mf]] in 
+    let {[X135, X136]} = observe !bob !bathroom !dead_body [X133, X127] in 
+    let {X137} = move !alice !courtyard !front_hall [X130, -6] in 
+    let {[X138, X139]} = observe !alice !front_hall !revolver [X137, X112] in 
+    let {[X140, X141]} = pickup !alice !front_hall !revolver [X138, [X139, portable/revolver]] in 
+    let {[X142, X143]} = drop !bob !bathroom !maltese_falcon [X135, X134] in 
+    let {X144} = move !alice !front_hall !bedroom [X140, -1] in 
+    let {[X145, X146]} = pickup !bob !bathroom !maltese_falcon [X142, [X143, portable/mf]] in 
+    let {X147} = move !alice !bedroom !front_hall [X144, -9] in 
+    let {[X148, X149]} = drop !alice !front_hall !revolver [X147, X141] in 
+    let {[X150, X151]} = observe !bob !bathroom !dead_body [X145, X136] in 
+    let {[X152, X153]} = pickup !alice !front_hall !revolver [X148, [X149, portable/revolver]] in 
+    let {[X154, X155]} = drop !alice !front_hall !revolver [X152, X153] in 
+    let {[X156, X157]} = pickup !alice !front_hall !revolver [X154, [X155, portable/revolver]] in 
+    let {[X158, X159]} = drop !bob !bathroom !maltese_falcon [X150, X146] in 
+    let {[X160, X161]} = observe !bob !bathroom !maltese_falcon [X158, X159] in 
+    let {X162} = move !alice !front_hall !courtyard [X156, -2] in 
+    let {[X163, X164]} = observe !bob !bathroom !dead_body [X160, X151] in 
+    let {[X165, X166]} = pickup !bob !bathroom !maltese_falcon [X163, [X161, portable/mf]] in 
+    let {[X167, X168]} = observe !bob !bathroom !dead_body [X165, X164] in 
+    let {[X169, X170]} = observe !bob !bathroom !dead_body [X167, X168] in 
+    let {[X171, X172]} = observe !bob !bathroom !dead_body [X169, X170] in 
+    let {[X173, X174]} = observe !bob !bathroom !dead_body [X171, X172] in 
+    let {X175} = move !bob !bathroom !courtyard [X173, -4] in 
+    let {[X176, X177]} = greet !alice !bob !courtyard [X162, X175] in 
+    let {[X178, X179]} = greet !alice !bob !courtyard [X176, X177] in 
+    let {[X180, X181]} = greet !alice !bob !courtyard [X178, X179] in 
+    let {[X182, X183]} = greet !bob !alice !courtyard [X181, X180] in 
+    let {[X184, X185]} = drop !alice !courtyard !revolver [X183, X157] in 
+    let {[X186, X187]} = drop !bob !courtyard !maltese_falcon [X182, X166] in 
+    let {[X188, X189]} = observe !alice !courtyard !revolver [X184, X185] in 
+    let {[X190, X191]} = greet !alice !bob !courtyard [X188, X186] in 
+    let {[X192, X193]} = greet !bob !alice !courtyard [X191, X190] in 
+    let {[X194, X195]} = comment_on_location !alice !bob !courtyard [X193, X192] in 
+    let {[X196, X197]} = comment_on_location !bob !alice !courtyard [X195, X194] in 
+    let {X198} = move !bob !courtyard !bathroom [X196, -7] in 
+    let {[X199, X200]} = pickup !alice !courtyard !maltese_falcon [X197, [X187, portable/mf]] in 
+    let {[X201, X202]} = drop !alice !courtyard !maltese_falcon [X199, X200] in 
+    let {[X203, X204]} = pickup !alice !courtyard !revolver [X201, [X189, portable/revolver]] in 
+    let {X205} = move !bob !bathroom !front_hall [X198, -3] in 
+    let {[X206, X207]} = pickup !alice !courtyard !maltese_falcon [X203, [X202, portable/mf]] in 
+    let {[X208, X209]} = drop !alice !courtyard !revolver [X206, X204] in 
+    let {X210} = move !bob !front_hall !bathroom [X205, -] in 
+    let {X211} = move !bob !bathroom !courtyard [X210, -4] in 
+    let {X212} = move !alice !courtyard !bedroom [X208, -8] in 
+    let {[X213, X214]} = observe !bob !courtyard !revolver [X211, X209] in 
+    let {[X215, X216]} = observe !bob !courtyard !revolver [X213, X214] in 
+    let {[X217, X218]} = pickup !bob !courtyard !revolver [X215, [X216, portable/revolver]] in 
+    let {[X219, X220]} = drop !bob !courtyard !revolver [X217, X218] in 
+    let {[X221, X222]} = observe !bob !courtyard !revolver [X219, X220] in 
+    let {[X223, X224]} = pickup !bob !courtyard !revolver [X221, [X222, portable/revolver]] in 
+    let {[X225, X226]} = drop !alice !bedroom !maltese_falcon [X212, X207] in 
+    let {[X227, X228]} = drop !bob !courtyard !revolver [X223, X224] in 
+    let {X229} = move !alice !bedroom !bathroom [X225, -10] in 
+    let {X230} = move !alice !bathroom !courtyard [X229, -4] in 
+    let {[X231, X232]} = comment_on_location !alice !bob !courtyard [X230, X227] in 
+    let {[X233, X234]} = observe !alice !courtyard !revolver [X231, X228] in 
+    let {[X235, X236]} = greet !bob !alice !courtyard [X232, X233] in 
+    let {X237} = move !bob !courtyard !bathroom [X235, -7] in 
+    let {[X238, X239]} = observe !alice !courtyard !revolver [X236, X234] in 
+    let {[X240, X241]} = pickup !alice !courtyard !revolver [X238, [X239, portable/revolver]] in 
+    let {X242} = move !alice !courtyard !bathroom [X240, -7] in 
+    let {[X243, [X244, X245]]} = threaten_with_revolver !alice !bob !bathroom [X242, [X237, X241]] in 
+    let {[X246, [X247, X248]]} = observe_with !bob !alice !bathroom !revolver [X244, [X243, X245]] in 
+    let {[X249, X250]} = drop !alice !bathroom !revolver [X247, X248] in 
+    let {[X251, X252]} = observe !bob !bathroom !revolver [X246, X250] in 
+    let {X253} = move !bob !bathroom !front_hall [X251, -3] in 
+    let {[X254, X255]} = observe !alice !bathroom !dead_body [X249, X174] in 
+    let {[X256, X257]} = pickup !alice !bathroom !revolver [X254, [X252, portable/revolver]] in 
+    let {[X258, X259]} = drop !alice !bathroom !revolver [X256, X257] in 
+    let {[X260, X261]} = pickup !alice !bathroom !revolver [X258, [X259, portable/revolver]] in 
+    let {X262} = move !bob !front_hall !courtyard [X253, -2] in 
+    let {[X263, X264]} = drop !alice !bathroom !revolver [X260, X261] in 
+    let {[X265, X266]} = pickup !alice !bathroom !revolver [X263, [X264, portable/revolver]] in 
+    let {[X267, X268]} = drop !alice !bathroom !revolver [X265, X266] in 
+    let {X269} = move !bob !courtyard !bedroom [X262, -8] in 
+    let {[X270, X271]} = observe !bob !bedroom !maltese_falcon [X269, X226] in 
+    let {[X272, X273]} = pickup !bob !bedroom !maltese_falcon [X270, [X271, portable/mf]] in 
+    let {[X274, X275]} = observe !alice !bathroom !dead_body [X267, X255] in 
+    let {[X276, X277]} = drop !bob !bedroom !maltese_falcon [X272, X273] in 
+    let {[X278, X279]} = pickup !alice !bathroom !revolver [X274, [X268, portable/revolver]] in 
+    let {[X280, X281]} = pickup !bob !bedroom !maltese_falcon [X276, [X277, portable/mf]] in 
+    let {X282} = move !alice !bathroom !front_hall [X278, -3] in 
+    let {X283} = move !bob !bedroom !front_hall [X280, -9] in 
+    let {[X284, X285]} = greet !alice !bob !front_hall [X282, X283] in 
+    let {X286} = move !bob !front_hall !bathroom [X285, -] in 
+    let {[X287, X288]} = observe !bob !bathroom !dead_body [X286, X275] in 
+    let {X289} = move !bob !bathroom !courtyard [X287, -4] in 
+    let {X290} = move !alice !front_hall !courtyard [X284, -2] in 
+    let {[X291, X292]} = greet !bob !alice !courtyard [X289, X290] in 
+    let {X293} = move !bob !courtyard !front_hall [X291, -6] in 
+    let {[X294, X295]} = drop !alice !courtyard !revolver [X292, X279] in 
+    let {[X296, X297]} = observe !alice !courtyard !revolver [X294, X295] in 
+    let {[X298, X299]} = drop !bob !front_hall !maltese_falcon [X293, X281] in 
+    let {[X300, X301]} = observe !bob !front_hall !maltese_falcon [X298, X299] in 
+    let {[X302, X303]} = pickup !alice !courtyard !revolver [X296, [X297, portable/revolver]] in 
+    let {[X304, X305]} = drop !alice !courtyard !revolver [X302, X303] in 
+    let {X306} = move !alice !courtyard !bedroom [X304, -8] in 
+    let {X307} = move !bob !front_hall !bedroom [X300, -1] in 
+    let {X308} = move !bob !bedroom !bathroom [X307, -10] in 
+    let {X309} = move !bob !bathroom !bedroom [X308, -5] in 
+    let {X310} = move !alice !bedroom !bathroom [X306, -10] in 
+    let {X311} = move !bob !bedroom !bathroom [X309, -10] in 
+    let {[X312, X313]} = greet !bob !alice !bathroom [X311, X310] in 
+    let {[X314, X315]} = comment_on_location !bob !alice !bathroom [X312, X313] in 
+    let {X316} = move !alice !bathroom !front_hall [X315, -3] in 
+    let {[X317, X318]} = pickup !alice !front_hall !maltese_falcon [X316, [X301, portable/mf]] in 
+    let {[X319, X320]} = drop !alice !front_hall !maltese_falcon [X317, X318] in 
+    let {X321} = move !alice !front_hall !courtyard [X319, -2] in 
+    let {[X322, X323]} = observe !bob !bathroom !dead_body [X314, X288] in 
+    let {X324} = move !alice !courtyard !bedroom [X321, -8] in 
+    let {X325} = move !bob !bathroom !front_hall [X322, -3] in 
+    let {[X326, X327]} = pickup !bob !front_hall !maltese_falcon [X325, [X320, portable/mf]] in 
+    let {X328} = move !alice !bedroom !courtyard [X324, -11] in 
+    let {[X329, X330]} = observe !alice !courtyard !revolver [X328, X305] in 
+    let {[X331, X332]} = observe !alice !courtyard !revolver [X329, X330] in 
+    let {[X333, X334]} = pickup !alice !courtyard !revolver [X331, [X332, portable/revolver]] in 
+    let {[X335, X336]} = drop !alice !courtyard !revolver [X333, X334] in 
+    let {[X337, X338]} = drop !bob !front_hall !maltese_falcon [X326, X327] in 
+    let {X339} = move !bob !front_hall !courtyard [X337, -2] in 
+    let {[X340, X341]} = pickup !bob !courtyard !revolver [X339, [X336, portable/revolver]] in 
+    let {[X342, X343]} = drop !bob !courtyard !revolver [X340, X341] in 
+    let {[X344, X345]} = greet !bob !alice !courtyard [X342, X335] in 
+    let {[X346, X347]} = pickup !alice !courtyard !revolver [X345, [X343, portable/revolver]] in 
+    let {[X348, [X349, X350]]} = threaten_with_revolver !alice !bob !courtyard [X346, [X344, X347]] in 
+    let {[X351, X352]} = greet !alice !bob !courtyard [X348, X349] in 
+    let {[X353, X354]} = drop !alice !courtyard !revolver [X351, X350] in 
+    let {X355} = move !alice !courtyard !bedroom [X353, -8] in 
+    let {[X356, X357]} = pickup !bob !courtyard !revolver [X352, [X354, portable/revolver]] in 
+    let {[X358, X359]} = drop !bob !courtyard !revolver [X356, X357] in 
+    let {[X360, X361]} = pickup !bob !courtyard !revolver [X358, [X359, portable/revolver]] in 
+    let {X362} = move !alice !bedroom !front_hall [X355, -9] in 
+    let {X363} = move !bob !courtyard !front_hall [X360, -6] in 
+    let {[X364, X365]} = drop !bob !front_hall !revolver [X363, X361] in 
+    let {[X366, X367]} = greet !alice !bob !front_hall [X362, X364] in 
+    let {X368} = move !bob !front_hall !courtyard [X367, -2] in 
+    let {[X369, X370]} = pickup !alice !front_hall !maltese_falcon [X366, [X338, portable/mf]] in 
+    let {X371} = move !alice !front_hall !courtyard [X369, -2] in 
+    let {[X372, X373]} = greet !alice !bob !courtyard [X371, X368] in 
+    let {[X374, X375]} = comment_on_location !bob !alice !courtyard [X373, X372] in 
+    let {[X376, [X377, X378]]} = observe_with !bob !alice !courtyard !maltese_falcon [X374, [X375, X370]] in 
+    let {[X379, X380]} = greet !bob !alice !courtyard [X376, X377] in 
+    let {X381} = move !bob !courtyard !front_hall [X379, -6] in 
+    let {[X382, X383]} = drop !alice !courtyard !maltese_falcon [X380, X378] in 
+    let {X384} = move !alice !courtyard !front_hall [X382, -6] in 
+    let {[X385, X386]} = observe !alice !front_hall !revolver [X384, X365] in 
+    let {1} = leave [X385, X381] in [X383, [X323, X386]]}
+ #DBloc = inroom !bathroom
+ #MFloc = inroom !courtyard
+ #RevolverLoc = inroom !front_hall
+Iteration 5
+Iteration 6
+Solution: \!alice. \!bob. \[X1, [X2, [X3, [X4, X5]]]]. {
+    let {[X6, X7]} = pickup !alice !bedroom !revolver [X1, [X3, portable/revolver]] in 
+    let {[X8, X9]} = drop !alice !bedroom !revolver [X6, X7] in 
+    let {[X10, X11]} = pickup !alice !bedroom !revolver [X8, [X9, portable/revolver]] in 
+    let {X12} = move !bob !front_hall !bathroom [X2, -] in 
+    let {[X13, X14]} = drop !alice !bedroom !revolver [X10, X11] in 
+    let {X15} = move !bob !bathroom !courtyard [X12, -4] in 
+    let {X16} = move !alice !bedroom !courtyard [X13, -11] in 
+    let {X17} = move !alice !courtyard !bedroom [X16, -8] in 
+    let {X18} = move !bob !courtyard !front_hall [X15, -6] in 
+    let {[X19, X20]} = observe !alice !bedroom !revolver [X17, X14] in 
+    let {[X21, X22]} = observe !alice !bedroom !revolver [X19, X20] in 
+    let {[X23, X24]} = observe !alice !bedroom !revolver [X21, X22] in 
+    let {[X25, X26]} = pickup !alice !bedroom !revolver [X23, [X24, portable/revolver]] in 
+    let {[X27, X28]} = drop !alice !bedroom !revolver [X25, X26] in 
+    let {[X29, X30]} = observe !alice !bedroom !revolver [X27, X28] in 
+    let {[X31, X32]} = pickup !alice !bedroom !revolver [X29, [X30, portable/revolver]] in 
+    let {[X33, X34]} = drop !alice !bedroom !revolver [X31, X32] in 
+    let {[X35, X36]} = observe !alice !bedroom !revolver [X33, X34] in 
+    let {[X37, X38]} = observe !alice !bedroom !revolver [X35, X36] in 
+    let {X39} = move !bob !front_hall !bathroom [X18, -] in 
+    let {[X40, X41]} = pickup !alice !bedroom !revolver [X37, [X38, portable/revolver]] in 
+    let {[X42, X43]} = drop !alice !bedroom !revolver [X40, X41] in 
+    let {X44} = move !bob !bathroom !courtyard [X39, -4] in 
+    let {X45} = move !alice !bedroom !bathroom [X42, -10] in 
+    let {X46} = move !alice !bathroom !front_hall [X45, -3] in 
+    let {X47} = move !bob !courtyard !front_hall [X44, -6] in 
+    let {[X48, X49]} = comment_on_location !bob !alice !front_hall [X47, X46] in 
+    let {[X50, X51]} = greet !bob !alice !front_hall [X48, X49] in 
+    let {[X52, X53]} = comment_on_location !alice !bob !front_hall [X51, X50] in 
+    let {1} = leave [X53, X52] in [X4, [X5, X43]]}
+ #DBloc = inroom !bathroom
+ #MFloc = inroom !courtyard
+ #RevolverLoc = inroom !bedroom
+Iteration 7
+Iteration 8
+Solution: \!alice. \!bob. \[X1, [X2, [X3, [X4, X5]]]]. {
+    let {[X6, X7]} = pickup !alice !bedroom !revolver [X1, [X3, portable/revolver]] in 
+    let {X8} = move !alice !bedroom !bathroom [X6, -10] in 
+    let {X9} = move !bob !front_hall !bedroom [X2, -1] in 
+    let {[X10, X11]} = drop !alice !bathroom !revolver [X8, X7] in 
+    let {X12} = move !bob !bedroom !courtyard [X9, -11] in 
+    let {[X13, X14]} = pickup !bob !courtyard !maltese_falcon [X12, [X4, portable/mf]] in 
+    let {[X15, X16]} = observe !alice !bathroom !revolver [X10, X11] in 
+    let {[X17, X18]} = pickup !alice !bathroom !revolver [X15, [X16, portable/revolver]] in 
+    let {X19} = move !alice !bathroom !courtyard [X17, -4] in 
+    let {[X20, [X21, X22]]} = observe_with !bob !alice !courtyard !revolver [X13, [X19, X18]] in 
+    let {[X23, X24]} = drop !bob !courtyard !maltese_falcon [X20, X14] in 
+    let {[X25, X26]} = pickup !alice !courtyard !maltese_falcon [X21, [X24, portable/mf]] in 
+    let {X27} = move !alice !courtyard !bedroom [X25, -8] in 
+    let {X28} = move !bob !courtyard !front_hall [X23, -6] in 
+    let {X29} = move !bob !front_hall !bedroom [X28, -1] in 
+    let {[X30, X31]} = comment_on_location !alice !bob !bedroom [X27, X29] in 
+    let {[X32, X33]} = greet !bob !alice !bedroom [X31, X30] in 
+    let {[X34, [X35, X36]]} = threaten_with_revolver !alice !bob !bedroom [X33, [X32, X22]] in 
+    let {[X37, X38]} = drop !alice !bedroom !maltese_falcon [X34, X26] in 
+    let {[X39, [X40, X41]]} = threaten_with_revolver !alice !bob !bedroom [X37, [X35, X36]] in 
+    let {[X42, [X43, X44]]} = observe_with !bob !alice !bedroom !revolver [X40, [X39, X41]] in 
+    let {[X45, [X46, X47]]} = threaten_with_revolver !alice !bob !bedroom [X43, [X42, X44]] in 
+    let {[X48, [X49, X50]]} = observe_with !bob !alice !bedroom !revolver [X46, [X45, X47]] in 
+    let {[X51, X52]} = observe !bob !bedroom !maltese_falcon [X48, X38] in 
+    let {[X53, [X54, X55]]} = threaten_with_revolver !alice !bob !bedroom [X49, [X51, X50]] in 
+    let {[X56, X57]} = observe !bob !bedroom !maltese_falcon [X54, X52] in 
+    let {[X58, X59]} = drop !alice !bedroom !revolver [X53, X55] in 
+    let {[X60, X61]} = greet !alice !bob !bedroom [X58, X56] in 
+    let {[X62, X63]} = greet !alice !bob !bedroom [X60, X61] in 
+    let {X64} = move !alice !bedroom !courtyard [X62, -11] in 
+    let {X65} = move !alice !courtyard !bathroom [X64, -7] in 
+    let {[X66, X67]} = pickup !bob !bedroom !revolver [X63, [X59, portable/revolver]] in 
+    let {[X68, X69]} = observe !bob !bedroom !maltese_falcon [X66, X57] in 
+    let {[X70, X71]} = drop !bob !bedroom !revolver [X68, X67] in 
+    let {[X72, X73]} = pickup !bob !bedroom !revolver [X70, [X71, portable/revolver]] in 
+    let {X74} = move !alice !bathroom !bedroom [X65, -5] in 
+    let {[X75, X76]} = drop !bob !bedroom !revolver [X72, X73] in 
+    let {[X77, X78]} = greet !bob !alice !bedroom [X75, X74] in 
+    let {X79} = move !alice !bedroom !courtyard [X78, -11] in 
+    let {X80} = move !alice !courtyard !bedroom [X79, -8] in 
+    let {[X81, X82]} = greet !alice !bob !bedroom [X80, X77] in 
+    let {[X83, X84]} = observe !bob !bedroom !revolver [X82, X76] in 
+    let {[X85, X86]} = greet !alice !bob !bedroom [X81, X83] in 
+    let {[X87, X88]} = observe !bob !bedroom !revolver [X86, X84] in 
+    let {[X89, X90]} = greet !alice !bob !bedroom [X85, X87] in 
+    let {[X91, X92]} = pickup !bob !bedroom !revolver [X90, [X88, portable/revolver]] in 
+    let {[X93, X94]} = greet !bob !alice !bedroom [X91, X89] in 
+    let {[X95, X96]} = drop !bob !bedroom !revolver [X93, X92] in 
+    let {[X97, X98]} = observe !bob !bedroom !revolver [X95, X96] in 
+    let {[X99, X100]} = observe !bob !bedroom !revolver [X97, X98] in 
+    let {[X101, X102]} = greet !bob !alice !bedroom [X99, X94] in 
+    let {[X103, X104]} = greet !bob !alice !bedroom [X101, X102] in 
+    let {[X105, X106]} = greet !bob !alice !bedroom [X103, X104] in 
+    let {[X107, X108]} = comment_on_location !bob !alice !bedroom [X105, X106] in 
+    let {[X109, X110]} = pickup !alice !bedroom !revolver [X108, [X100, portable/revolver]] in 
+    let {[X111, X112]} = comment_on_location !alice !bob !bedroom [X109, X107] in 
+    let {[X113, X114]} = greet !bob !alice !bedroom [X112, X111] in 
+    let {[X115, X116]} = comment_on_location !bob !alice !bedroom [X113, X114] in 
+    let {[X117, [X118, X119]]} = threaten_with_revolver !alice !bob !bedroom [X116, [X115, X110]] in 
+    let {X120} = move !alice !bedroom !courtyard [X117, -11] in 
+    let {[X121, X122]} = pickup !bob !bedroom !maltese_falcon [X118, [X69, portable/mf]] in 
+    let {[X123, X124]} = drop !bob !bedroom !maltese_falcon [X121, X122] in 
+    let {[X125, X126]} = pickup !bob !bedroom !maltese_falcon [X123, [X124, portable/mf]] in 
+    let {X127} = move !alice !courtyard !front_hall [X120, -6] in 
+    let {X128} = move !alice !front_hall !courtyard [X127, -2] in 
+    let {[X129, X130]} = drop !bob !bedroom !maltese_falcon [X125, X126] in 
+    let {[X131, X132]} = drop !alice !courtyard !revolver [X128, X119] in 
+    let {[X133, X134]} = pickup !alice !courtyard !revolver [X131, [X132, portable/revolver]] in 
+    let {X135} = move !bob !bedroom !front_hall [X129, -9] in 
+    let {X136} = move !bob !front_hall !bedroom [X135, -1] in 
+    let {X137} = move !bob !bedroom !courtyard [X136, -11] in 
+    let {[X138, X139]} = drop !alice !courtyard !revolver [X133, X134] in 
+    let {[X140, X141]} = comment_on_location !alice !bob !courtyard [X138, X137] in 
+    let {[X142, X143]} = observe !alice !courtyard !revolver [X140, X139] in 
+    let {[X144, X145]} = comment_on_location !alice !bob !courtyard [X142, X141] in 
+    let {X146} = move !alice !courtyard !bathroom [X144, -7] in 
+    let {[X147, X148]} = pickup !bob !courtyard !revolver [X145, [X143, portable/revolver]] in 
+    let {X149} = move !alice !bathroom !bedroom [X146, -5] in 
+    let {X150} = move !bob !courtyard !bathroom [X147, -7] in 
+    let {[X151, X152]} = pickup !alice !bedroom !maltese_falcon [X149, [X130, portable/mf]] in 
+    let {[X153, X154]} = drop !bob !bathroom !revolver [X150, X148] in 
+    let {[X155, X156]} = drop !alice !bedroom !maltese_falcon [X151, X152] in 
+    let {[X157, X158]} = pickup !alice !bedroom !maltese_falcon [X155, [X156, portable/mf]] in 
+    let {X159} = move !alice !bedroom !courtyard [X157, -11] in 
+    let {[X160, X161]} = pickup !bob !bathroom !revolver [X153, [X154, portable/revolver]] in 
+    let {[X162, X163]} = observe !bob !bathroom !dead_body [X160, X5] in 
+    let {[X164, X165]} = drop !alice !courtyard !maltese_falcon [X159, X158] in 
+    let {X166} = move !alice !courtyard !bedroom [X164, -8] in 
+    let {[X167, X168]} = observe !bob !bathroom !dead_body [X162, X163] in 
+    let {X169} = move !bob !bathroom !courtyard [X167, -4] in 
+    let {X170} = move !alice !bedroom !courtyard [X166, -11] in 
+    let {[X171, [X172, X173]]} = threaten_with_revolver !bob !alice !courtyard [X169, [X170, X161]] in 
+    let {[X174, X175]} = greet !bob !alice !courtyard [X171, X172] in 
+    let {X176} = move !bob !courtyard !bedroom [X174, -8] in 
+    let {[X177, X178]} = observe !alice !courtyard !maltese_falcon [X175, X165] in 
+    let {[X179, X180]} = pickup !alice !courtyard !maltese_falcon [X177, [X178, portable/mf]] in 
+    let {[X181, X182]} = drop !bob !bedroom !revolver [X176, X173] in 
+    let {[X183, X184]} = observe !bob !bedroom !revolver [X181, X182] in 
+    let {X185} = move !bob !bedroom !courtyard [X183, -11] in 
+    let {[X186, [X187, X188]]} = observe_with !bob !alice !courtyard !maltese_falcon [X185, [X179, X180]] in 
+    let {X189} = move !alice !courtyard !bathroom [X187, -7] in 
+    let {[X190, X191]} = drop !alice !bathroom !maltese_falcon [X189, X188] in 
+    let {X192} = move !bob !courtyard !bathroom [X186, -7] in 
+    let {X193} = move !alice !bathroom !courtyard [X190, -4] in 
+    let {[X194, X195]} = pickup !bob !bathroom !maltese_falcon [X192, [X191, portable/mf]] in 
+    let {[X196, X197]} = drop !bob !bathroom !maltese_falcon [X194, X195] in 
+    let {X198} = move !alice !courtyard !front_hall [X193, -6] in 
+    let {[X199, X200]} = pickup !bob !bathroom !maltese_falcon [X196, [X197, portable/mf]] in 
+    let {[X201, X202]} = observe !bob !bathroom !dead_body [X199, X168] in 
+    let {[X203, X204]} = drop !bob !bathroom !maltese_falcon [X201, X200] in 
+    let {X205} = move !bob !bathroom !front_hall [X203, -3] in 
+    let {[X206, X207]} = greet !bob !alice !front_hall [X205, X198] in 
+    let {[X208, X209]} = greet !bob !alice !front_hall [X206, X207] in 
+    let {[X210, X211]} = comment_on_location !bob !alice !front_hall [X208, X209] in 
+    let {1} = leave [X211, X210] in [X204, [X202, X184]]}
+ #DBloc = inroom !bathroom
+ #MFloc = inroom !bathroom
+ #RevolverLoc = inroom !bedroom
+Iteration 9
+Iteration 10
+[closing alicebob.clf]

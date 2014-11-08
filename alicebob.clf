@@ -1,6 +1,4 @@
 character : type.
-alice : character.
-bob : character.
 
 room : type.
 front_hall : room.
@@ -39,8 +37,9 @@ inroom : room -> object_loc.
 
 loc_o : object -> object_loc -> type.
 
-init : type =
-{ loc alice bedroom * loc bob front_hall *
+init : type = 
+{ Exists alice. Exists bob. 
+  loc alice bedroom * loc bob front_hall *
     loc_o revolver (inroom bedroom) 
            * loc_o maltese_falcon (inroom courtyard) 
            * loc_o dead_body (inroom bathroom) }.
