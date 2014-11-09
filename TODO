@@ -1,0 +1,10 @@
+Rob, probably
+ - Modify /u to /world
+ - Put /world in a separate github repository
+ - Scene parsing (alicebob.scenes)
+ - Write knowledge-dependent version of alice/bob
+
+Chris, probably
+ - Figure out command line twee->html
+ - Rewrite the compiler to use Scenes.scene
+ - Write scenes for cloak
