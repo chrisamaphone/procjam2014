@@ -1,0 +1,12 @@
+$(SML_LIB)/basis/basis.mlb
+$(SML_LIB)/mlyacc-lib/mlyacc-lib.mlb
+
+types.sml
+clftrace.grm.sig
+clftrace.grm.sml
+clftrace.lex.sml
+parser.sml
+compiler.sml
+twee.sml
+top.sml
+go.sml

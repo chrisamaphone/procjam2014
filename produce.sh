@@ -2,8 +2,7 @@
 
 seed=`date +%Y%j%H`
 
-echo "=== Procjam production manager ==="
-echo "=== $(date), seed ${seed} ==="
+echo "=== $(date), using seed ${seed} ==="
 
 for dir in world/*/
 do
@@ -13,7 +12,5 @@ do
     celf -s ${seed} ${dir}/${name}.clf > ${dir}/${name}.out
     wc=`wc -l ${dir}/${name}.out | awk {'print $1'}`
     echo "   Produced ${name} script (${name}.clf), ${wc} lines"
+    ./tamaraify ${dir}/${name}.out ${dir}/${name}.tw 50
 done
-
-echo "=== Procjam production manager finished ==="
-echo ""
