@@ -8,6 +8,10 @@ let
          then "" 
       else str (Char.toUpper (String.sub (s, 0))) ^ String.extract (s, 1, NONE)
 
+   val () = 
+      case parts of 
+         [] => raise Fail "Manipulating a id that was apparently just \"'\""   
+       | _ => ()
 in
    String.concat (hd parts :: map capsify (tl parts))
 end
@@ -19,6 +23,8 @@ end
 | RCURLY
 | LBRACK
 | RBRACK
+| LPAREN
+| RPAREN
 | LET
 | EQ
 | IN
@@ -37,10 +43,11 @@ end
   tuple of CelfTrace.resource_var list
 | consts of string list
 | step of CelfTrace.step
-| first of CelfTrace.resource_var list
 | epsilon of CelfTrace.step list
 | lams of string list
 | solution of CelfTrace.clftrace
+| term of unit
+| terms of unit
 
 %pos unit
 %start solution
@@ -57,13 +64,11 @@ solution: SOLUTION COLON LAM lams tuple DOT LCURLY epsilon tuple RCURLY
 lams: ([])
       | BANG ID DOT LAM lams (manip ID::lams)
 
-first:  LET LCURLY tuple RCURLY EQ XID IN (tuple)
-
 tuple:  ONE ([])
       | XID ([XID])
-      | ID ([])
+      | term ([])
       | LBRACK XID COMMA tuple RBRACK (XID::tuple)
-      | LBRACK ID COMMA tuple RBRACK (tuple)
+      | LBRACK term COMMA tuple RBRACK (tuple)
 
 consts: ([])
       | BANG ID consts (manip ID::consts)
@@ -73,3 +78,9 @@ step: LET LCURLY tuple RCURLY EQ ID consts tuple IN
 
 epsilon: ([])
       | step epsilon (step::epsilon)
+
+term: ID terms (())
+
+terms: (())
+      | BANG ID terms (())
+      | BANG LPAREN term RPAREN terms (())

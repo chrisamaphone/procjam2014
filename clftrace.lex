@@ -27,6 +27,8 @@ ws = [\ \t\011\012\r];
 "}"        => (Tokens.RCURLY((),()));
 "["        => (Tokens.LBRACK((),()));
 "]"        => (Tokens.RBRACK((),()));
+"("        => (Tokens.LPAREN((),()));
+")"        => (Tokens.RPAREN((),()));
 "let"      => (Tokens.LET((),()));
 "="        => (Tokens.EQ((),()));
 "in"       => (Tokens.IN((),()));

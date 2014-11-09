@@ -1,6 +1,4 @@
 character : type.
-alice : character.
-bob : character.
 
 cloaked : character -> type.
 notcloaked : character -> type.
@@ -44,7 +42,8 @@ leqs : leq (s N) (s M)
 max : nat = (s (s (s z))).
 
 init : type =
-{ loc alice foyer * loc bob foyer * notcloaked bob 
+{ Exists alice. Exists bob. 
+  loc alice foyer * loc bob foyer * notcloaked bob 
     * disturbances alice z * disturbances bob z
     * loc_o cloak_of_darkness (has alice) * cloaked alice }.
 
@@ -116,6 +115,11 @@ observe_with : Pi C. Pi C'. Pi R. Pi O. loc C R * loc C' R * loc_o O (has C')
 #trace * init.
 
 #query * * * 10 
-               init -o {loc_o cloak_of_darkness WhereCloak *
-                        score alice AliceScore *
-                        score bob BobScore}.
+Pi 'alice. Pi 'bob.
+(loc 'alice foyer * loc 'bob foyer * notcloaked 'bob 
+    * disturbances 'alice z * disturbances 'bob z
+    * loc_o cloak_of_darkness (has 'alice) * cloaked 'alice)
+-o
+{loc_o cloak_of_darkness WhereCloak *
+ score 'alice AliceScore *
+ score 'bob BobScore}.

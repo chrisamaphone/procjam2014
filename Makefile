@@ -10,4 +10,4 @@ clftrace.grm.sml: clftrace.grm
 	mlyacc clftrace.grm
 
 tamaraify: sources.mlb clftrace.lex.sml clftrace.grm.sml *.sml
-	mlton -output tamaraify sources.mlb
+	mlton -const "Exn.keepHistory true" -output tamaraify sources.mlb

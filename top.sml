@@ -37,7 +37,6 @@ let
    val file = TextIO.openIn infile
    val traces = grabTraces file [] before TextIO.closeIn file
    val trace = String.concat (selectBest size (hd traces) (tl traces))
-   val () = print trace
    val clf = Parser.parseString trace
    val twee = CLFtoTwee.compile clf
 in

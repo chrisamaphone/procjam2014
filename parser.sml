@@ -36,7 +36,7 @@ structure Parser = struct
          if m > n 
          then (String.extract (str, !pos, NONE) 
                before (pos := n))
-         else (String.extract (str, !pos, SOME m)
+         else (String.extract (str, !pos, SOME i)
                before (pos := m))
       end
    in
