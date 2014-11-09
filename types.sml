@@ -16,7 +16,7 @@ type clftrace = {consts: string list,
 
 end
 
-structure Script = 
+structure Scenes = 
 struct
 
 type var = int
