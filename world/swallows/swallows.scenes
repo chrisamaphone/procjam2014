@@ -8,7 +8,8 @@
 
 :: drop 1
 
-#1 drops the #2 on the ground, casting it a sideways glance before looking away.
+#1 drops the #2 on the ground, casting it a sideways glance, and then
+slowly looking away.
 
 :: observe 1
 
