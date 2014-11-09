@@ -17,7 +17,7 @@ fun grabTraces file accum =
 
 and grabTrace file accum trace = 
    case TextIO.inputLine file of 
-      NONE => raise Fail "Unexpected end of file"
+      NONE => rev (rev trace :: accum)
     | SOME str => 
       if startsWith str "    let "
          then grabTrace file accum (str :: trace)

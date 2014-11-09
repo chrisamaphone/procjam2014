@@ -5,26 +5,12 @@ type lexresult = (svalue, pos) Tokens.token
 val eof = fn () => Tokens.EOF ((), ())
 type ('a, 'b) token = ('a, 'b) Tokens.token
 
-fun id s = 
-let
-   val parts = String.fields (fn c => c = #"'")
-                 (String.concatWith " " 
-                    (String.fields (fn c => c = #"_") s))
-   fun capsify s =
-      if s = "" 
-         then "" 
-      else str (Char.toUpper (String.sub (s, 0))) ^ String.extract (s, 1, NONE)
-
-in
-   String.concat (hd parts :: map capsify (tl parts))
-end
-
 fun mkid str = 
    if (String.sub (str, 0) = #"X")
       then (case Int.fromString (String.extract (str, 1, NONE)) of
-               NONE => Tokens.ID (id str, (), ())
+               NONE => Tokens.ID (str, (), ())
              | SOME i => Tokens.XID (i, (), ()))
-   else Tokens.ID (id str, (), ())
+   else Tokens.ID (str, (), ())
 
 %%
 

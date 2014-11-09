@@ -1,3 +1,17 @@
+fun manip s = 
+let
+   val parts = String.fields (fn c => c = #"'")
+                 (String.concatWith " " 
+                    (String.fields (fn c => c = #"_") s))
+   fun capsify s =
+      if s = "" 
+         then "" 
+      else str (Char.toUpper (String.sub (s, 0))) ^ String.extract (s, 1, NONE)
+
+in
+   String.concat (hd parts :: map capsify (tl parts))
+end
+
 %%
 
 %term
@@ -41,7 +55,7 @@ solution: SOLUTION COLON LAM lams tuple DOT LCURLY epsilon tuple RCURLY
 ({consts = lams, initial = tuple1, epsilon = epsilon, final = tuple2})
 
 lams: ([])
-      | BANG ID DOT LAM lams (ID::lams)
+      | BANG ID DOT LAM lams (manip ID::lams)
 
 first:  LET LCURLY tuple RCURLY EQ XID IN (tuple)
 
@@ -52,7 +66,7 @@ tuple:  ONE ([])
       | LBRACK ID COMMA tuple RBRACK (tuple)
 
 consts: ([])
-      | BANG ID consts (ID::consts)
+      | BANG ID consts (manip ID::consts)
 
 step: LET LCURLY tuple RCURLY EQ ID consts tuple IN
 ({rule = ID, consts = consts, inputs = tuple2, outputs = tuple1}) 
