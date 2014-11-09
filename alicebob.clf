@@ -52,13 +52,13 @@ move : Pi C. Pi R. Pi R'. loc C R * adj R R' -o {loc C R'}.
 
 % interact with objects
 
-pickup : Pi C. Pi R. Pi O. loc C R * loc_o O (inroom R) * portable O
+pickup : Pi C. Pi O. Pi R. loc C R * loc_o O (inroom R) * portable O
              -o {loc C R * loc_o O (has C)}.
 
-drop   : Pi C. Pi R. Pi O. loc C R * loc_o O (has C)
+drop   : Pi C. Pi O. Pi R. loc C R * loc_o O (has C)
              -o {loc C R * loc_o O (inroom R)}.
 
-observe : Pi C. Pi R. Pi O. loc C R * loc_o O (inroom R)
+observe : Pi C. Pi O. Pi R. loc C R * loc_o O (inroom R)
               -o {loc C R * loc_o O (inroom R)}.
 
 % interact with other character
@@ -72,7 +72,7 @@ greet
 
 % interact with object AND other character
 
-observe_with : Pi C. Pi C'. Pi R. Pi O. loc C R * loc C' R * loc_o O (has C')
+observe_with : Pi C. Pi C'. Pi O. Pi R. loc C R * loc C' R * loc_o O (has C')
                    -o {loc C R * loc C' R * loc_o O (has C')}.
 
 threaten_with_revolver 
@@ -81,7 +81,7 @@ threaten_with_revolver
                    -o {loc C R * loc C' R * loc_o revolver (has C)}.
 
 % termination actions
-leave : loc C front_hall * loc C' front_hall -o {1}.
+leave : Pi C. Pi C'. loc C front_hall * loc C' front_hall -o {1}.
 
 #trace * init.
 

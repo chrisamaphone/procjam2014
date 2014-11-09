@@ -9,6 +9,47 @@ structure CLFtoTwee = struct
   fun mapi f l = mapi' 0 f l
 
 
+  (* hardcoded scene text for now *)
+  fun sceneText (rulename, consts) =
+    case rulename of
+         "move" => List.nth(consts,0)
+                  ^ " departs the " ^
+                   List.nth(consts,1)
+                  ^ " toward the " ^
+                   List.nth(consts,2) ^ "."
+      |  "pickup" => List.nth(consts,0)
+                  ^ " picks up the "
+                  ^ List.nth(consts,1)
+                  ^ "."
+      |  "drop"   => List.nth(consts,0)
+                  ^ " drops the "
+                  ^ List.nth(consts,1)
+                  ^ "."
+      |  "observe" => List.nth(consts,0)
+                  ^ " notices the "
+                  ^ List.nth(consts,1)
+                  ^ "."
+      |  "comment_on_location" => 
+                    "\"It's so nice to be here in the "
+                  ^ List.nth(consts,2) ^ ", don't you think, "
+                  ^ List.nth(consts,1) ^ "?\" says "
+                  ^ List.nth(consts,0) ^ "."
+      | "greet" => "\"Hello, "^List.nth(consts,1)^",\" says "
+                  ^ List.nth(consts,0) ^ "."
+      | "observe_with" =>
+                    "\"I see you have that "
+                  ^ List.nth(consts,2) ^ ", "
+                  ^ List.nth(consts,1) ^ ",\" says "
+                  ^ List.nth(consts,0) ^ "."
+      | "threaten_with_revolver" =>
+                    List.nth(consts,0)
+                  ^ " brandishes the revolver menacingly at "
+                  ^ List.nth(consts,1)
+                  ^ "."
+      | "leave" => List.nth(consts,0) ^ " and " ^ List.nth(consts,1)
+                  ^ " depart, arm in arm."
+      | _ => rulename ^ " " ^ (String.concatWith " " consts)
+
   (***)
 
   fun lookupConsumer e xi = 
@@ -43,13 +84,13 @@ structure CLFtoTwee = struct
 
   fun display xi = ProtoTwee.Display ("X"^(Int.toString xi))
 
+
   fun compile_epsilon [] = []
     | compile_epsilon ({rule, consts, inputs, outputs}::e) =
       let
         val rulepassage_name = passageName rule inputs
         val displays =  map display outputs
-        val scenetext = ProtoTwee.Text 
-          ("dummy scene text for "^rule^" "^(String.concatWith " " consts))
+        val scenetext = ProtoTwee.Text (sceneText (rule, consts))
         val rulepassage_contents = scenetext::displays
         fun mkOutPassage (x, i) = makeVarPassage e (List.nth (consts,i)) x
         val outpassages = mapi mkOutPassage outputs
@@ -64,9 +105,9 @@ structure CLFtoTwee = struct
   let
     (*  val name = "Start" *)
     val start_text = ProtoTwee.Text ("dummy start text")
-    val displays = map display initial
+    val displays = map display (List.take (initial, List.length inputs))
     val outpassages =  
-      mapi (fn (x,i) => makeVarPassage e (List.nth(inputs,i)) x) initial
+      mapi (fn (c,i) => makeVarPassage e c (List.nth(initial,i))) inputs
   in
     (start_text::displays, outpassages)
   end
