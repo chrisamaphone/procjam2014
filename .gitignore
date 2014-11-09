@@ -1,4 +1,7 @@
 *~
 *.grm.*
 *.lex.sml
+world/*/*.out
+world/*/*.tw
+world/*/*.html
 .cm
