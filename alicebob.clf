@@ -86,11 +86,11 @@ leave : Pi C. Pi C'. loc C front_hall * loc C' front_hall -o {1}.
 #trace * init.
 
 #query * * * 10 
-Pi alice. Pi bob. 
-(loc alice bedroom * loc bob front_hall *
+Pi 'alice. Pi 'bob. 
+(loc 'alice bedroom * loc 'bob front_hall *
     loc_o revolver (inroom bedroom) 
            * loc_o maltese_falcon (inroom courtyard) 
            * loc_o dead_body (inroom bathroom)) -o
-{loc_o maltese_falcon (MFloc !alice !bob) *
- loc_o dead_body (DBloc !alice !bob) *
- loc_o revolver (RevolverLoc !alice !bob) }.
+{loc_o maltese_falcon (MFloc !'alice !'bob) *
+ loc_o dead_body (DBloc !'alice !'bob) *
+ loc_o revolver (RevolverLoc !'alice !'bob) }.
