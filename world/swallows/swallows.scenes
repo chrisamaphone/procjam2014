@@ -1,0 +1,37 @@
+:: move 2
+
+#1 departs the #2 toward the #3.
+
+:: pickup 1
+
+#1 picks up the #2. "Interesting, " says #1.
+
+:: drop 1
+
+#1 drops the #2 on the ground, casting it a sideways glance before looking away.
+
+:: observe 1
+
+#1 glances down at the #2.
+
+:: comment_on_location 2
+
+"It's so nice to be here in the #3, don't you think, #2?" says #1.
+
+:: greet 2
+
+Why hello, #2, says #1.
+
+:: observe_with 2
+
+"I couldn't help but notice that #3 you have," says #1. "So it goes,
+#1," replies #2.
+
+:: threaten_with_revolver 2
+
+#1 brandishes the revolver menacingly at #2
+
+:: leave 0
+
+#1 and #2 depart, arm in arm.
+
