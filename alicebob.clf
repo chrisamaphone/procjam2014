@@ -91,6 +91,6 @@ Pi alice. Pi bob.
     loc_o revolver (inroom bedroom) 
            * loc_o maltese_falcon (inroom courtyard) 
            * loc_o dead_body (inroom bathroom)) -o
-{loc_o maltese_falcon MFloc *
- loc_o dead_body DBloc *
- loc_o revolver RevolverLoc }.
+{loc_o maltese_falcon (MFloc !alice !bob) *
+ loc_o dead_body (DBloc !alice !bob) *
+ loc_o revolver (RevolverLoc !alice !bob) }.
