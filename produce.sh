@@ -6,7 +6,7 @@ seed=`date +%Y%j%H`
 echo "=== Procjam production manager ==="
 echo "=== $(date), producing seed ${seed} ==="
 
-for dir in /home/www/play/u/*/
+for dir in world/*/
 do
     dir=${dir%*/}
     name=${dir##*/}
