@@ -13,4 +13,5 @@ do
     wc=`wc -l ${dir}/${name}.out | awk {'print $1'}`
     echo "   Produced ${name} script (${name}.clf), ${wc} lines"
     ./tamaraify ${dir}/${name}.out ${dir}/${name}.tw 50
+    twee ${dir}/${name}.tw > ${dir}/index.html
 done

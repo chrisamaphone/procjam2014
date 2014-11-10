@@ -83,7 +83,7 @@ threaten_with_revolver
 % termination actions
 leave : Pi C. Pi C'. loc C front_hall * loc C' front_hall -o {1}.
 
-#trace * init.
+%%% #trace * init.
 
 #query * * * 10 
 Pi 'alice. Pi 'bob. 
