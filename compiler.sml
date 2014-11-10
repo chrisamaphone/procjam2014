@@ -10,45 +10,72 @@ structure CLFtoTwee = struct
 
 
   (* hardcoded scene text for now *)
+
+  val move_scene =
+    {name = "move", followable = 1,
+     contents = [ Scenes.Var 0, Scenes.Text " departs the ", Scenes.Var 1, Scenes.Text " toward the ",
+                  Scenes.Var 2, Scenes.Text "." ]}
+
+  val pickup_scene =
+    {name = "pickup", followable = 2,
+     contents = [ Scenes.Var 0, Scenes.Text " picks up the ", Scenes.Var 1, Scenes.Text "." ]}
+
+  val drop_scene =
+    {name = "drop", followable = 2,
+     contents = [ Scenes.Var 0, Scenes.Text " drops the ", Scenes.Var 1, Scenes.Text "."] }
+
+  val observe_scene =
+    {name = "observe", followable = 2,
+      contents = [ Scenes.Var 0, Scenes.Text " notices the ", Scenes.Var 1, Scenes.Text "."] }
+
+  val comment_on_location_scene =
+    {name = "comment_on_location", followable = 2,
+      contents = [ Scenes.Text "\"It's so nice to be in the ", Scenes.Var 2,
+                   Scenes.Text ", don't you think, ", Scenes.Var 1, Scenes.Text "?\" says ",
+                   Scenes.Var 0, Scenes.Text "." ] }
+
+  val greet_scene =
+    {name = "greet", followable = 2,
+      contents = [ Scenes.Text "\"Hello, ", Scenes.Var 1, Scenes.Text ",\" says ", Scenes.Var 0,
+                   Scenes.Text "." ]}
+
+  val observe_with_scene =
+    {name = "observe_with", followable = 3,
+      contents = [ Scenes.Text "\"I see you have that ", Scenes.Var 2, Scenes.Text ", ", Scenes.Var 1,
+                   Scenes.Text ",\" says ", Scenes.Var 0, Scenes.Text "." ]}
+
+  val threaten_with_revolver_scene =
+    {name = "threaten_with_revolver", followable = 2,
+      contents = [ Scenes.Var 0, Scenes.Text " brandishes the revolver menacingly at ",
+                   Scenes.Var 1, Scenes.Text "." ]}
+
+  val leave_scene =
+    {name = "leave", followable = 0,
+      contents = [ Scenes.Var 0, Scenes.Text " and ", Scenes.Var 1, Scenes.Text " depart, arm in arm." ]}
+
+
+  val scenes =
+    [move_scene, pickup_scene, drop_scene, observe_scene,
+    comment_on_location_scene, greet_scene, observe_with_scene,
+    threaten_with_revolver_scene, leave_scene]
+
+
   fun sceneText (rulename, consts) =
-    case rulename of
-         "move" => List.nth(consts,0)
-                  ^ " departs the " ^
-                   List.nth(consts,1)
-                  ^ " toward the " ^
-                   List.nth(consts,2) ^ "."
-      |  "pickup" => List.nth(consts,0)
-                  ^ " picks up the "
-                  ^ List.nth(consts,1)
-                  ^ "."
-      |  "drop"   => List.nth(consts,0)
-                  ^ " drops the "
-                  ^ List.nth(consts,1)
-                  ^ "."
-      |  "observe" => List.nth(consts,0)
-                  ^ " notices the "
-                  ^ List.nth(consts,1)
-                  ^ "."
-      |  "comment_on_location" => 
-                    "\"It's so nice to be here in the "
-                  ^ List.nth(consts,2) ^ ", don't you think, "
-                  ^ List.nth(consts,1) ^ "?\" says "
-                  ^ List.nth(consts,0) ^ "."
-      | "greet" => "\"Hello, "^List.nth(consts,1)^",\" says "
-                  ^ List.nth(consts,0) ^ "."
-      | "observe_with" =>
-                    "\"I see you have that "
-                  ^ List.nth(consts,2) ^ ", "
-                  ^ List.nth(consts,1) ^ ",\" says "
-                  ^ List.nth(consts,0) ^ "."
-      | "threaten_with_revolver" =>
-                    List.nth(consts,0)
-                  ^ " brandishes the revolver menacingly at "
-                  ^ List.nth(consts,1)
-                  ^ "."
-      | "leave" => List.nth(consts,0) ^ " and " ^ List.nth(consts,1)
-                  ^ " depart, arm in arm."
-      | _ => rulename ^ " " ^ (String.concatWith " " consts)
+  let
+    val scene = List.find (fn {name, ...} => name = rulename) scenes
+  in
+    case scene of 
+        NONE => rulename ^ (String.concatWith " " consts)
+      | SOME {name, followable, contents} =>
+        let
+          fun stringifyComponent c = (case c of
+                (Scenes.Text t) => t
+              | (Scenes.Var i) => List.nth (consts, i))
+          val stringComponents = map stringifyComponent contents
+        in
+          String.concat stringComponents
+        end
+  end
 
   (***)
 
@@ -93,18 +120,29 @@ structure CLFtoTwee = struct
         val scenetext = ProtoTwee.Text (sceneText (rule, consts))
         val rulepassage_contents = scenetext::displays
         fun mkOutPassage (x, i) = makeVarPassage e (List.nth (consts,i)) x
+          handle (Error s) => 
+          (print ("was trying to compile rule "^rulepassage_name^"\n"); 
+          print s; 
+          raise Match)
         val outpassages = mapi mkOutPassage outputs
       in
         {name = rulepassage_name,
           contents = rulepassage_contents}
         ::(outpassages @ (compile_epsilon e))
       end
-      handle (Error s) => (print s; raise Match)
+
+  fun inputsToString [] _ = "no one and nothing."
+    | inputsToString [noun] true = "and "^noun^"."
+    | inputsToString [noun] false = noun ^ "."
+    | inputsToString (noun::nouns) flag =
+        noun ^ (if flag then ", " else " ") ^ (inputsToString nouns true) 
+      
+  fun inputsToString' l = "The world contains "^(inputsToString l false)
 
   fun compile_initial inputs initial e =
   let
     (*  val name = "Start" *)
-    val start_text = ProtoTwee.Text ("dummy start text")
+    val start_text = ProtoTwee.Text (inputsToString' inputs)
     val displays = map display (List.take (initial, List.length inputs))
     val outpassages =  
       mapi (fn (c,i) => makeVarPassage e c (List.nth(initial,i))) inputs
@@ -112,9 +150,14 @@ structure CLFtoTwee = struct
     (start_text::displays, outpassages)
   end
 
-  (* XXX currently does not actually depend on the CelfTrace "final" field *)
-  fun compile_final () =
-    {name = "final", contents = [ProtoTwee.Text "final passage text"]}
+  (* XXX currently does not actually usefully refer to the CelfTrace "final" field *)
+  fun compile_final final =
+  let
+    val text = (Int.toString (List.length final)) ^ 
+          " resources were involved in the telling of this story. The End."
+  in
+    {name = "final", contents = [ProtoTwee.Text text]}
+  end
 
   (* compile : CelfTrace.clftrace -> ProtoTwee.twee *)
   fun compile {consts, initial, epsilon, final}: ProtoTwee.twee =
@@ -126,7 +169,9 @@ structure CLFtoTwee = struct
      style = ProtoTwee.Default,
      title = "Performed for you",
      author = "Celf Sparrow",
-     contents = initial_var_passages @ (compile_epsilon epsilon) @ ([compile_final ()])}
+     contents = initial_var_passages 
+              @ (compile_epsilon epsilon) 
+              @ ([compile_final final])}
   end
 
 end

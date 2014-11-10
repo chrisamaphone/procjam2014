@@ -21,7 +21,7 @@ slowly looking away.
 
 :: greet 2
 
-Why hello, #2, says #1.
+"Why hello, #2," says #1.
 
 :: observe_with 2
 
@@ -30,7 +30,7 @@ Why hello, #2, says #1.
 
 :: threaten_with_revolver 2
 
-#1 brandishes the revolver menacingly at #2
+#1 brandishes the revolver menacingly at #2.
 
 :: leave 0
 
