@@ -1,4 +1,7 @@
-structure Twee = 
+structure Twee:>
+sig
+   val printTwee: 
+end = 
 struct
 
 open ProtoTwee

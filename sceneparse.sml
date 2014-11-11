@@ -76,6 +76,12 @@ and munchVar name str num components =
 
 fun munch name variants = 
 let
+   val variants = 
+      map (Substring.string o 
+           Substring.dropl Char.isSpace o 
+           Substring.dropr Char.isSpace o 
+           Substring.full) 
+          variants
    fun mapper variant = munchText name (String.explode variant) [] []
    val variants_parsed = map mapper variants
 in
