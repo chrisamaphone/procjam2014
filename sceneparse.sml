@@ -1,4 +1,8 @@
-structure SceneParse =
+structure SceneParse:>
+sig
+   (* Takes filename, parses contents *)
+   val parseScenes : string -> Scenes.scene list
+end =
 struct
 
 fun startsWith exemplar str = 
