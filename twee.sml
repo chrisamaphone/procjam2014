@@ -1,6 +1,7 @@
 structure Twee:>
 sig
-   val printTwee: 
+   (* Write the twee to to the given filename *)
+   val printTwee: string -> ProtoTwee.twee -> unit
 end = 
 struct
 

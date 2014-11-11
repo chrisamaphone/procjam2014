@@ -31,7 +31,7 @@ and grabScene file lines variants cfg scenes =
       NONE => rev (pkgScene cfg lines variants :: scenes)
     | SOME str =>
       if startsWith "||" str 
-         then grabScene file lines (lines :: variants) cfg scenes
+         then grabScene file [] (lines :: variants) cfg scenes
       else if startsWith "::" str 
          then grabNewScene file str (pkgScene cfg lines variants :: scenes)
       else grabScene file (str :: lines) variants cfg scenes
