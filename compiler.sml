@@ -128,7 +128,7 @@ structure CLFtoTwee = struct
       compile_initial consts initial epsilon
   in
     {start = initial_passage,
-     style = ProtoTwee.Default,
+     style = ProtoTwee.SimpleBox,
      title = "Performed for you",
      author = "Celf Sparrow",
      contents = initial_var_passages 
