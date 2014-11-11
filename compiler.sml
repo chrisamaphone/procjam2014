@@ -8,6 +8,11 @@ structure CLFtoTwee = struct
 
   fun mapi f l = mapi' 0 f l
 
+  fun truncate [] n = []
+    | truncate l 0 = []
+    | truncate (x::xs) n = x::(truncate xs (n-1))
+
+  fun truncateMapi f l n = mapi f (truncate l n)
 
   (* hardcoded scene text for now *)
 
@@ -124,7 +129,7 @@ structure CLFtoTwee = struct
           (print ("was trying to compile rule "^rulepassage_name^"\n"); 
           print s; 
           raise Match)
-        val outpassages = mapi mkOutPassage outputs
+        val outpassages = truncateMapi mkOutPassage outputs (List.length consts)
       in
         {name = rulepassage_name,
           contents = rulepassage_contents}
@@ -145,7 +150,9 @@ structure CLFtoTwee = struct
     val start_text = ProtoTwee.Text (inputsToString' inputs)
     val displays = map display (List.take (initial, List.length inputs))
     val outpassages =  
-      mapi (fn (c,i) => makeVarPassage e c (List.nth(initial,i))) inputs
+      truncateMapi 
+        (fn (c,i) => makeVarPassage e c (List.nth(initial,i))) 
+        inputs (List.length initial)
   in
     (start_text::displays, outpassages)
   end
