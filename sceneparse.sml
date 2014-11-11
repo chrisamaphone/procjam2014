@@ -49,7 +49,7 @@ let
               NONE => raise Fail ("In passage "^name^", \"#"^
                                   s^"\" is not a valid identifier")
             | SOME i => 
-              if 1 <= i then  i 
+              if 1 <= i then i - 1 
               else raise Fail ("Variable must be constant")
 in
    Scenes.Var i
