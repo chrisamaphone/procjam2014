@@ -45,6 +45,8 @@ and cloakroom.
 #1 says to #2, "Say, what do you make of this #3?"
 ||
 "Isn't it nice to be in the #3, #2?" says #1.
+||
+#1 says, "I don't much care for this #3, #2."
 
 :: greet 2
 "Ahoy there, #2," says #1.
