@@ -1,4 +1,15 @@
-structure Top =
+structure Top:>
+sig
+   (* Takes:
+       - the rough desired size of the file
+       - the random seed
+       - the input .out file produced by celf
+       - the input .scenes file
+       - the filename .tw of the twee file we're producing *)
+   val go: int -> int -> string -> string -> string -> unit
+
+   val world: string -> unit (* Takes world name, sets up call to go *)
+end =
 struct
 
 fun startsWith str exemplar = 
