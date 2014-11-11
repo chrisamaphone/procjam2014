@@ -21,7 +21,7 @@ tables and chairs.
 #1 carelessly sheds their cloak onto the floor.
 
 :: pickup_cloak 1
-#1 picks up the cloak from the floor.
+#1 picks up the cloak from the floor and wears it.
 
 :: hang_cloak 1
 #1 hangs the cloak carefully on the brass hook.
@@ -43,6 +43,12 @@ and cloakroom.
 
 :: comment_on_location 2
 #1 says to #2, "Say, what do you make of this #3?"
+||
+"Isn't it nice to be in the #3, #2?" says #1.
 
 :: greet 2
 "Ahoy there, #2," says #1.
+||
+#1 waves at #2.
+||
+"Oh, hi!" says #1 to #2.
