@@ -16,12 +16,13 @@ structure CLFtoTwee = struct
 
   fun randElt l r = List.nth (l, Random.randRange (0, List.length l - 1) r)
 
+  (* returns (text for the scene, # of followable links) *)
   fun sceneText scenes (rulename, consts) rand =
   let
     val scene = List.find (fn {name, ...} => name = rulename) scenes
   in
     case scene of 
-        NONE => rulename ^ (String.concatWith " " consts)
+        NONE => (rulename ^ " " ^ (String.concatWith " " consts), 99999)
           (* XXX should raise some kind of warning *)
       | SOME {name, followable, contents=content_variants} =>
         let
@@ -31,7 +32,7 @@ structure CLFtoTwee = struct
               | (Scenes.Var i) => List.nth (consts, i))
           val stringComponents = map stringifyComponent contents
         in
-          String.concat stringComponents
+          (String.concat stringComponents, followable)
         end
   end
 
@@ -74,8 +75,9 @@ structure CLFtoTwee = struct
     | compile_epsilon scenes ({rule, consts, inputs, outputs}::e) rand =
       let
         val rulepassage_name = passageName rule inputs
-        val displays =  map display outputs
-        val scenetext = ProtoTwee.Text (sceneText scenes (rule, consts) rand)
+        val (scenetext, follow:int) = sceneText scenes (rule, consts) rand
+        val scenetext = ProtoTwee.Text scenetext
+        val displays =  map display (truncate outputs follow)
         val rulepassage_contents = scenetext::displays
         fun mkOutPassage (x, i) = makeVarPassage e (List.nth (consts,i)) x
           handle (Error s) => 

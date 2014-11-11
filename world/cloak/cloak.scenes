@@ -18,7 +18,7 @@ tables and chairs.
 #1 sees a message in the sand: "You lose!"
 
 :: drop_cloak 1
-#1 carelessly sheds the cloak onto the floor.
+#1 carelessly sheds their cloak onto the floor.
 
 :: pickup_cloak 1
 #1 picks up the cloak from the floor.
@@ -27,7 +27,12 @@ tables and chairs.
 #1 hangs the cloak carefully on the brass hook.
 
 :: unhang_cloak 1
-#1 take the cloak off the hook.
+#1 takes the cloak off the hook.
+
+:: observe_with 2
+"Wow, #2," remarks #1. "That's quite a #4 you've got there."
+||
+#1 eyes #2's #4 warily.
 
 :: observe_foyer 1
 #1 looks around the foyer. Not much of interest, save the exits to the bar
