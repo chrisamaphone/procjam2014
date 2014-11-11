@@ -31,7 +31,7 @@ fun selectBest n best traces =
          then selectBest n trace traces
       else selectBest n best traces
 
-fun go size infile scenefile outfile = 
+fun go size seed infile scenefile outfile = 
 let  
    val file = TextIO.openIn infile
    val traces = grabTraces file [] before TextIO.closeIn file
@@ -39,7 +39,7 @@ let
    val clf = Parser.parseString trace
    val scenes = SceneParse.parseScenes scenefile
    (* XXX rob, plug in random seed *)
-   val twee = CLFtoTwee.compile scenes clf (Random.rand (0xdead, 0xbeef))
+   val twee = CLFtoTwee.compile scenes clf (Random.rand (0xc1fcafe, seed))
 in
     Twee.printTwee outfile twee
 end
