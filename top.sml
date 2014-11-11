@@ -38,10 +38,25 @@ let
    val trace = String.concat (selectBest size (hd traces) (tl traces))
    val clf = Parser.parseString trace
    val scenes = SceneParse.parseScenes scenefile
-   (* XXX rob, plug in random seed *)
    val twee = CLFtoTwee.compile scenes clf (Random.rand (0xc1fcafe, seed))
 in
-    Twee.printTwee outfile twee
+   Twee.printTwee outfile twee
+end
+
+fun world name = 
+let
+   fun adddir fname =
+      OS.Path.joinDirFile 
+          {dir = OS.Path.joinDirFile {dir = "world", file = name},
+           file = fname}
+   val infile = 
+      adddir (OS.Path.joinBaseExt {base = name, ext = SOME "out"})
+   val scenefile = 
+      adddir (OS.Path.joinBaseExt {base = name, ext = SOME "scenes"})
+   val outfile =
+      adddir (OS.Path.joinBaseExt {base = name, ext = SOME "tw"})
+in
+   go 50 0xc1fface infile scenefile outfile
 end
 
 end
