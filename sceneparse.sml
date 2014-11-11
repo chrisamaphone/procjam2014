@@ -64,10 +64,11 @@ fun munchText name str text components =
 and munchVar name str num components = 
    case str of
       [] => rev (pkgVar name num :: components)
+    | #"#" :: str => munchVar name str [] (pkgVar name num :: components) 
     | c :: str =>
       if Char.isDigit c
          then munchVar name str (c :: num) components
-      else munchText name str [] (pkgVar name num :: components)
+      else munchText name str [ c ] (pkgVar name num :: components)
 
 fun munch name variants = 
 let

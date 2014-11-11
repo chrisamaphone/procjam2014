@@ -39,7 +39,7 @@ let
    val clf = Parser.parseString trace
    val scenes = SceneParse.parseScenes scenefile
    (* XXX rob, plug in random seed *)
-   val twee = CLFtoTwee.compile clf (Random.rand (0xdead, 0xbeef))
+   val twee = CLFtoTwee.compile scenes clf (Random.rand (0xdead, 0xbeef))
 in
     Twee.printTwee outfile twee
 end
