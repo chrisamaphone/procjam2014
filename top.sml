@@ -31,7 +31,6 @@ fun selectBest n best traces =
          then selectBest n trace traces
       else selectBest n best traces
 
-
 fun go size infile outfile = 
 let  
    val file = TextIO.openIn infile
