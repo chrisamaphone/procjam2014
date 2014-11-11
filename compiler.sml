@@ -16,39 +16,6 @@ structure CLFtoTwee = struct
 
   fun randElt l r = List.nth (l, Random.randRange (0, List.length l - 1) r)
 
-  (* hardcoded scene text for now *)
-
-(*
-  val move_scene =
-    {name = "move", followable = 1,
-     contents = [[ Scenes.Var 0, Scenes.Text " departs the ", 
-                  Scenes.Var 1, Scenes.Text " toward the ", 
-                  Scenes.Var 2, Scenes.Text "." ]]}
-
-  val observe_with_scene =
-    {name = "observe_with", followable = 3,
-      contents = [[ Scenes.Text "\"I see you have that ", Scenes.Var 2, 
-                    Scenes.Text ", ", Scenes.Var 1, 
-                    Scenes.Text ",\" says ", Scenes.Var 0, Scenes.Text "." ]]}
-
-  val threaten_with_revolver_scene =
-    {name = "threaten_with_revolver", followable = 2,
-      contents = [[ Scenes.Var 0, Scenes.Text " brandishes the revolver menacingly at ",
-                   Scenes.Var 1, Scenes.Text "." ]]}
-
-  val leave_scene =
-    {name = "leave", followable = 0,
-      contents = [[ Scenes.Var 0, Scenes.Text " and ", Scenes.Var 1, Scenes.Text
-      " depart, arm in arm." ]]}
-
-
-  val scenes =
-    [move_scene, pickup_scene, drop_scene, observe_scene,
-    comment_on_location_scene, greet_scene, observe_with_scene,
-    threaten_with_revolver_scene, leave_scene]
-*)
-
-
   fun sceneText scenes (rulename, consts) rand =
   let
     val scene = List.find (fn {name, ...} => name = rulename) scenes
