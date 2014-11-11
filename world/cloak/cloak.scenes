@@ -1,0 +1,54 @@
+:: move 1
+#1 departs the #2 toward the #3.
+||
+"I've had enough of this #2," says #1, stomping off toward the #3.
+
+:: mess_about 1
+#1 can't see anything and bumps into a lamp.
+||
+#1 knocks over a bottle of whiskey.
+||
+#1 blunders about and slips on a puddle of spilled ale, crashing into
+tables and chairs.
+
+:: look_win 0
+#1 sees a message in the sand: "You win!"
+
+:: look_lose 0
+#1 sees a message in the sand: "You lose!"
+
+:: drop_cloak 1
+#1 carelessly sheds their cloak onto the floor.
+
+:: pickup_cloak 1
+#1 picks up the cloak from the floor and wears it.
+
+:: hang_cloak 1
+#1 hangs the cloak carefully on the brass hook.
+
+:: unhang_cloak 1
+#1 takes the cloak off the hook.
+
+:: observe_with 2
+"Wow, #2," remarks #1. "That's quite a #4 you've got there."
+||
+#1 eyes #2's #4 warily.
+
+:: observe_foyer 1
+#1 looks around the foyer. Not much of interest, save the exits to the bar
+and cloakroom.
+
+:: observe_cloakroom 1
+#1 sees that the cloakroom wall has a small brass hook.
+
+:: comment_on_location 2
+#1 says to #2, "Say, what do you make of this #3?"
+||
+"Isn't it nice to be in the #3, #2?" says #1.
+
+:: greet 2
+"Ahoy there, #2," says #1.
+||
+#1 waves at #2.
+||
+"Oh, hi!" says #1 to #2.
