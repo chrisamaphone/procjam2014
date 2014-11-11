@@ -8,8 +8,7 @@
 ||
 #1 knocks over a bottle of whiskey.
 ||
-#1 blunders about and slips on a puddle of spilled ale, crashing into
-tables and chairs.
+#1 blunders about and slips on a puddle of spilled ale, crashing into tables and chairs.
 
 :: look_win 0
 #1 sees a message in the sand: "You win!"
@@ -35,8 +34,7 @@ tables and chairs.
 #1 eyes #2's #4 warily.
 
 :: observe_foyer 1
-#1 looks around the foyer. Not much of interest, save the exits to the bar
-and cloakroom.
+#1 looks around the foyer. Not much of interest, save the exits to the bar and cloakroom.
 
 :: observe_cloakroom 1
 #1 sees that the cloakroom wall has a small brass hook.
