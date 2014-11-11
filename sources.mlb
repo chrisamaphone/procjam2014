@@ -6,6 +6,7 @@ clftrace.grm.sig
 clftrace.grm.sml
 clftrace.lex.sml
 parser.sml
+sceneparse.sml
 compiler.sml
 twee.sml
 top.sml

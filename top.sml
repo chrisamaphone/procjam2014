@@ -31,12 +31,13 @@ fun selectBest n best traces =
          then selectBest n trace traces
       else selectBest n best traces
 
-fun go size infile outfile = 
+fun go size infile scenefile outfile = 
 let  
    val file = TextIO.openIn infile
    val traces = grabTraces file [] before TextIO.closeIn file
    val trace = String.concat (selectBest size (hd traces) (tl traces))
    val clf = Parser.parseString trace
+   val scenes = SceneParse.parseScenes scenefile
    val twee = CLFtoTwee.compile clf
 in
     Twee.printTwee outfile twee
