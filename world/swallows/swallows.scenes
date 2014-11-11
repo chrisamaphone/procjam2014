@@ -5,8 +5,7 @@
 #1 picks up the #2. "Interesting, " says #1.
 
 :: drop 1
-#1 drops the #2 on the ground, casting it a sideways glance, and then
-slowly looking away.
+#1 drops the #2 on the ground, casting it a sideways glance, and then slowly looks away.
 
 :: observe 1
 #1 glances down at the #2.
@@ -20,8 +19,7 @@ slowly looking away.
 "Why hello, #2," says #1.
 
 :: observe_with 2
-"I couldn't help but notice that #3 you have," says #1. "So it goes,
-#1," replies #2.
+"I couldn't help but notice that #3 you have," says #1. "So it goes, #1," replies #2.
 
 :: threaten_with_revolver 2
 #1 brandishes the revolver menacingly at #2.
