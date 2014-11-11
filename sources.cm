@@ -1,6 +1,9 @@
 Group is
   $/basis.cm
+  $/smlnj-lib.cm
   $/ml-yacc-lib.cm
+  random-sig.sml
+  random.sml
   types.sml
   clftrace.grm
   clftrace.lex

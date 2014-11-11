@@ -38,7 +38,8 @@ let
    val trace = String.concat (selectBest size (hd traces) (tl traces))
    val clf = Parser.parseString trace
    val scenes = SceneParse.parseScenes scenefile
-   val twee = CLFtoTwee.compile clf
+   (* XXX rob, plug in random seed *)
+   val twee = CLFtoTwee.compile clf (Random.rand (0xdead, 0xbeef))
 in
     Twee.printTwee outfile twee
 end

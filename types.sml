@@ -23,7 +23,7 @@ type var = int
 datatype component = Var of var | Text of string
 type scene = {name: string,
               followable: int,
-              contents: component list}
+              contents: component list list}
 
 end
 
