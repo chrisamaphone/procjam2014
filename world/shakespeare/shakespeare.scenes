@@ -1,0 +1,20 @@
+Shakespearean Tragedy World
+By Chris Martens
+
+:: do/travelTo 2
+<1> leaves the <3> toward the <4> to find <2>.
+
+:: do/travelBored 1 
+<1> tires of the <2> and heads to the <3>.
+
+:: do/fallInLove 2
+<1> falls in love with <2>.
+
+:: do/eroticize 2
+<1> finds themselves suddenly attracted to <2>.
+
+:: do/flirt/discrete 2
+<1> flirts with <2> in the <3>.
+
+:: do/flirt/conflict 3
+<1> flirts with <2> in the <4>. <3> notices and becomes jealous.
