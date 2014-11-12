@@ -129,8 +129,8 @@ structure CLFtoTwee = struct
   in
     {start = initial_passage,
      style = ProtoTwee.SimpleBox,
-     title = "Performed for you",
-     author = "Celf Sparrow",
+     title = ("Performance #"^Int.toString (Random.randRange (0, 1000000) rand)),
+     author = "Procjam 2014 Autocompiler",
      contents = initial_var_passages 
               @ (compile_epsilon scenes epsilon rand) 
               @ ([compile_final final])}

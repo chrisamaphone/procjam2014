@@ -34,45 +34,41 @@ and grabScene file lines variants cfg scenes =
          then grabScene file [] (lines :: variants) cfg scenes
       else if startsWith "::" str 
          then grabNewScene file str (pkgScene cfg lines variants :: scenes)
+      else if startsWith "%" str
+         then grab file (pkgScene cfg lines variants :: scenes)
       else grabScene file (str :: lines) variants cfg scenes
 
-fun grab file =
+and grab file scenes =
    case TextIO.inputLine file of
       NONE => raise Fail ("File parsed, no configuration lines found!")
     | SOME str => 
       if startsWith "::" str
-         then grabNewScene file str []
-      else grab file
+         then grabNewScene file str scenes
+      else grab file scenes
 
 fun pkgText text = Scenes.Text (implode (rev text))
-
-fun pkgVar name num = 
-let
-   val s = implode (rev num)
-   val i = case Int.fromString s of
-              NONE => raise Fail ("In passage "^name^", \"#"^
-                                  s^"\" is not a valid identifier")
-            | SOME i => 
-              if 1 <= i then i - 1 
-              else raise Fail ("Variable must be constant")
-in
-   Scenes.Var i
-end
 
 fun munchText name str text components =
    case str of 
       [] => rev (pkgText text :: components)
-    | #"#" :: str => munchVar name str [] (pkgText text :: components)
+    | #"<" :: str => munchVar name str [] text components
     | c :: str => munchText name str (c :: text) components
 
-and munchVar name str num components = 
+and munchVar name str num text components = 
    case str of
-      [] => rev (pkgVar name num :: components)
-    | #"#" :: str => munchVar name str [] (pkgVar name num :: components) 
-    | c :: str =>
-      if Char.isDigit c
-         then munchVar name str (c :: num) components
-      else munchText name str [ c ] (pkgVar name num :: components)
+      [] => 
+      raise Fail ("Passage "^name^" ended with unclosed tag <"^
+                  implode (rev str))
+    | #"<" :: str => 
+      raise Fail ("In passage "^name^", nested tags <"^
+                  implode (rev (#"<" :: str)))
+    | #">" :: str => 
+      (case Int.fromString (implode (rev num)) of 
+          NONE => munchText name str 
+                     ((#">" :: num) @ (#"<" :: text)) components
+        | SOME i => munchText name str [] (* XXX bounds-check i *)
+                       (Scenes.Var (i-1) :: pkgText text :: components))
+    | c :: str => munchVar name str (c :: num) text components
 
 fun munch name variants = 
 let
@@ -91,7 +87,7 @@ end
 fun parseScenes fname: Scenes.scene list = 
 let
    val file = TextIO.openIn fname
-   val scenes = grab file before TextIO.closeIn file
+   val scenes = grab file [] before TextIO.closeIn file
 in
    map (fn ((name, followable), variants) => 
            {name = name, 

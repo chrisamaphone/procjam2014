@@ -1,96 +1,198 @@
 character : type.
 
 room : type.
+kitchen : room.
+living_room : room.
+dining_room : room.
 front_hall : room.
+driveway : room.
+garage : room.
+path_by_the_shed : room.
+shed : room.
+upstairs_hall : room.
+study : room.
 bathroom : room.
-courtyard : room.
 bedroom : room.
 
 adj : room -> room -> type.
-- : adj front_hall bathroom.
-- : adj front_hall bedroom.
-- : adj front_hall courtyard.
-- : adj bathroom front_hall.
-- : adj bathroom courtyard.
-- : adj bathroom bedroom.
-- : adj courtyard front_hall.
-- : adj courtyard bathroom.
-- : adj courtyard bedroom.
-- : adj bedroom front_hall.
-- : adj bedroom bathroom.
-- : adj bedroom courtyard.
+- : adj kitchen          dining_room.
+- : adj kitchen          front_hall.
+- : adj living_room      dining_room.
+- : adj living_room      front_hall.
+- : adj dining_room      front_hall.
+- : adj dining_room      kitchen.
+- : adj front_hall       kitchen.
+- : adj front_hall       living_room.
+- : adj front_hall       driveway.
+- : adj front_hall       upstairs_hall.
+- : adj driveway         front_hall.
+- : adj driveway         garage.
+- : adj driveway         path_by_the_shed.
+- : adj garage           driveway.
+- : adj path_by_the_shed driveway.
+- : adj path_by_the_shed shed.
+- : adj shed             path_by_the_shed.
+- : adj upstairs_hall    bedroom.
+- : adj upstairs_hall    front_hall.
+- : adj upstairs_hall    study.
+- : adj upstairs_hall    bathroom.
+- : adj bedroom          upstairs_hall.
+- : adj study            upstairs_hall.
+- : adj bathroom         upstairs_hall.
+
+exit : room -> type.
+exit/driveway : exit driveway.
+exit/front_hall : exit front_hall.
 
 loc : character -> room -> type.
 
+%% objects
+
 object : type.
+golden_falcon : object.
+stolen_jewels : object.
+cupboards : object.
+cabinet : object.
+mailbox : object.
+toolbox : object.
+bedsheets : object.
 revolver : object.
-maltese_falcon : object.
 dead_body : object.
 
 portable : object -> type.
 portable/revolver : portable revolver.
-portable/mf : portable maltese_falcon.
+portable/mf : portable golden_falcon.
+portable/sj : portable stolen_jewels.
+
+horrible : object -> type.
+horrible/body : horrible dead_body.
+
+container : object -> type.
+container/cupboards : container cupboards.
+container/cabinet : container cabinet.
+container/mailbox : container mailbox.
+container/toolbox : container toolbox.
+
+treasure : object -> type.
+treasure/falcon : treasure golden_falcon.
+treasure/jewels : treasure stolen_jewels.
 
 object_loc : type.
 has : character -> object_loc.
 inroom : room -> object_loc.
+inside : object -> object_loc.
 
 loc_o : object -> object_loc -> type.
 
-init : type = 
-{ Exists alice. Exists bob. 
-  loc alice bedroom * loc bob front_hall *
-    loc_o revolver (inroom bedroom) 
-           * loc_o maltese_falcon (inroom courtyard) 
-           * loc_o dead_body (inroom bathroom) }.
-
 %% actions
 
-% interact with location
+% interact with other character (and possibly objects)
 
-move : Pi C. Pi R. Pi R'. loc C R * adj R R' -o {loc C R'}.
+greet: Pi C. Pi C'. Pi R.
+     loc C R * loc C' R
+ -o {loc C R * loc C' R}.
+
+observe_location: Pi C. Pi C'. Pi R. 
+     loc C R * loc C' R
+ -o {loc C R * loc C' R}.
+
+observe_with : Pi C. Pi C'. Pi O. Pi R. 
+     loc C R * loc C' R * loc_o O (has C')
+ -o {loc C R * loc C' R * loc_o O (has C')}.
+
+steal_with_revolver : Pi C. Pi C'. Pi R. Pi O.
+     loc C R * loc C' R * loc_o revolver (has C) * loc_o O (has C')
+ -o {loc C R * loc C' R * loc_o revolver (has C) * loc_o O (has C)}.
+
+
+
+% interact with location (and possibly other character)
+
+move : Pi C. Pi R. Pi R'. 
+     loc C R * adj R R' 
+ -o {loc C R'}.
+
+leave_observed : Pi C. Pi C'. Pi R. Pi R'.
+     loc C R * loc C' R * adj R R' 
+ -o {loc C R' * loc C' R}.
+
+% arrive_observed : Pi C. Pi R. Pi R'. 
+%      loc C R * adj R R' 
+%  -o {loc C R'}.
+
+
 
 % interact with objects
 
-pickup : Pi C. Pi O. Pi R. loc C R * loc_o O (inroom R) * portable O
-             -o {loc C R * loc_o O (has C)}.
+pickup : Pi C. Pi O. Pi R. 
+     loc C R * loc_o O (inroom R) * portable O
+ -o {loc C R * loc_o O (has C)}.
 
-drop   : Pi C. Pi O. Pi R. loc C R * loc_o O (has C)
-             -o {loc C R * loc_o O (inroom R)}.
+search : Pi C. Pi B. Pi O.
+     loc C R * loc_o B (inroom R) * loc_o O (inside B)
+ -o {loc C R * loc_o B (inroom R) * loc_o O (has C)}. 
 
-observe : Pi C. Pi O. Pi R. loc C R * loc_o O (inroom R)
-              -o {loc C R * loc_o O (inroom R)}.
+% drop   : Pi C. Pi O. Pi R. 
+%      loc C R * loc_o O (has C)
+%  -o {loc C R * loc_o O (inroom R)}.
 
-% interact with other character
+stash : Pi C. Pi B. Pi O.
+     loc C R * loc_o B (inroom R) * loc_o O (has C) * container B * treasure O
+ -o {loc C R * loc_o B (inroom R) * loc_o O (inside B)}.
 
-comment_on_location
-: Pi C. Pi C'. Pi R. loc C R * loc C' R -o {loc C R * loc C' R}.
+observe : Pi C. Pi O. Pi R. 
+     loc C R * loc_o O (inroom R)
+ -o {loc C R * loc_o O (inroom R)}.
 
-greet
-: Pi C. Pi C'. Pi R. loc C R * loc C' R -o {loc C R * loc C' R}.
+observe_horror : Pi C. Pi O. Pi R. 
+     loc C R * loc_o O (inroom R) * horrible O
+ -o {loc C R * loc_o O (inroom R)}.
 
 
-% interact with object AND other character
-
-observe_with : Pi C. Pi C'. Pi O. Pi R. loc C R * loc C' R * loc_o O (has C')
-                   -o {loc C R * loc C' R * loc_o O (has C')}.
-
-threaten_with_revolver 
-  : Pi C. Pi C'. Pi R. 
-    loc C R * loc C' R * loc_o revolver (has C)
-                   -o {loc C R * loc C' R * loc_o revolver (has C)}.
 
 % termination actions
-leave : Pi C. Pi C'. loc C front_hall * loc C' front_hall -o {1}.
+ending : type.
+droveaway : character -> ending.
+lefttogether : character -> character -> ending.
+fin : ending -> type.
 
-%%% #trace * init.
+leave_together : Pi C. Pi C'. Pi R. Pi O. Pi O'.
+     loc C R * loc C' R * 
+     loc_o O (has C) * loc_o O' (has C') * treasure O * treasure O' * exit R
+ -o {loc_o O (has C) * loc_o O' (has C') * fin (lefttogether C C')}.
 
-#query * * * 10 
+drive_away : Pi C. Pi O. Pi O'.
+     loc C garage * loc_o O (has C) * loc_o O' (has C)
+ -o {fin (droveaway C) * loc_o O (has C) * loc_o O' (has C)}.
+
+fin_droveaway : Pi C. Pi C'. Pi R.
+     loc C R * fin (droveaway C') 
+ -o {fin (droveaway C')}.
+
+fin_together : Pi C. Pi C1. Pi C2. Pi R.
+     loc C R * fin (lefttogether C1 C2) 
+ -o {fin (lefttogether C1 C2)}.
+
+#query * * * 1
 Pi 'alice. Pi 'bob. 
-(loc 'alice bedroom * loc 'bob front_hall *
-    loc_o revolver (inroom bedroom) 
-           * loc_o maltese_falcon (inroom courtyard) 
-           * loc_o dead_body (inroom bathroom)) -o
-{loc_o maltese_falcon (MFloc !'alice !'bob) *
- loc_o dead_body (DBloc !'alice !'bob) *
- loc_o revolver (RevolverLoc !'alice !'bob) }.
+   (loc 'alice bedroom * 
+    loc 'bob front_hall *
+    loc_o cupboards (inroom kitchen) *
+    loc_o cabinet (inroom kitchen) *
+    loc_o mailbox (inroom driveway) *
+    loc_o bedsheets (inroom bedroom) *
+    loc_o toolbox (inroom shed) *
+    loc_o revolver (inside cabinet) *
+    loc_o golden_falcon (inside toolbox) *
+    loc_o stolen_jewels (inside bedsheets) *
+    loc_o dead_body (inroom bathroom))
+-o {loc_o cupboards (A !'alice !'bob) *
+    loc_o cabinet (B !'alice !'bob) *
+    loc_o mailbox (C !'alice !'bob) *
+    loc_o bedsheets (D !'alice !'bob) *
+    loc_o toolbox (E !'alice !'bob) *
+    loc_o revolver (F !'alice !'bob) *
+    loc_o golden_falcon (G !'alice !'bob) *
+    loc_o stolen_jewels (H !'alice !'bob) *
+    loc_o dead_body (I !'alice !'bob) *
+    fin (J !'alice !'bob)}.

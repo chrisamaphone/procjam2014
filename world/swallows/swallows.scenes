@@ -1,31 +1,137 @@
 The Swallows of Summer
-By Chris Martens and Rob Simmons. Original concept by Cat's Eye Technologies, NanNoGenMo 2014.
+By Chris Martens and Rob Simmons. Concept by Chris Pressey.
 
-:: move 2
-#1 departs the #2 toward the #3.
-
-:: pickup 1
-#1 picks up the #2. "Interesting, " says #1.
-
-:: drop 1
-#1 drops the #2 on the ground, casting it a sideways glance, and then slowly looks away.
-
-:: observe 1
-#1 glances down at the #2.
+:: initial 2
+<h1>The Swallows of Summer</h1>
+<h2>By Chris Martens and Rob Simmons. Concept by Chris Pressey.</h2>
+It is raining.
 ||
-#1 looks at the #2 in passing.
+<h1>The Swallows of Summer</h1>
+<h2>By Chris Martens and Rob Simmons. Concept by Chris Pressey.</h2>
+It is snowing.
+||
+<h1>The Swallows of Summer</h1>
+<h2>By Chris Martens and Rob Simmons. Concept by Chris Pressey.</h2>
+The sun is shining.
+||
+<h1>The Swallows of Summer</h1>
+<h2>By Chris Martens and Rob Simmons. Concept by Chris Pressey.</h2>
+The day is overcast and humid.
 
-:: comment_on_location 2
-"It's so nice to be here in the #3, don't you think, #2?" says #1.
+
+%% Interact with other character 
 
 :: greet 2
-"Why hello, #2," says #1.
+"Why hello, <2>," says <1>. "Hello, <1>", says <2>.
+||
+"Why hello, <2>," says <1>. <2> stands silently in the <3>.
+||
+"Why hello, <2>," says <1>. <2> nods.
+
+:: observe_location 2
+"It's so nice to be here in the <3>, don't you think, <2>?" says <1>. "Oh, I know, I know," replies <2>.
+||
+"It's so nice to be here in the <3>, don't you think, <2>?" says <1>. "Perhaps," replies <2>.
 
 :: observe_with 2
-"I couldn't help but notice that #3 you have," says #1. "So it goes, #1," replies #2.
+"I see you are carrying the <3>," says <1> to <2>. <2> nods.
+||
+"I can't help but notice you have the <3>," says <1> to <2>. <2> sulks quiety in the <4>.
+||
+"I see you are carrying the <3>," says <1> to <2>. "Oh, I know, I know," says <2>.
 
-:: threaten_with_revolver 2
-#1 brandishes the revolver menacingly at #2.
+:: steal_with_revolver 2
+<1> points the revolver at <2> in the <3>.
+"Please give me the <3>, <2>, or I shall shoot you, says <1>.
+"Please don't shoot!", <2> cries, handing over the <4>.
+||
+In the <3>, <1> points the revolver at <2>.
+"I must have the <4>, <2>," says <1>. "I'm going to shoot you if you do not hand the <4> to me."
+"Please don't shoot!", <2> cries, handing over the <4>.
 
-:: leave 0
-#1 and #2 depart, arm in arm.
+
+
+%% Interact with location (and possibly other character)
+
+:: move 1
+<1> departs the <2> toward the <3>.
+||
+<1> departs the <2>. It is so nice being back in the <3>.
+
+:: leave_observed 2
+<1> departs the <3> for the <4>. "Farewell for now," says <2>.
+||
+<1> departs the <3> for the <4>. "Goodbye, <1>," says <2> from the <3>.
+
+:: arrive_observed 2
+<1> departs the <3> for the <4>. "I was wondering where you were," says <2>, glancing up.
+||
+<1> leaves the <3> and goes to the <4>. "There you are," says <2>. "I know, I know," says <1>.
+
+
+
+%% Interact with objects
+
+:: pickup 1
+<1> picks up the <2>. "Interesting, " says <1>.
+
+:: search 1
+<1> searches the <2> carefully.
+<1> takes the <3> hidden there.
+||
+<1> rustles through the <2>, and then pockets the hidden <3>.
+
+:: drop 1
+<1> drops the <2> on the ground, casts a sideways glance, and then slowly looks away.
+||
+<1> throws the <2> on the ground.
+||
+<1> has a sudden look of concern, and places the <2> on the floor.
+
+:: stash 1
+<1> hides the <3> in the <2>.
+||
+<1> stashes the <3> in the <2>.
+||
+<1> covertly places the <3> in the <2>.
+
+:: observe 1
+<1> glances down at the <2>.
+||
+<1> looks at the <2> in passing.
+
+:: observe_horror 1
+"My god!" shouts <1> at the sight of the <2> in the <3>.
+||
+"Heavens!" shouts <1> at the sight of the <2> in the <3>.
+||
+<1> shouts at the horrible sight of the <2> in the <3>.
+
+
+
+%% Termination conditions
+
+:: leave_together 0
+<1> and <2> depart from the <3>, arm in arm.
+Fin.
+Return to <a href="play.typesafety.net">The main page</a> for another iteration of this performance, or to pick a different performance.
+
+:: drive_away 0
+<1> has the <2>, and the <3>. 
+"I've won, I've won," says <1>.
+Jumping into the car, <1> revs the engine, backs out of the driveway, and squeals off into the distance. 
+Fin.
+Return to <a href="play.typesafety.net">The main page</a> for another iteration of this performance, or to pick a different performance.
+
+:: fin_droveaway 0
+From the <3>, <1> hears the sounds of <2>'s wheels as the car squeals out of the driveway.
+"I've lost... everything," <1> whispers, and collapses on the floor.
+Fin.
+Return to <a href="play.typesafety.net">The main page</a> for another iteration of this performance, or to pick a different performance.
+
+:: fin_together 0
+From the <3>, <1> hears <2> and <3> laughing as they walk away from the house down the path.
+"They've left me here," <3> whispers softly. Desperately. "Alone. So alone."
+Fin.
+Return to <a href="play.typesafety.net">The main page</a> for another iteration of this performance, or to pick a different performance.
+
