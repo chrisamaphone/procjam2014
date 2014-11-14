@@ -57,9 +57,9 @@ do/eroticize
   -o {@at C L * @at C' L' * @philia C C' * @eros C C'}.
 
 do/flirt/discrete
-: Pi C. Pi C'. 
+: Pi C. Pi C'. Pi L. 
   at C L * at C' L * eros C C'
-  -o {@eros C C' * @eros C' C * @at C L * @at C' L}.
+  -o {@at C L * @at C' L * @eros C C' * @eros C' C}.
 
 do/flirt/conflict 
 : Pi C. Pi C'. Pi C''. Pi L.

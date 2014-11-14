@@ -23,13 +23,18 @@ structure CLFtoTwee = struct
   in
     case scene of 
         NONE => (rulename ^ " " ^ (String.concatWith " " consts), 99999)
-          (* XXX should raise some kind of warning *)
+          before print ("\n\nWarning: scene file has no scene for rule "
+                        ^ rulename ^"\n\n")
       | SOME {name, followable, contents=content_variants} =>
         let
           val contents = randElt content_variants rand
           fun stringifyComponent c = (case c of
                 (Scenes.Text t) => t
-              | (Scenes.Var i) => List.nth (consts, i))
+              | (Scenes.Var i) => List.nth (consts, i)
+                  handle Subscript => 
+                    (print ("\n\nProblem with scene "^name
+                      ^ ": numeric reference exceeds number of Pi-bound vars in rule\n\n");
+                    raise Match))
           val stringComponents = map stringifyComponent contents
         in
           (String.concat stringComponents, followable)

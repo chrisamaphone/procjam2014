@@ -18,7 +18,7 @@ fun mkid str =
 %header (functor TraceLexFun(structure Tokens: Trace_TOKENS));
 
 any = [a-zA-Z0-9'_/-];
-ws = [\ \t\011\012\r];
+ws = [\ \t\011\012\r@];
 
 %%
 

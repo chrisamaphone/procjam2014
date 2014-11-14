@@ -1,5 +1,5 @@
 
-val usage = "Usage: tamaraify infile.out outfile.tw seed len\n"
+val usage = "Usage: tamaraify infile.out scenefile.scenes outfile.tw seed len\n"
 
 val () = 
    case CommandLine.arguments () of 
