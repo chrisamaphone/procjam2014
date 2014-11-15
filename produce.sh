@@ -4,7 +4,19 @@ seed=`date +%Y%j%H`
 
 echo "=== $(date), using seed ${seed} ==="
 
-for dir in world/*/
+if test "$#" -ne 0
+then
+    for i
+    do
+        args="${args} world/$i/"
+    done
+else
+    args=world/*/
+fi
+
+echo ${args}
+
+for dir in ${args}
 do
     dir=${dir%*/}
     name=${dir##*/}
@@ -14,7 +26,9 @@ do
     wc=`wc -l ${dir}/${name}.out | awk {'print $1'}`
     echo "   Produced ${name} script (${name}.out), ${wc} lines."
     ./tamaraify ${dir}/${name}.out ${dir}/${name}.scenes ${dir}/${name}.tw ${seed} 50
-    echo "   Produced ${name} twee (${name}.twee)."
+    wc=`wc -w ${dir}/${name}.tw | awk {'print $1'}`
+    echo "   Produced ${name} twee (${name}.tw, ${wc} words)"
     twee ${dir}/${name}.tw > ${dir}/index.html
-    echo "   Produced html from twee."
+    wc=`wc -c ${dir}/index.html | awk {'print $1'}`
+    echo "   Produced html from twee (index.html, ${wc} bytes)"
 done
