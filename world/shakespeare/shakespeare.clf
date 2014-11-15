@@ -44,14 +44,14 @@ do/travelBored
 % eros to philia
 do/fallInLove
 : Pi C. Pi C'. Pi L.
-  at C L * eros C C'
-  -o {@at C L * @eros C C' * @philia C C'}.
+  at C L * at C' L * eros C C'
+  -o {@at C L * @at C' L * @eros C C' * @philia C C'}.
 
 % philia to eros
 do/eroticize
 : Pi C. Pi C'. Pi L.
-  at C L * philia C C' * philia C C' * philia C C' * philia C C'
-  -o {@at C L * @philia C C' * @eros C C'}.
+  at C L * at C' L * philia C C' * philia C C' * philia C C' * philia C C'
+  -o {@at C L * @at C' L * @philia C C' * @eros C C'}.
 
 do/flirt/discrete
 : Pi C. Pi C'. Pi L. 
@@ -235,15 +235,15 @@ cleanup/1 : Pi C. Pi L. final * at C L -o {final}.
 
 
 % story-specific terms.
-mon_house : location.
-cap_house : location.
+'montague_House : location.
+'capulet_House : location.
 town : location.
 
 % story-specific permastates
-mon/town : accessible mon_house town.
-town/mon : accessible town mon_house.
-cap/town : accessible cap_house town.
-town/cap : accessible town cap_house.
+mon/town : accessible 'montague_House town.
+town/mon : accessible town 'montague_House.
+cap/town : accessible 'capulet_House town.
+town/cap : accessible town 'capulet_House.
 
 %% initial state
 
@@ -255,8 +255,8 @@ lust_at_first_sight : Pi R. Pi J. Pi L.
 #query * * * 1 
 Pi 'romeo. Pi 'montague. Pi 'capulet. Pi 'mercutio. Pi the_nurse.
 Pi 'juliet. Pi 'tybalt. Pi the_apothecary.
- (@at 'romeo town * @at 'montague mon_house * @at 'capulet cap_house
-  * @at 'mercutio town * @at the_nurse cap_house * @at 'juliet town
+ (@at 'romeo town * @at 'montague 'montague_House * @at 'capulet 'capulet_House
+  * @at 'mercutio town * @at the_nurse 'capulet_House * @at 'juliet town
   * @at 'tybalt town * @at the_apothecary town
 
   * !actor 'romeo * !actor 'juliet * !actor 'montague * !actor 'capulet
