@@ -3,10 +3,12 @@ $(SML_LIB)/smlnj-lib/Util/smlnj-lib.mlb
 $(SML_LIB)/mlyacc-lib/mlyacc-lib.mlb
 
 types.sml
+clf.sml
 clftrace.grm.sig
 clftrace.grm.sml
 clftrace.lex.sml
 parser.sml
+celftrace.sml
 sceneparse.sml
 compiler.sml
 twee.sml
