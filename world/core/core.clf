@@ -1,0 +1,91 @@
+%% Simulation of The Core.
+
+character : type.
+
+cat : character -> type.
+
+room : type.
+living_room : room.
+kitchen : room.
+dining_room : room.
+bathroom : room.
+bedroom : room.
+
+adjacent : room -> room -> type.
+- : adjacent living_room dining_room.
+- : adjacent dining_room kitchen.
+- : adjacent dining_room bedroom.
+- : adjacent bedroom bathroom.
+
+adj/sym : adjacent X Y -> adjacent Y X.
+
+thing : type.
+scratching_post : thing.
+armchair : thing.
+catfood_bag : thing.
+breakfast : thing.
+% possible mechanic: running out of eggs?
+
+inc : character -> room -> type.
+int : thing -> room -> type.
+
+bool : type. tt : bool. ff : bool.
+for_scratching : thing -> bool -> type.
+- : for_scratching scratching_post tt.
+- : for_scratching armchair ff.
+
+badcat : character -> room -> type.
+
+%% actions for humans 
+pet : Pi C. Pi K. Pi R.
+      inc C R * inc K R * !cat K
+      -o {@inc C R * @inc K R}.
+
+% scold
+scold : Pi C. Pi K. Pi R. 
+      badcat K R * inc K R * inc C R 
+   -o {@inc C R * @inc K R}.
+
+% praise/give treat
+
+% make breakfast (creates human food)
+% feed (cat or human; cat bag creates cat food)
+% cuddle/greet (cat or human)
+% shower
+
+%% actions for cats
+
+% scratch (good/bad)
+scratch/bad 
+  : Pi K. Pi T. Pi R.
+     int T R * inc K R * !cat K * !for_scratching T ff
+        -o {@inc K R * @int T R * @badcat K R}.
+
+scratch/good
+  : Pi K. Pi T. Pi R.
+     int T R * inc K R * !cat K * !for_scratching T ff
+        -o {@inc K R * @int T R }.
+
+
+% eat
+% meow
+
+move
+  : Pi C. Pi R. Pi R'.
+      inc C R * adjacent R R'
+    -o {inc C R'}.
+
+%% for termination
+leave
+  : Pi C. Pi R.
+      inc C R -o {1}.
+
+#query * * * 10
+Pi Chris. Pi Rob. Pi Kallisti.
+  @inc Chris bedroom * @inc Rob kitchen
+* @inc Kallisti living_room
+* @int scratching_post living_room
+* @int armchair living_room
+
+* !cat Kallisti
+-o {1}.

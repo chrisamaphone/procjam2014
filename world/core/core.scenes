@@ -1,0 +1,20 @@
+:: initial 3
+The Core is a cozy little house with two humans and one cat. <1> is writing code in the bedroom, <2> is looking through ingredients in the kitchen, and <3> is up to no good in the living room.
+
+:: pet 2
+<1> pets <2> in the <3>.
+
+:: scold 2
+<1> scolds <2> in the <3>.
+
+:: scratch/bad 1
+<1> rebelliously scratches the <2> in the <3>.
+
+:: scratch/good 1
+<1> scratches the <2> in the <3>.
+
+:: move 1
+<1> moves from the <2> to the <3>.
+
+:: leave 0
+<1> departs the house.
