@@ -94,6 +94,16 @@ fun printStyle p style =
       Default => ()
     | SimpleBox => p simplebox_code
 
+fun addComponents coms =
+   case coms of 
+      Display s :: coms => 
+      Display s :: addComponents coms
+    | com :: Display s :: coms => 
+      com :: Text "" :: Display s :: addComponents coms
+    | com :: coms => 
+      com :: addComponents coms 
+    | [] => []
+
 fun printComponent p com = 
    case com of
       Text s => p s
@@ -104,7 +114,7 @@ fun printPassage p ({name, contents}: passage) =
 let
 in
    p (":: "^name);
-   app (printComponent p) contents;
+   app (printComponent p) (addComponents contents);
    p ""
 end
 
@@ -115,7 +125,7 @@ let
    val p = pr out
 in
    p (":: Start");
-   app (printComponent p) (#start twee);
+   app (printComponent p) (addComponents (#start twee));
    p "";
    printStyle p (#style twee);
    p ":: StoryTitle";
