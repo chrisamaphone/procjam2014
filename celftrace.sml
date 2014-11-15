@@ -29,9 +29,26 @@ in
    String.concat (hd parts :: map capsify (tl parts))
 end
 
+fun pretty_const s =
+let
+   val parts = String.fields (fn c => c = #"'")
+                 (String.concatWith " "
+                    (String.fields (fn c => c = #"_") s))
+   fun capsify s =
+      if s = ""
+         then ""
+      else str (Char.toUpper (String.sub (s, 0))) ^ String.extract (s, 1, NONE)
+   val () =
+      case parts of
+         [] => raise Fail "Manipulating a id that was apparently just \"'\""
+       | _ => ()
+in
+   String.concat (hd parts :: map capsify (tl parts))
+end
+
 fun strip_consts exp consts =
    case exp of 
-      CLF.Lam (CLF.PId c, exp) => strip_consts exp (c :: consts)
+      CLF.Lam (CLF.PId c, exp) => strip_consts exp (pretty_const c :: consts)
     | CLF.Lam (init, CLF.Lax mexp) => (rev consts, init, mexp) 
     | _ => raise Fail "Initial expression ill-formed (strip_constants)"
 
@@ -53,7 +70,7 @@ fun read_scene rule values consts =
       [] => raise Fail ("Rule arguments for '"^rule^
                         "' ill-formed (strip_scene_consts)")
     | CLF.Down (CLF.Pers, (CLF.Id (c, []))) :: values =>
-      read_scene rule values (c :: consts)
+      read_scene rule values (pretty_const c :: consts)
     | [value] => (rev consts, read_inputs value)
     | _ => raise Fail ("Rule arguments for '"^rule^
                        "' ill-formed (strip_scene_consts)")
