@@ -26,7 +26,7 @@ Carlotta enters the atrium.
 Aelis enters the atrium.
 
 :: a1_carlotta_and_aelis_exit 2
-Carlotta exits fowardt he hall, and Aelis toward the dining room.
+Carlotta exits toward the hall, and Aelis toward the dining room.
 
 :: a1_mario_enters 1
 Mario enters the atrium.
@@ -83,7 +83,7 @@ Dante enters the atrium where De Spiga is playing. They converse.
 D'Annunizo and Luisa have a row in his bedroom. They both head to the atrium.
 
 :: c12_finzi_exit 6
-Something... (XXX)
+Finzi exits toward his office. The others remain in and around the atrium.
 
 :: c12_emilia_carlotta_aelis_luisa_leave_atrium 4
 Emilia, Carlotta, Aelis, and Luisa depart the atrium.

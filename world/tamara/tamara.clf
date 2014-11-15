@@ -98,10 +98,10 @@ a1_carlotta_enters
   carlotta a1 offstage -o {carlotta a1 atrium}.
 
 a1_carlotta_and_aelis_exit
-: Pi Aelis.
-  eq Aelis 'aelis *
+: Pi Aelis. Pi Carlotta.
+  eq Aelis 'aelis * eq Carlotta 'carlotta *
   aelis a1 atrium * carlotta a1 atrium
-           -o {carlotta b4 hall * aelis a1 diningroom}.
+           -o {aelis a1 diningroom * carlotta b4 hall}.
 
 a1_mario_enters
 : Pi Mario.
