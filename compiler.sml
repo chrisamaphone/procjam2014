@@ -16,29 +16,41 @@ structure CLFtoTwee = struct
 
   fun randElt l r = List.nth (l, Random.randRange (0, List.length l - 1) r)
 
+  fun getSceneWithName scenes target_name =
+    List.find
+      (fn x =>
+          let val {name, followable, contents} = x
+          in name = target_name
+          end) scenes
+
+
+  fun sceneContentsToString name content_variants consts rand =
+    let
+      val contents = randElt content_variants rand
+      fun stringifyComponent c = (case c of
+            (Scenes.Text t) => t
+          | (Scenes.Var i) => List.nth (consts, i)
+              handle Subscript => 
+                (print ("\n\nProblem with scene "^name
+                  ^ ": numeric reference exceeds number of Pi-bound vars in rule\n\n");
+                raise Match))
+      val stringComponents = map stringifyComponent contents
+    in
+      String.concat stringComponents
+    end
+
+
   (* returns (text for the scene, # of followable links) *)
   fun sceneText scenes (rulename, consts) rand =
   let
-    val scene = List.find (fn {name, ...} => name = rulename) scenes
+    val scene = getSceneWithName scenes rulename
   in
     case scene of 
         NONE => (rulename ^ " " ^ (String.concatWith " " consts), 99999)
           before print ("\n\nWarning: scene file has no scene for rule "
                         ^ rulename ^"\n\n")
-      | SOME {name, followable, contents=content_variants} =>
-        let
-          val contents = randElt content_variants rand
-          fun stringifyComponent c = (case c of
-                (Scenes.Text t) => t
-              | (Scenes.Var i) => List.nth (consts, i)
-                  handle Subscript => 
-                    (print ("\n\nProblem with scene "^name
-                      ^ ": numeric reference exceeds number of Pi-bound vars in rule\n\n");
-                    raise Match))
-          val stringComponents = map stringifyComponent contents
-        in
-          (String.concat stringComponents, followable)
-        end
+      | SOME {name, followable, contents} =>
+          (sceneContentsToString name contents consts rand, followable)
   end
 
   (***)
@@ -104,18 +116,31 @@ structure CLFtoTwee = struct
       
   fun inputsToString' l = "The world contains "^(inputsToString l false)
 
-  fun compile_initial inputs initial e =
-  let
-    (*  val name = "Start" *)
-    val start_text = ProtoTwee.Text (inputsToString' inputs)
-    val displays = map display (List.take (initial, List.length inputs))
-    val outpassages =  
-      truncateMapi 
-        (fn (c,i) => makeVarPassage e c (List.nth(initial,i))) 
-        inputs (List.length initial)
-  in
-    (start_text::displays, outpassages)
-  end
+  fun compile_initial inputs initial e initial_scene rand =
+    case initial_scene of
+        NONE => (print "\n\nWarning: no initial scene text specified.\n\n";
+          let
+            val start_text = ProtoTwee.Text (inputsToString' inputs)
+            val displays = map display (List.take (initial, List.length inputs))
+            val outpassages =  
+              truncateMapi 
+                (fn (c,i) => makeVarPassage e c (List.nth(initial,i))) 
+                inputs (List.length initial)
+          in
+            (start_text::displays, outpassages)
+          end)
+      | SOME {name, followable, contents} =>
+          let
+            val start_text = 
+               ProtoTwee.Text (sceneContentsToString name contents inputs rand)
+            val displays = map display (List.take (initial, followable))
+            val outpassages =
+              truncateMapi
+                (fn (c,i) => makeVarPassage e c (List.nth(initial,i)))
+                inputs followable
+          in
+            (start_text::displays, outpassages) 
+          end
 
   (* XXX currently does not actually usefully refer to the CelfTrace "final" field *)
   fun compile_final final =
@@ -129,8 +154,9 @@ structure CLFtoTwee = struct
   (* compile : Scenes.scene list -> CelfTrace.clftrace -> ProtoTwee.twee *)
   fun compile scenes {consts, initial, epsilon, final} rand : ProtoTwee.twee =
   let
+    val initial_scene = getSceneWithName scenes "initial"
     val (initial_passage, initial_var_passages) = 
-      compile_initial consts initial epsilon
+      compile_initial consts initial epsilon initial_scene rand
   in
     {start = initial_passage,
      style = ProtoTwee.SimpleBox,
