@@ -1,4 +1,4 @@
-structure Top:>
+structure Top(*:>
 sig
    (* Takes:
        - the rough desired size of the file
@@ -9,7 +9,7 @@ sig
    val go: int -> int -> string -> string -> string -> unit
 
    val world: string -> unit (* Takes world name, sets up call to go *)
-end =
+end *) =
 struct
 
 fun startsWith str exemplar = 
@@ -50,11 +50,12 @@ let
                [] => raise Fail "No traces in CLF's output"
              | _ => ()
    val trace = String.concat (selectBest size (hd traces) (tl traces))
-   val clf = Parser.parseString trace
+   val clf = Parser.parseString trace 
+   val trace = CelfTrace.clf_to_trace clf
    val scenes = SceneParse.parseScenes scenefile
-   val twee = CLFtoTwee.compile scenes clf (Random.rand (0xc1fcafe, seed))
+   val twee = CLFtoTwee.compile scenes trace (Random.rand (0xc1fcafe, seed)) 
 in
-   Twee.printTwee outfile twee
+   Twee.printTwee outfile twee 
 end
 
 fun world name = 

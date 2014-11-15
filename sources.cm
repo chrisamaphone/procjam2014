@@ -3,10 +3,12 @@ Group is
   $/smlnj-lib.cm
   $/ml-yacc-lib.cm
   types.sml
+  clf.sml
   clftrace.grm
   clftrace.lex
   parser.sml
+  celftrace.sml
   compiler.sml
   twee.sml
-  sceneparse.sml
+  sceneparse.sml 
   top.sml

@@ -1,21 +1,6 @@
 (* Note: if the justification of a scene involves anything besides a
  * resource (like a proof that the revolver is portable), we ignore it. *)
 
-structure CelfTrace = 
-struct
-
-type resource_var = int
-type step = {rule: string, 
-             consts: string list, 
-             inputs: resource_var list,
-             outputs: resource_var list}
-type clftrace = {consts: string list,
-                 initial: resource_var list,
-                 epsilon: step list,
-                 final: resource_var list}
-
-end
-
 structure Scenes = 
 struct
 

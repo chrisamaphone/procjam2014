@@ -1,20 +1,4 @@
-fun manip s = 
-let
-   val parts = String.fields (fn c => c = #"'")
-                 (String.concatWith " " 
-                    (String.fields (fn c => c = #"_") s))
-   fun capsify s =
-      if s = "" 
-         then "" 
-      else str (Char.toUpper (String.sub (s, 0))) ^ String.extract (s, 1, NONE)
-
-   val () = 
-      case parts of 
-         [] => raise Fail "Manipulating a id that was apparently just \"'\""   
-       | _ => ()
-in
-   String.concat (hd parts :: map capsify (tl parts))
-end
+open CLF
 
 %%
 
@@ -33,22 +17,22 @@ end
 | BANG
 | AFF
 | COMMA
-| XID of CelfTrace.resource_var
+| XID of CLF.resource_var
 | ID of string
 | ONE
 | SOLUTION
 | COLON
 | EOF
+| APP
 
 %nonterm
-  tuple of CelfTrace.resource_var list
-| consts of string list
-| step of CelfTrace.step
-| epsilon of CelfTrace.step list
-| lams of string list
-| solution of CelfTrace.clftrace
-| term of unit
-| terms of unit
+  solution of exp
+| pattern of pattern
+| exp of exp
+| atomic_exp of exp
+| value of value
+| values of value list
+| mexp of mexp
 
 %pos unit
 %start solution
@@ -59,25 +43,64 @@ end
 
 %%
 
-solution: SOLUTION COLON LAM lams tuple DOT LCURLY epsilon tuple RCURLY
-({consts = lams, initial = tuple1, epsilon = epsilon, final = tuple2})
+solution: SOLUTION COLON exp (exp)
+
+pattern: ONE (POne)
+      | XID (PXid (Lin, XID))
+      | AFF XID (PXid (Aff, XID))
+      | BANG XID (PXid (Pers, XID))
+      | BANG ID (PId ID)
+      | LBRACK pattern COMMA pattern RBRACK (PPair (pattern1, pattern2))
+
+exp: LAM pattern DOT exp (Lam (pattern, exp))
+      | ID values (Id (ID, values)) 
+      | XID values (Xid (XID, values)) 
+      | LCURLY mexp RCURLY (Lax mexp)
+
+values: ([])
+      | value values (value :: values)
+
+atomic_exp: XID (Xid (XID, [])) 
+      | ID (Id (ID, [])) 
+      | LPAREN exp RPAREN (exp)
+
+value: ONE (One)
+      | LBRACK value COMMA value RBRACK (Pair (value1, value2))
+      | atomic_exp (Down (Lin, atomic_exp))
+      | AFF atomic_exp (Down (Aff, atomic_exp))
+      | BANG atomic_exp (Down (Pers, atomic_exp))
+
+mexp: LET LCURLY pattern RCURLY EQ exp IN mexp (Let (pattern, exp, mexp))
+      | value (In value)
+
+(*
+solution: SOLUTION COLON LAM lams outtuple DOT LCURLY epsilon intuple RCURLY
+({consts = lams, initial = outtuple, epsilon = epsilon, final = intuple})
 
 lams: ([])
       | BANG ID DOT LAM lams (manip ID::lams)
 
-tuple:  ONE ([])
+intuple: ONE ([])
       | XID ([XID])
       | AFF XID ([XID])
       | term ([])
-      | LBRACK XID COMMA tuple RBRACK (XID::tuple)
-      | LBRACK AFF XID COMMA tuple RBRACK (XID::tuple)
-      | LBRACK term COMMA tuple RBRACK (tuple)
+      | LBRACK XID COMMA intuple RBRACK (XID::intuple)
+      | LBRACK AFF XID COMMA intuple RBRACK (XID::intuple)
+      | LBRACK term COMMA intuple RBRACK (intuple)
+
+outtuple: ONE ([])
+      | XID ([XID])
+      | AFF XID ([XID])
+      | BANG XID ([XID])
+      | LBRACK XID COMMA outtuple RBRACK (XID::outtuple)
+      | LBRACK AFF XID COMMA outtuple RBRACK (XID::outtuple)
+      | LBRACK BANG XID COMMA outtuple RBRACK (XID::outtuple)
 
 consts: ([])
       | BANG ID consts (manip ID::consts)
 
-step: LET LCURLY tuple RCURLY EQ ID consts tuple IN
-({rule = ID, consts = consts, inputs = tuple2, outputs = tuple1}) 
+step: LET LCURLY outtuple RCURLY EQ ID consts intuple IN
+({rule = ID, consts = consts, inputs = intuple, outputs = outtuple}) 
 
 epsilon: ([])
       | step epsilon (step::epsilon)
@@ -87,3 +110,4 @@ term: ID terms (())
 terms: (())
       | BANG ID terms (())
       | BANG LPAREN term RPAREN terms (())
+*)
