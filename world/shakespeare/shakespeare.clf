@@ -289,5 +289,5 @@ init : type
   % * @time z * @nchars (s (s (s (s (s (s (s (s z))))))))}.
 
 % #trace * init.
-#query * * * 1 init -o {final}.
+#query * * * 5 init -o {final}.
 
