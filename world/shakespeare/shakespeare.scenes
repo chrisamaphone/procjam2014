@@ -1,7 +1,7 @@
 Shakespearean Tragedy World
 By Chris Martens
 
-:: initial
+:: initial 8
 <h1>Romeo and Juliesque</h1>
 <h2>By Chris Martens, with apologies to William Shakespeare</h2>
 Two households, both alike in dignity,
@@ -25,11 +25,11 @@ What here shall miss, our toil shall strive to mend.
 :: do/travelBored 1 
 <1> tires of the <2> and heads to the <3>.
 
-:: do/fallInLove 2
-<1> falls in love with <2>.
+:: do/fallInLove 1
+<1> thinks of their attraction to <2> in the <3> and grows fonder of them.
 
 :: do/eroticize 2
-<1> finds themselves suddenly attracted to <2>.
+<1>, in the <3>, thinks of their affection for <2> and finds themselves suddenly attracted to them.
 
 :: do/flirt/discrete 2
 <1> flirts with <2> in the <3>.
@@ -40,114 +40,103 @@ What here shall miss, our toil shall strive to mend.
 :: do/divorce 2
 <1> divorces <2>.
 
-:: do/widdow 1
+:: do/widow 1
 <1> learns of <2>'s death and realizes that they are a widow.
 
 :: do/marry 2
 <1> and <2> get married in the <3>.
 
 :: do/formOpinion/like 2
-<1> grows fondof <2>.
+<1> grows fond of <2> in the <3>.
 ||
-<1> smiles at <2>, affection growing within them.
+<1> smiles at <2>, affection growing within them. They chat about the <3>.
 ||
-<1> decides they like <2>.
+<1> looks at <2> in the <3> and decides they like them.
 
 :: do/formOpinion/dislike 2
-<1> irrationally dislikes <2>.
+<1> looks at <2> from across the <3> and irrationally feels disgusted.
 ||
-<1> frowns, thinking "I don't think I like <2> very much."
+<1> frowns and looks at <2> in the <3>, thinking "I don't think I like <2> very much."
 
 :: do/compliment/private 2
 In the <3>, <1> smiles warmly at <2>. "You look great today!"
 ||
-<1> hugs <2>.
+<1> hugs <2> in the <3>.
 ||
-<1> drapes an arm around <2>'s shoulders. "You're so great!"
+<1> drapes an arm around <2>'s shoulders. "You're so great!" They skip about the <3> together.
 
 :: do/compliment/witnessed 3
-<1> smiles warmly at <2>. "You look great today!" <3> frowns at them both.
+<1> smiles warmly at <2> in the <4>. "You look great today!" <3> frowns at them both.
 ||
-<1> hugs <2>. <3> notices and disapproves of <1>.
+<1> hugs <2> in the <4>. <3> notices and disapproves of <1>.
 ||
-<1> drapes an arm around <2>'s shoulders. "You're so great!"
-<3> scoffs mocklingly, making a mental note not to trust <1>.
+<1> drapes an arm around <2>'s shoulders in the <4>. "You're so great!" <3> scoffs mocklingly, making a mental note not to trust <1>.
 
 :: do/insult/private 2
-"Pah!" <1> spits at <2>. "You fight like a dairy farmer!"
+"Pah!" <1> spits at <2> in the <3>. "You fight like a dairy farmer!"
 ||
-"How appropriate," <1> says to <2>. "You fight like a cow."
+"How appropriate," <1> says to <2> in the <3>. "You fight like a cow."
 ||
-<1> looks around the <3> and lowers their voice to a poisonous whisper.
-"<2>, you are scum!"
+<1> looks around the <3> and lowers their voice to a poisonous whisper.  "<2>, you are scum!"
 
 :: do/insult/witnessed 3
-"Pah!" <1> spits at <2>. "You fight like a dairy farmer!" <3> fumes at <1>:
-"Don't you dare speak that way about my friend!"
+"Pah!" <1> spits at <2> in the <4>. "You fight like a dairy farmer!" <3> fumes at <1>: "Don't you dare speak that way about my dear <2>!"
 ||
-"How appropriate," <1> says to <2>. "You fight like a cow." <3> glares at
-<1> disapprovingly.
+"How appropriate," <1> says to <2>. "You fight like a cow." <3> glares at <1> disapprovingly from across the <4>.
 ||
-<1> looks around the <3> and lowers their voice to a poisonous whisper.
-"<2>, you are scum!" "I HEARD THAT," snarls <3>.
+<1> looks around the <4> and lowers their voice to a poisonous whisper.  "<2>, you are scum!" "I HEARD THAT," snarls <3>.
 
 :: do/murder 1
 <1> murders <2> in the <3>.
 
 :: do/becomeSuicidal 1
-<1> collapses on the ground in the <2>. They feel despairing and hopeless.
-An urge to die grows within them.
+<1> collapses on the ground in the <2>. They feel despairing and hopeless.  An urge to die grows within them.
 
 :: do/comfort 2
-<1> comforts <2>. <2> feels better.
+<1> comforts <2> in the <3>. <2> feels better.
 
 :: do/suicide 0
 <1> cannot take it anymore. They kill themselves in the <2>.
 
 :: do/suicide/witnessed 1
-<1> cannot take it anymore. They kill themselves in the <2>. <3>, nearby,
-watches in horror.
+<2> cannot take it anymore. They kill themselves in the <3>. <1>, nearby, watches in horror.
 
 :: do/mourn 1
-<1> thinks about the death of <2> and cries.
+From the <3>, <1> thinks about the death of <2> and cries.
 ||
-<2> is really dead. <1> can't bear the thought.
+<2> is really dead. <1> can't bear the thought. They mourn in the <3>.
 
 :: do/thinkVengefully 1
-<1> loved <3>, and <2> killed them. <1> plots revenge against <2>.
+<1> loved <3>, and <2> killed them. <1> plots revenge against <2> in the <4>.
 
 :: do/give 2
-"Hey, <1>, could I borrow that <3>?" asks <2>. "Of course," says <1>.
+"Hey, <1>, could I borrow that <3>?" asks <2>. "Of course," says <1>, handing it to <2> in the <4>.
 
 :: do/steal 2
-"Hey, <1>, look behind you! A three-headed monkey!" shouts <2>. <2> then
-grabs <1>'s <3>.
+"Hey, <1>, look behind you! A three-headed monkey!" shouts <2>. <2> then grabs <1>'s <3>. <1> looks wildly around the <4> for their missing <3>.
 ||
-<2> sneakily filches the <3> from <1>.
+<2> sneakily filches the <3> from <1> in the <4>.
 
 :: do/loot 1
-<1> takes the <3> from its dead owner, <2>.
+<1> takes the <3> from its dead owner, <2>, then absconds to the <4>.
 
 :: mixed_feelings 1
-<1> thinks about their feelings toward <2>. There's some affection, but
-also some anger. <1> is indecisive about these feelings.
+Sitting contemplatively in the <3>, <1> thinks about their feelings toward <2>. There's some affection, but also some anger. <1> is indecisive about these feelings.
 
 :: ending_1 1
 <1> and <2> lived happily ever after, while <3>'s body rotted.
 
 :: ending_2 1
-<1>'s passion for <2> was exceeded only by <2>'s lust for <3>. Meanwhile,
-<3> just wished <1> would pay them some attention.
+<1>'s passion for <2> was exceeded only by <2>'s lust for <3>. Meanwhile, <3> just wished <1> would pay them some attention.
 
 :: ending_3 1
 <3> avenged their beloved <2> by murdering <1>.
 
 :: cleanup/1 1
-<1> learns the news in the <2>. "So it goes," they say, and depart to
-spread the gossip.
+<1> learns in the <2> that the story is over. "Alas," they say, and depart to spread the news.
 
 :: lust_at_first_sight 2
-<1> sees <2> from across the <3> and feels their heart flutter. "Love at
-first sight?" they wonder.
+<1> sees <2> from across the <3> and feels their heart flutter. "Love at first sight?" they wonder.
 
-
+:: final 0
+The End!

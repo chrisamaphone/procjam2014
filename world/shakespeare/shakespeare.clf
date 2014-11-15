@@ -33,9 +33,8 @@ boredom : type.
 % C travels to be near C'.
 do/travelTo
 : Pi C. Pi C'. Pi L. Pi L'.
-  philia C C' * at C' L' *
-  at C L * accessible L L'
-  -o {@at C' L' * @at C L' * @philia C C'}.
+  philia C C' * at C' L' * at C L * accessible L L'
+  -o {@at C L' * @at C' L' * @philia C C'}.
 
 do/travelBored
 : Pi C. Pi L. Pi L'.
@@ -44,17 +43,15 @@ do/travelBored
 
 % eros to philia
 do/fallInLove
-: Pi C. Pi C'.
-  at C L * at C' L' *
-  eros C C'
-  -o {@at C L * @at C' L' * @eros C C' * @philia C C'}.
+: Pi C. Pi C'. Pi L.
+  at C L * eros C C'
+  -o {@at C L * @eros C C' * @philia C C'}.
 
 % philia to eros
 do/eroticize
-: Pi C. Pi C'.
-  at C L * at C' L' *
-  philia C C' * philia C C' * philia C C' * philia C C'
-  -o {@at C L * @at C' L' * @philia C C' * @eros C C'}.
+: Pi C. Pi C'. Pi L.
+  at C L * philia C C' * philia C C' * philia C C' * philia C C'
+  -o {@at C L * @philia C C' * @eros C C'}.
 
 do/flirt/discrete
 : Pi C. Pi C'. Pi L. 
@@ -92,13 +89,13 @@ do/marry
                     @philia C C' * @philia C' C }.
 
 do/formOpinion/like
-: Pi C. Pi C'.
+: Pi C. Pi C'. Pi L.
   at C L * at C' L *
   neutral C C'
   -o {@at C L * @at C' L * @philia C C'}.
 
 do/formOpinion/dislike
-: Pi C. Pi C'.
+: Pi C. Pi C'. Pi L.
   at C L * at C' L *
   neutral C C'
   -o {@at C L * @at C' L * @anger C C'}.
@@ -153,17 +150,17 @@ do/suicide
   at C L * suicidal C * has C weapon -o {!dead C}. 
 
 do/suicide/witnessed
-: Pi C. Pi Witness. Pi L.
+: Pi Witness. Pi C. Pi L.
   at C L * at Witness L * suicidal C * has C weapon
   -o {@at Witness L * !dead C}.
 
 do/mourn 
-: Pi C. Pi C'.
+: Pi C. Pi C'. Pi L.
   at C L * philia C C' * dead C' 
   -o {@at C L * @depressed C * @depressed C}.
 
 do/thinkVengefully
-: Pi C. Pi Killer. Pi Dead. 
+: Pi C. Pi Killer. Pi Dead. Pi L.
   at C L * at Killer L' * 
   philia C Dead * murdered Killer Dead
   -o {@at C L * @at Killer L' * @philia C Dead *
@@ -180,12 +177,12 @@ do/steal
          -o {@at C L * @at C' L * @has C' O * @anger C C'}.
 
 do/loot
-  : Pi C. Pi C'. Pi O.
-    at C L * dead C' * has C' O * wants C O
-    -o {@at C L * @has C O}.
+  : Pi C. Pi C'. Pi O. Pi L'.
+    at C L * dead C' * has C' O * wants C O * accessible L L'
+    -o {@at C L' * @has C O}.
 
 mixed_feelings 
-: Pi C. Pi C'.
+: Pi C. Pi C'. Pi L.
   at C L * 
   anger C C' * philia C C' -o {@at C L * @neutral C C'}.
 
@@ -256,17 +253,17 @@ lust_at_first_sight : Pi R. Pi J. Pi L.
     { @at R L * @at J L * @eros R J * @eros R J * @eros R J}.
 
 #query * * * 1 
-Pi 'romeo. Pi 'montague. Pi 'capulet. Pi 'mercutio. Pi 'nurse.
+Pi 'romeo. Pi 'montague. Pi 'capulet. Pi 'mercutio. Pi the_nurse.
 Pi 'juliet. Pi 'tybalt. Pi the_apothecary.
  (@at 'romeo town * @at 'montague mon_house * @at 'capulet cap_house
-  * @at 'mercutio town * @at 'nurse cap_house * @at 'juliet town
+  * @at 'mercutio town * @at the_nurse cap_house * @at 'juliet town
   * @at 'tybalt town * @at the_apothecary town
 
   * !actor 'romeo * !actor 'juliet * !actor 'montague * !actor 'capulet
-  * !actor 'mercutio * !actor 'nurse * !actor 'tybalt * !actor the_apothecary
+  * !actor 'mercutio * !actor the_nurse * !actor 'tybalt * !actor the_apothecary
 
   * @unmarried 'romeo * @unmarried 'juliet 
-  * @unmarried 'nurse * @unmarried 'mercutio * @unmarried 'tybalt
+  * @unmarried the_nurse * @unmarried 'mercutio * @unmarried 'tybalt
   * @unmarried the_apothecary
 
   * @anger 'montague 'capulet * @anger 'capulet 'montague
@@ -279,9 +276,9 @@ Pi 'juliet. Pi 'tybalt. Pi the_apothecary.
 
   * @has 'tybalt weapon * @has 'romeo weapon * @has the_apothecary weapon
 
-  * @philia 'juliet 'nurse * @philia 'nurse 'juliet
-  * @neutral 'nurse 'romeo
+  * @philia 'juliet the_nurse * @philia the_nurse 'juliet
+  * @neutral the_nurse 'romeo
   * @neutral 'mercutio 'juliet * @neutral 'juliet 'mercutio
-  * @neutral the_apothecary 'nurse * @neutral 'nurse the_apothecary
+  * @neutral the_apothecary the_nurse * @neutral the_nurse the_apothecary
            
   * nonfinal) -o {final}.

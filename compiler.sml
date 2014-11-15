@@ -142,19 +142,27 @@ structure CLFtoTwee = struct
             (start_text::displays, outpassages) 
           end
 
-  (* XXX currently does not actually usefully refer to the CelfTrace "final" field *)
-  fun compile_final final =
-  let
-    val text = (Int.toString (List.length final)) ^ 
-          " resources were involved in the telling of this story. The End."
-  in
-    {name = "final", contents = [ProtoTwee.Text text]}
-  end
+  fun compile_final final_resources final_scene rand =
+    case final_scene of
+         NONE =>
+          let
+            val text = (Int.toString (List.length final_resources)) ^ 
+                  " is the numer of resources remaining at the end of the story."
+          in
+            {name = "final", contents = [ProtoTwee.Text text]}
+          end
+      | SOME {name, followable, contents} =>
+          let
+            val text = sceneContentsToString name contents [] rand
+          in
+            {name = "final", contents = [ProtoTwee.Text text]}
+          end
 
   (* compile : Scenes.scene list -> CelfTrace.clftrace -> ProtoTwee.twee *)
   fun compile scenes {consts, initial, epsilon, final} rand : ProtoTwee.twee =
   let
     val initial_scene = getSceneWithName scenes "initial"
+    val final_scene = getSceneWithName scenes "final"
     val (initial_passage, initial_var_passages) = 
       compile_initial consts initial epsilon initial_scene rand
   in
@@ -164,7 +172,7 @@ structure CLFtoTwee = struct
      author = "Procjam 2014 Autocompiler",
      contents = initial_var_passages 
               @ (compile_epsilon scenes epsilon rand) 
-              @ ([compile_final final])}
+              @ ([compile_final final final_scene rand])}
   end
 
 end
