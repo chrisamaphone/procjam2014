@@ -3,6 +3,7 @@
 character : type.
 
 cat : character -> type.
+human : character -> type.
 
 room : type.
 living_room : room.
@@ -10,6 +11,12 @@ kitchen : room.
 dining_room : room.
 bathroom : room.
 bedroom : room.
+
+state : type.
+gone : state.
+asleep : state.
+
+final_state : character -> state -> type.
 
 adjacent : room -> room -> type.
 - : adjacent living_room dining_room.
@@ -63,7 +70,7 @@ scratch/bad
 
 scratch/good
   : Pi K. Pi T. Pi R.
-     int T R * inc K R * !cat K * !for_scratching T ff
+     int T R * inc K R * !cat K * !for_scratching T tt
         -o {@inc K R * @int T R }.
 
 
@@ -78,7 +85,11 @@ move
 %% for termination
 leave
   : Pi C. Pi R.
-      inc C R -o {1}.
+    human C * inc C R -o {final_state C gone}.
+
+sleep
+  : Pi C. Pi R.
+    cat C * inc C R -o {final_state C asleep}.
 
 #query * * * 10
 Pi Chris. Pi Rob. Pi Kallisti.
@@ -87,5 +98,7 @@ Pi Chris. Pi Rob. Pi Kallisti.
 * @int scratching_post living_room
 * @int armchair living_room
 
-* !cat Kallisti
--o {1}.
+* !cat Kallisti * !human Rob * !human Chris
+-o {final_state Kallisti Kstate
+   * final_state Chris Cstate
+   * final_state Rob Rstate}.

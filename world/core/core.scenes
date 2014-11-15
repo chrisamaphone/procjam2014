@@ -16,5 +16,11 @@ The Core is a cozy little house with two humans and one cat. <1> is writing code
 :: move 1
 <1> moves from the <2> to the <3>.
 
-:: leave 0
+:: leave 1
 <1> departs the house.
+
+:: sleep 1
+<1> goes to sleep in the <2>.
+
+:: final
+The End.
