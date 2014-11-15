@@ -31,6 +31,7 @@ end
 | DOT
 | LAM
 | BANG
+| AFF
 | COMMA
 | XID of CelfTrace.resource_var
 | ID of string
@@ -66,8 +67,10 @@ lams: ([])
 
 tuple:  ONE ([])
       | XID ([XID])
+      | AFF XID ([XID])
       | term ([])
       | LBRACK XID COMMA tuple RBRACK (XID::tuple)
+      | LBRACK AFF XID COMMA tuple RBRACK (XID::tuple)
       | LBRACK term COMMA tuple RBRACK (tuple)
 
 consts: ([])

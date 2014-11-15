@@ -35,6 +35,7 @@ ws = [\ \t\011\012\r];
 "."        => (Tokens.DOT((),()));
 "\\"       => (Tokens.LAM((),()));
 "!"        => (Tokens.BANG((),()));
+"@"        => (Tokens.AFF((),()));
 ","        => (Tokens.COMMA((),()));
 "1"        => (Tokens.ONE((),()));
 "Solution" => (Tokens.SOLUTION((),()));
