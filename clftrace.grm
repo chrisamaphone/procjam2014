@@ -1,5 +1,17 @@
 open CLF
 
+datatype syn = V of value | E of exp 
+
+fun v (V value) = value | v (E exp) = Down (Lin, exp)
+fun e (E exp) = exp | e (V value) = raise Fail "Value where expression required"
+
+fun handleAtomics atomics = 
+   case atomics of 
+      (E (Id (x, [])) :: atomics) => E (Id (x, map v atomics))
+    | (E (Xid (x, [])) :: atomics) => E (Xid (x, map v atomics))
+    | [atomic] => atomic
+    | _ => raise Fail ("Ill formed applicative expression ("^Int.toString (length atomics)^")")
+
 %%
 
 %term
@@ -28,10 +40,9 @@ open CLF
 %nonterm
   solution of exp
 | pattern of pattern
-| exp of exp
-| atomic_exp of exp
-| value of value
-| values of value list
+| syn of syn
+| atomic of syn
+| atomics of syn list
 | mexp of mexp
 
 %pos unit
@@ -43,7 +54,7 @@ open CLF
 
 %%
 
-solution: SOLUTION COLON exp (exp)
+solution: SOLUTION COLON syn (e syn)
 
 pattern: ONE (POne)
       | XID (PXid (Lin, XID))
@@ -52,26 +63,27 @@ pattern: ONE (POne)
       | BANG ID (PId ID)
       | LBRACK pattern COMMA pattern RBRACK (PPair (pattern1, pattern2))
 
-exp: LAM pattern DOT exp (Lam (pattern, exp))
-      | ID values (Id (ID, values)) 
-      | XID values (Xid (XID, values)) 
-      | LCURLY mexp RCURLY (Lax mexp)
+syn: LAM pattern DOT syn            (E (Lam (pattern, e syn)))
+      | atomics                     (handleAtomics atomics)
 
-values: ([])
-      | value values (value :: values)
+atomic: ONE                         (V One)
+      | XID                         (E (Xid (XID, [])))
+      | ID                          (E (Id (ID, [])))
+      | AFF XID                     (V (Down (Aff, (Xid (XID, [])))))
+      | AFF ID                      (V (Down (Aff, (Id (ID, [])))))
+      | BANG XID                    (V (Down (Pers, (Xid (XID, [])))))
+      | BANG ID                     (V (Down (Pers, (Id (ID, [])))))
+      | LPAREN syn RPAREN           (syn)
+      | AFF LPAREN syn RPAREN       (V (Down (Aff, e syn)))
+      | BANG LPAREN syn RPAREN      (V (Down (Pers, e syn)))
+      | LBRACK syn COMMA syn RBRACK (V (Pair (v syn1, v syn2)))
+      | LCURLY mexp RCURLY          (E (Lax mexp))
 
-atomic_exp: XID (Xid (XID, [])) 
-      | ID (Id (ID, [])) 
-      | LPAREN exp RPAREN (exp)
+atomics: atomic ([atomic])
+      | atomic atomics (atomic :: atomics)
 
-value: ONE (One)
-      | LBRACK value COMMA value RBRACK (Pair (value1, value2))
-      | atomic_exp (Down (Lin, atomic_exp))
-      | AFF atomic_exp (Down (Aff, atomic_exp))
-      | BANG atomic_exp (Down (Pers, atomic_exp))
-
-mexp: LET LCURLY pattern RCURLY EQ exp IN mexp (Let (pattern, exp, mexp))
-      | value (In value)
+mexp: LET LCURLY pattern RCURLY EQ syn IN mexp (Let (pattern, e syn, mexp))
+      | syn (In (v syn))
 
 (*
 solution: SOLUTION COLON LAM lams outtuple DOT LCURLY epsilon intuple RCURLY
