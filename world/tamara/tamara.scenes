@@ -1,0 +1,115 @@
+Tamara
+By John Krizanc, adapted by Chris Martens.
+
+:: initial 10
+Initial scene.
+
+:: a1_dante_finzi 2
+Dante and Finzi enter the atrium.
+
+:: a1_emilia_enters 1
+Emilia enters the atrium.
+
+:: a1_dannunzio_enters 1
+D'Annunzio enters the atrium.
+
+:: a1_dannunzio_exits 1
+D'Annunzio departs the atrium for his bedroom.
+
+:: a1_emilia_exits 1
+Emilia departs the atrium for the side hall.
+
+:: a1_carlotta_enters 1
+Carlotta enters the atrium.
+
+:: a1_aelis_enters 1
+Aelis enters the atrium.
+
+:: a1_carlotta_and_aelis_exit 2
+Carlotta exits fowardt he hall, and Aelis toward the dining room.
+
+:: a1_mario_enters 1
+Mario enters the atrium.
+
+:: a1_mario_exits 1
+Mario leaves the atrium.
+
+:: a1_groups_split 3
+Dante departs for Luisa's room, Finzi for the dining hall, and De Spiga remains in the atrium.
+
+:: a1_grp1_luisa 2
+Dante departs Luisa's room for D'Annunzio's room.
+
+:: a1_grp1_dannunzio 2
+Dante departs D'Annunzio's room for the atrium.
+
+:: a1_grp2_aelis 2
+Finzi encounters Aelis in the dining room.
+Finzi heads to the side hall.
+
+:: a1_grp2_emilia 2
+Finzi encounters Emilia in the side hall. Finzi departs for the hall and Emilia for the Leda.
+
+:: b2_despiga_monologue 1
+De Spiga delivers a monologue in the atrium while playing the piano.
+
+:: b3_luisa_monologue 1
+Luisa delivers a monologue in her room, then heads to D'Annunzio's room.
+
+:: b4_carlotta_kisses_finzi 2
+Finzi encounters Carlotta in the hall. Carlotta kisses Finzi, then runs away laughing toward the Leda.
+
+:: b5_finzi_monologue 1
+Finzi has a monologue in the hall, then heads to the atrium.
+
+:: b6_dannunzio_monologue 1
+D'Annunzio has a monologue in his room.
+
+:: b7_emilia_monologue 1
+Emilia delivers a monologue in the Leda.
+
+:: b8_emilia_carlotta 2
+Carlotta bursts into the Leda, saying "I kissed him! I kissed him!"
+"Who did you kiss, Carlotta?" asks Emilia. Carlotta notices Emilia for the first time.
+Emilia departs for the dining room, and Carlotta for the atrium.
+
+:: b9_aelis_monologue 1
+Aelis has a monologue in the dining room. Then she depars for the atrium.
+
+:: b10_dante_despiga 2
+Dante enters the atrium where De Spiga is playing. They converse.
+
+:: b11_dannunzio_luisa 2
+D'Annunizo and Luisa have a row in his bedroom. They both head to the atrium.
+
+:: c12_finzi_exit 6
+Something... (XXX)
+
+:: c12_emilia_carlotta_aelis_luisa_leave_atrium 4
+Emilia, Carlotta, Aelis, and Luisa depart the atrium.
+
+:: c12_gunshot 3
+A gunshot sounds. Finzi and Emilia hear it. It is Luisa from above the atrium.
+
+:: c13_finzi_luisa_confrontation
+Finzi confronts Luisa about her gun. Finzi stays in the atrium, and Luisa heads to the side hall.
+
+:: c13_emilia_aelis_carlotta_luisa_sidehall
+Emilia, Aelis, Carlotta, and Luisa have a scene in the side hall. They all depart to the atrium.
+
+:: c12_take_presents_to_leda 4
+Dante, Carlotta, Luisa, and Emilia take presents to the Leda.
+
+:: c14_emilia_enter_leda 4
+Emilia enters the Leda.
+
+:: c14_all_exit_leda 4
+Dante, Carlotta, Luia, and Emilia exit the Leda.
+
+:: c_final 7
+Luisa, Carlotta, Aelis, and De Spiga depart for the Oratorio. Dante and D'Annunizo stay
+in the atrium to prepare for Tamara's arrival. Emilia heads to the dining
+room to prepare dessert.
+
+:: final 0
+The End.
