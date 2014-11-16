@@ -50,7 +50,16 @@ structure CLFtoTwee = struct
           before print ("\n\nWarning: scene file has no scene for rule "
                         ^ rulename ^"\n\n")
       | SOME {name, followable, contents} =>
-          (sceneContentsToString name contents consts rand, followable)
+          let
+            val text = sceneContentsToString name contents consts rand
+            (* if this is goingt to be a final passage, add a link back to the
+            * main page. *)
+            val text' = if followable = 0 then 
+              "\nReturn to <a href=\"http://play.typesafety.net\">the main page</a>\
+              \ for another performance." else ""
+          in
+            (text^text', followable)
+          end
   end
 
   (***)
@@ -143,20 +152,20 @@ structure CLFtoTwee = struct
           end
 
   fun compile_final final_resources final_scene rand =
-    case final_scene of
-         NONE =>
-          let
-            val text = (Int.toString (List.length final_resources)) ^ 
+  let
+    (* Link back to the main page. Site-specific feature. *)
+    val postfix = 
+              "\nReturn to <a href=\"http://play.typesafety.net\">the main page</a>\
+              \ for another performance."
+    val text = 
+    (case final_scene of
+        NONE => (Int.toString (List.length final_resources)) ^ 
                   " is the numer of resources remaining at the end of the story."
-          in
-            {name = "final", contents = [ProtoTwee.Text text]}
-          end
       | SOME {name, followable, contents} =>
-          let
-            val text = sceneContentsToString name contents [] rand
-          in
-            {name = "final", contents = [ProtoTwee.Text text]}
-          end
+            sceneContentsToString name contents [] rand)
+  in
+    {name = "final", contents = [ProtoTwee.Text text, ProtoTwee.Text postfix]}
+  end
 
   (* compile : Scenes.scene list -> CelfTrace.clftrace -> ProtoTwee.twee *)
   fun compile scenes {consts, initial, epsilon, final} rand : ProtoTwee.twee =

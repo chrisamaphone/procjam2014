@@ -107,24 +107,21 @@ In the <3>, <1> points the revolver at <2>.
 :: leave_together 0
 <1> and <2> depart from the <3>, arm in arm.
 Fin.
-Return to <a href="http://play.typesafety.net">The main page</a> for another iteration of this performance, or to pick a different performance.
+Return to <a href="http://play.typesafety.net">the main page</a> for another performance.
 
 :: drive_away 0
 <1> has the <2>, and the <3>. 
 "I've won, I've won," says <1>.
 Jumping into the car, <1> revs the engine, backs out of the driveway, and squeals off into the distance. 
 Fin.
-Return to <a href="http://play.typesafety.net">the main page</a> for another iteration of this performance, or to pick a different performance.
 
 :: fin_droveaway 0
 From the <3>, <1> hears the sounds of screeching tires as <2> speeds away from the driveway down the road.
 "I've lost... everything," <1> whispers, and collapses on the floor.
 Fin.
-Return to <a href="http://play.typesafety.net">the main page</a> for another iteration of this performance, or to pick a different performance.
 
 :: fin_together 0
 From the <3>, <1> hears <2> and <3> laughing as they walk away from the house down the path.
 "They've left me here," <3> whispers softly. Desperately. "I've lost... so much. I can't go on without them."
 Fin.
-Return to <a href="http://play.typesafety.net">the main page</a> for another iteration of this performance, or to pick a different performance.
 
