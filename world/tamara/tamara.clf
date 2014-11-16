@@ -325,38 +325,38 @@ Exists Tamara:charname. Exists Luisa:charname. Exists Emilia : charname. Exists 
 #trace * init.
 
 #query * * * 10
-Pi Tamara:charname. Pi Luisa:charname. Pi Emilia : charname. Pi Finzi : charname. Pi DeSpiga : charname. Pi Aelis : charname.
-  Pi Dannunzio : charname. Pi Carlotta : charname. Pi Dante : charname. Pi Mario : charname.
-  tamara    d15 atrium
-* luisa     a1 offstage
-* emilia    a1 offstage
+Pi Dante. Pi Finzi. Pi Emilia. Pi DeSpiga. Pi Aelis. Pi Dannunzio. 
+Pi Carlotta. Pi Luisa. Pi Mario. Pi Tamara.
+  dante     a1 offstage
 * finzi     a1 offstage
+* emilia    a1 offstage
 * despiga   a1 atrium
 * aelis     a1 offstage
 * dannunzio a1 offstage
 * carlotta  a1 offstage
-* dante     a1 offstage
+* luisa     a1 offstage
 * mario     a1 offstage
+* tamara    d15 atrium
 
-* !eq Tamara 'tamara
-* !eq Luisa 'luisa
-* !eq Emilia 'emilia
+* !eq Dante 'dante
 * !eq Finzi 'finzi
+* !eq Emilia 'emilia
 * !eq DeSpiga de_Spiga
 * !eq Aelis 'aelis
 * !eq Dannunzio d'Annunzio
 * !eq Carlotta 'carlotta
-* !eq Dante 'dante
+* !eq Luisa 'luisa
 * !eq Mario 'mario
+* !eq Tamara 'tamara
 -o
-{ tamara    STamara  LTamara 
-* luisa     SLuisa   LLuisa
-* emilia    SEmilia  LEmilia
+{ dante     SDante   LDante 
 * finzi     SFinzi   LFinzi
+* emilia    SEmilia  LEmilia
 * despiga   SDeSpiga LDeSpiga
 * aelis     SAelis   LAelis
-* dannunzio SDannunzio LDannunzio 
 * carlotta  SCarlotta  LCarlotta
-* dante     SDante     LDante 
+* dannunzio SDannunzio LDannunzio 
+* luisa     SLuisa   LLuisa
 * mario     SMario     LMario
+* tamara    STamara  LTamara 
 }.

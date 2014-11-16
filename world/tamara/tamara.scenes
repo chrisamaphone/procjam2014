@@ -1,8 +1,8 @@
 Tamara
 By John Krizanc, adapted by Chris Martens.
 
-:: initial 10
-Initial scene.
+:: initial 2
+Dante and Finzi welcome in the guests. "This is the home of Gabriele d'Annunzio," Dante informs you.  
 
 :: a1_dante_finzi 2
 Dante and Finzi enter the atrium.
@@ -35,12 +35,16 @@ Mario enters the atrium.
 Mario leaves the atrium.
 
 :: a1_groups_split 3
+Dante: "I'm going to go check on Signora Baccara."
+Finzi: "I will visit the servants of the house, Aelis and Emilia."
 Dante departs for Luisa's room, Finzi for the dining hall, and De Spiga remains in the atrium.
 
 :: a1_grp1_luisa 2
+Dante enters Luisa's room. "Signora Baccara?" She is nowhere to be seen.
 Dante departs Luisa's room for D'Annunzio's room.
 
 :: a1_grp1_dannunzio 2
+Dante stops by the entrance to d'Annunzio's room. "Shh! Il Comandante is praying. You must enter the master's quarters quietly."
 Dante departs D'Annunzio's room for the atrium.
 
 :: a1_grp2_aelis 2
@@ -51,45 +55,73 @@ Finzi heads to the side hall.
 Finzi encounters Emilia in the side hall. Finzi departs for the hall and Emilia for the Leda.
 
 :: b2_despiga_monologue 1
-De Spiga delivers a monologue in the atrium while playing the piano.
+De Spiga plays the piano in the atrium and talks about his love for Luisa.
 
 :: b3_luisa_monologue 1
 Luisa delivers a monologue in her room, then heads to D'Annunzio's room.
 
 :: b4_carlotta_kisses_finzi 2
-Finzi encounters Carlotta in the hall. Carlotta kisses Finzi, then runs away laughing toward the Leda.
+Finzi continues down the hall, where he finds Carlotta collecting Rosary beads from the floor.
+They converse.
+Carlotta says, "One day Il Duce will need you back, Finzi, ecause the country needs decisive men. I just know you'll be first secretary to the Interior again. Just wait."
+She kisses him and runs away laughing toward the Leda.
 
 :: b5_finzi_monologue 1
 Finzi has a monologue in the hall, then heads to the atrium.
 
 :: b6_dannunzio_monologue 1
-D'Annunzio has a monologue in his room.
+D'Annunzio is on the phone. "Benito," he says forcefully, "if I want to speak to someone of authority, I look in the mirror!" He hangs up, and laments to you over his worries that the new Polish visitor, Tamara de Lempicka, will not sleep with him.
 
 :: b7_emilia_monologue 1
-Emilia delivers a monologue in the Leda.
+Emilia enters the Leda and closes the door. She begins to straighten the bed.
+"Me, I clean and serve. And Il Comandante still needs to bring the Polish one..."
 
 :: b8_emilia_carlotta 2
-Carlotta bursts into the Leda, saying "I kissed him! I kissed him!"
-"Who did you kiss, Carlotta?" asks Emilia. Carlotta notices Emilia for the first time.
+Carlotta runs into the Leda through the side door and throws herself on the bed.
+"I kissed him! I kissed him!"
+"Who did you kiss, Signorina?" asks Emilia.
+Carlotta suddenly notices Emilia. "What are you doing here?"
 Emilia departs for the dining room, and Carlotta for the atrium.
 
 :: b9_aelis_monologue 1
-Aelis has a monologue in the dining room. Then she depars for the atrium.
+"Ahh! Excuse moi." Aelis catches her breath and closes the door. "I'm so glad you were able to be with us this evening. I must tell you that there was some question as to whether Roma would allow Il Comandante any more guests but fortunately they relented."
+She notices the dinner plates still on the table.
+"Emilia!" she shouts, pulling a cord to summon the servant. "I'm so embarrassed."
+She departs for the atrium.
 
 :: b10_dante_despiga 2
-Dante enters the atrium where De Spiga is playing. They converse.
+Dante enters, and de Spiga stops playing.
+"I don't know that opera," says Dante.
+"It doesn't exist yet, Dante."
+They converse.
+Dante goes to the front window; de Spiga continues playing the piano.
 
 :: b11_dannunzio_luisa 2
-D'Annunizo and Luisa have a row in his bedroom. They both head to the atrium.
+Luisa enters d'Annunzio's room. She stops in the center of the room, pointing a gun at d'Annunzio.
+"You upset me, Luisa," he begins. "Did we not agree that our affair--"
+"Relationship."
+"...was to be forgotten?"
+Luisa exits to the stairs and osbserves the action in the Atrium from above.
 
 :: c12_finzi_exit 6
-Finzi exits toward his office. The others remain in and around the atrium.
+De Spiga sits playing the piano. Dante stares out the window. 
+Aelis enters, carrying some presents.
+Finzi enters.
+"When will the world be quiet?" says Aelis.
+"There would be no need for fascists, if there was silence." replies de Spiga.
+"Aelis, a woman needs a gun. Living in this house, Luisa is at risk. She could be kidnapped by Communists, held for ransom," argues Finzi.
+"We're already hostages!" says de Spiga.
+Carlotta enters, leaping and wearing a tutu.
+She and Aelis converse.
+Finzi exits toward his office.
 
 :: c12_emilia_carlotta_aelis_luisa_leave_atrium 4
 Emilia, Carlotta, Aelis, and Luisa depart the atrium.
 
 :: c12_gunshot 3
 A gunshot sounds. Finzi and Emilia hear it. It is Luisa from above the atrium.
+Luisa is on the stairs overlooking the atrium with a gun in her hand. She fires the gun again.
+"It's alive."
 
 :: c13_finzi_luisa_confrontation
 Finzi confronts Luisa about her gun. Finzi stays in the atrium, and Luisa heads to the side hall.
@@ -107,9 +139,7 @@ Emilia enters the Leda.
 Dante, Carlotta, Luia, and Emilia exit the Leda.
 
 :: c_final 7
-Luisa, Carlotta, Aelis, and De Spiga depart for the Oratorio. Dante and D'Annunizo stay
-in the atrium to prepare for Tamara's arrival. Emilia heads to the dining
-room to prepare dessert.
+Luisa, Carlotta, Aelis, and De Spiga depart for the Oratorio. Dante and D'Annunizo stay in the atrium to prepare for Tamara's arrival. Emilia heads to the dining room to prepare dessert.
 
 :: final 0
 The End.
