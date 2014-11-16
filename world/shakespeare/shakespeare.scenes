@@ -1,5 +1,7 @@
 Shakespearean Tragedy World
 By Chris Martens
+A social simulation based on Romeo and Juliet. Described in detail in
+<a href="http://www.cs.cmu.edu/~cmartens/int7.pdf">this paper</a>.
 
 :: initial 8
 <h1>Romeo and Juliesque</h1>
