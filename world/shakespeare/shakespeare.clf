@@ -256,18 +256,18 @@ lust_at_first_sight : Pi R. Pi J. Pi L.
     { @at R L * @at J L * @eros R J * @eros R J * @eros R J}.
 
 #query * * * 5
-Pi 'romeo. Pi 'montague. Pi 'capulet. Pi 'mercutio. Pi the_nurse.
-Pi 'juliet. Pi 'tybalt. Pi the_apothecary.
+Pi 'romeo. Pi 'montague. Pi 'capulet. Pi 'mercutio. Pi 'nurse.
+Pi 'juliet. Pi 'tybalt. Pi 'apothecary.
  (@at 'romeo town * @at 'montague 'montague_House * @at 'capulet 'capulet_House
-  * @at 'mercutio town * @at the_nurse 'capulet_House * @at 'juliet town
-  * @at 'tybalt town * @at the_apothecary town
+  * @at 'mercutio town * @at 'nurse 'capulet_House * @at 'juliet town
+  * @at 'tybalt town * @at 'apothecary town
 
   * !actor 'romeo * !actor 'juliet * !actor 'montague * !actor 'capulet
-  * !actor 'mercutio * !actor the_nurse * !actor 'tybalt * !actor the_apothecary
+  * !actor 'mercutio * !actor 'nurse * !actor 'tybalt * !actor 'apothecary
 
   * @unmarried 'romeo * @unmarried 'juliet 
-  * @unmarried the_nurse * @unmarried 'mercutio * @unmarried 'tybalt
-  * @unmarried the_apothecary
+  * @unmarried 'nurse * @unmarried 'mercutio * @unmarried 'tybalt
+  * @unmarried 'apothecary
 
   * @anger 'montague 'capulet * @anger 'capulet 'montague
   * @anger 'tybalt 'romeo * @anger 'capulet 'romeo * @anger 'montague 'tybalt
@@ -277,11 +277,11 @@ Pi 'juliet. Pi 'tybalt. Pi the_apothecary.
   % "lust at first sight"
   * @serendipity 'romeo 'juliet
 
-  * @has 'tybalt weapon * @has 'romeo weapon * @has the_apothecary weapon
+  * @has 'tybalt weapon * @has 'romeo weapon * @has 'apothecary weapon
 
-  * @philia 'juliet the_nurse * @philia the_nurse 'juliet
-  * @neutral the_nurse 'romeo
+  * @philia 'juliet 'nurse * @philia 'nurse 'juliet
+  * @neutral 'nurse 'romeo
   * @neutral 'mercutio 'juliet * @neutral 'juliet 'mercutio
-  * @neutral the_apothecary the_nurse * @neutral the_nurse the_apothecary
+  * @neutral 'apothecary 'nurse * @neutral 'nurse 'apothecary
            
   * @nonfinal) -o {1}.
