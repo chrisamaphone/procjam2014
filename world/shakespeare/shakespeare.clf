@@ -147,12 +147,13 @@ do/comfort
 
 do/suicide
 : Pi C. Pi L.
-  at C L * suicidal C * has C weapon -o {!dead C}. 
+  at C L * suicidal C * has C weapon 
+  -o {!dead C * @has C weapon}. 
 
 do/suicide/witnessed
 : Pi Witness. Pi C. Pi L.
   at C L * at Witness L * suicidal C * has C weapon
-  -o {@at Witness L * !dead C}.
+  -o {@at Witness L * !dead C * @has C weapon}.
 
 do/mourn 
 : Pi C. Pi C'. Pi L.
@@ -203,23 +204,25 @@ final : type.
 
 actor : character -> type. 
 ending_1 % a marriage and a death
-: Pi C1. Pi C2. Pi C3.
+: Pi C1. Pi C2. Pi C3. Pi L. Pi L'.
   nonfinal *
   actor C1 * actor C2 * actor C3 *
-  at C1 L * married C1 C2 * dead C3
+  at C1 L * at C2 L' * married C1 C2 * dead C3
   -o {@final}.
 
 ending_2 % love triangle
-: Pi C1. Pi C2. Pi C3.
+: Pi C1. Pi C2. Pi C3. Pi L1. Pi L2. Pi L3.
   nonfinal *
   actor C1 * actor C2 * actor C3 *
+  at C1 L1 * at C2 L2 * at C3 L3 *
   eros C1 C2 * eros C2 C3 * eros C3 C1
   -o {@final}.
 
 ending_3 % vengeance
-: Pi C1. Pi C2. Pi C3.
+: Pi C1. Pi C2. Pi C3. Pi L.
   nonfinal *
   actor C1 * actor C2 * actor C3 *
+  at C3 L *
   murdered C1 C2 * philia C3 C2 * murdered C3 C1
   -o {@final}.
 
