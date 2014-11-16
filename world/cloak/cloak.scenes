@@ -3,6 +3,9 @@ By Chris Martens. Concept by Roger Firth.
 An Interactive Fiction "benchmark" world described <a
 href="http://www.firthworks.com/roger/cloak/">here</a>.
 
+:: initial 2
+<1> and <2> are in the foyer of a strange inn. Alice wears an inky black cloak.
+
 :: move 1
 <1> departs the <2> toward the <3>.
 ||
