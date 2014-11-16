@@ -1,0 +1,8 @@
+11/16/2014
+
+Rob suggests that as a next step, we use Leon's "revise" twine macro to
+make it so that following a single character simply expands text in the
+same page.
+
+Also, we should make it so that if two (or more) characters depart to the
+*same* next scene, there is just a single follow link for both of them.
