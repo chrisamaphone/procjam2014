@@ -102,13 +102,13 @@ do/formOpinion/dislike
 
 do/compliment/private
 : Pi C. Pi C'. Pi L.
-  at C L * at C' L * @philia C C' -o
+  at C L * at C' L * philia C C' -o
           {@at C L * @at C' L * @philia C C' * @philia C' C}.
 
 do/compliment/witnessed
 : Pi C. Pi C'. Pi Witness. Pi L.
   at C L * at C' L * at Witness L * 
-  @philia C C' * anger Witness C' -o
+  philia C C' * anger Witness C' -o
           {@at C L * @at C' L * @at Witness L * @philia C C' * @anger Witness C'  
             * @philia C' C * @anger Witness C}.
 
@@ -119,7 +119,7 @@ do/insult/private
 
 do/insult/witnessed
 : Pi C. Pi C'. Pi Witness. Pi L.
-  at C L * at C' L * at Witness L * @anger C C' * philia Witness C' -o
+  at C L * at C' L * at Witness L * anger C C' * philia Witness C' -o
           {@at C L * @at C' L * @at Witness L * @anger C C' * 
             @philia Witness C' * @anger C' C * @depressed C' * @anger Witness C}.
 
@@ -127,7 +127,7 @@ do/insult/witnessed
 
 do/murder 
 : Pi C. Pi C'. Pi L.
-  anger C C' * anger C C' * anger C C' * @anger C C' *
+  anger C C' * anger C C' * anger C C' * anger C C' *
   at C L * at C' L  * has C weapon
                 -o {@at C L * !dead C' * !murdered C C' *
                       @has C weapon}.
@@ -207,24 +207,24 @@ ending_1 % a marriage and a death
   nonfinal *
   actor C1 * actor C2 * actor C3 *
   at C1 L * married C1 C2 * dead C3
-  -o {final}.
+  -o {@final}.
 
 ending_2 % love triangle
 : Pi C1. Pi C2. Pi C3.
   nonfinal *
   actor C1 * actor C2 * actor C3 *
   eros C1 C2 * eros C2 C3 * eros C3 C1
-  -o {final}.
+  -o {@final}.
 
 ending_3 % vengeance
 : Pi C1. Pi C2. Pi C3.
   nonfinal *
   actor C1 * actor C2 * actor C3 *
   murdered C1 C2 * philia C3 C2 * murdered C3 C1
-  -o {final}.
+  -o {@final}.
 
 %% cleanup...
-cleanup/1 : Pi C. Pi L. final * at C L -o {final}.
+cleanup/1 : Pi C. Pi L. final * at C L -o {@final}.
 % cleanup/2 : final * has _ _ -o {final}.
 % cleanup/3 : final * wants _ _ -o {final}.
 % cleanup/4 : final * married _ _ -o {final}.
@@ -252,7 +252,7 @@ lust_at_first_sight : Pi R. Pi J. Pi L.
   serendipity R J * at R L * at J L -o
     { @at R L * @at J L * @eros R J * @eros R J * @eros R J}.
 
-#query * * * 1 
+#query * * * 5
 Pi 'romeo. Pi 'montague. Pi 'capulet. Pi 'mercutio. Pi the_nurse.
 Pi 'juliet. Pi 'tybalt. Pi the_apothecary.
  (@at 'romeo town * @at 'montague 'montague_House * @at 'capulet 'capulet_House
@@ -281,4 +281,4 @@ Pi 'juliet. Pi 'tybalt. Pi the_apothecary.
   * @neutral 'mercutio 'juliet * @neutral 'juliet 'mercutio
   * @neutral the_apothecary the_nurse * @neutral the_nurse the_apothecary
            
-  * nonfinal) -o {final}.
+  * @nonfinal) -o {1}.

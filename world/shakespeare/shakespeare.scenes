@@ -12,7 +12,7 @@ A social simulation based on Romeo and Juliet. Described in detail in
 :: do/travelBored 1 
 <1> tires of the <2> and heads to the <3>.
 
-:: do/fallInLove 1
+:: do/fallInLove 2
 <1> notices how lovely <2> looks in the <3>. <1> grows fonder of <2>.
 
 :: do/eroticize 2
