@@ -42,6 +42,22 @@ fun selectBest n best traces =
          then selectBest n trace traces
       else selectBest n best traces
 
+fun getTwee size seed infile scenefile =
+let  
+   val file = TextIO.openIn infile
+   val traces = grabTraces file [] before TextIO.closeIn file
+   val () = case traces of 
+               [] => raise Fail "No traces in CLF's output"
+             | _ => ()
+   val trace = String.concat (selectBest size (hd traces) (tl traces))
+   val clf = Parser.parseString trace 
+   val trace = CelfTrace.clf_to_trace clf
+   val scenes = SceneParse.parseScenes scenefile
+in
+  CLFtoTwee.compile scenes trace (Random.rand (0xc1fcafe, seed))
+end
+
+
 fun go size seed infile scenefile outfile = 
 let  
    val file = TextIO.openIn infile
