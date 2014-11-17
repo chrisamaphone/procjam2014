@@ -31,21 +31,6 @@ struct
             in
               paths
             end
-              (*
-            let
-              val {name, contents} = getPassageFromStory name story
-              fun mapper c =
-                let
-                  val paths = pathsThroughComponent story c
-                in
-                  case paths of
-                       [] => [[name]]
-                     | _ => map (fn path => name::path) paths
-                end
-            in
-              List.concat (map mapper contents)
-            end
-            *)
             )
 
 
@@ -69,6 +54,14 @@ struct
     fun r i = Real.fromInt i
   in
     (r sum) / (r (List.length paths))
+  end
+
+  fun longestPath paths =
+  let
+    val pathsWithLength = map (fn p => (List.length p, p)) paths
+  in
+    foldl (fn ((n,p),(max,maxp)) => if n > max then (n,p) else (max, maxp)) 
+      (0, []) pathsWithLength
   end
 
 end
