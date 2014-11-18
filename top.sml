@@ -72,14 +72,14 @@ let
    val scenes = SceneParse.parseScenes scenefile
    val twee = CLFtoTwee.compile scenes trace (Random.rand (0xc1fcafe, seed))
 
-   val allPaths = StoryStats.allPaths twee
-   val statEpsilonLength = length (#epsilon trace)
-   val statAverageLength = StoryStats.averageLength allPaths
-   val statLongestPath = StoryStats.longestPath allPaths
    val () = case statsfile of
                NONE => ()
              | SOME fname => 
                let 
+                  val allPaths = StoryStats.allPaths twee
+                  val statEpsilonLength = length (#epsilon trace)
+                  val statAverageLength = StoryStats.averageLength allPaths
+                  val statLongestPath = StoryStats.longestPath allPaths
                   val f = TextIO.openOut fname
                in
                   TextIO.output (f, Int.toString statEpsilonLength^"\n");
