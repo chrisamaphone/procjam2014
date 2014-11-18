@@ -1,15 +1,16 @@
-structure Top(*:>
+structure Top:>
 sig
    (* Takes:
        - the rough desired size of the file
        - the random seed
        - the input .out file produced by celf
        - the input .scenes file
+       - optional stats file 
        - the filename .tw of the twee file we're producing *)
-   val go: int -> int -> string -> string -> string -> unit
+   val go: int -> int -> string -> string -> string option -> string -> unit
 
    val world: string -> unit (* Takes world name, sets up call to go *)
-end *) =
+end =
 struct
 
 fun startsWith str exemplar = 
@@ -58,7 +59,7 @@ in
 end
 
 
-fun go size seed infile scenefile outfile = 
+fun go size seed infile scenefile statsfile outfile = 
 let  
    val file = TextIO.openIn infile
    val traces = grabTraces file [] before TextIO.closeIn file
@@ -69,7 +70,23 @@ let
    val clf = Parser.parseString trace 
    val trace = CelfTrace.clf_to_trace clf
    val scenes = SceneParse.parseScenes scenefile
-   val twee = CLFtoTwee.compile scenes trace (Random.rand (0xc1fcafe, seed)) 
+   val twee = CLFtoTwee.compile scenes trace (Random.rand (0xc1fcafe, seed))
+
+   val allPaths = StoryStats.allPaths twee
+   val statEpsilonLength = length (#epsilon trace)
+   val statAverageLength = StoryStats.averageLength allPaths
+   val statLongestPath = StoryStats.longestPath allPaths
+   val () = case statsfile of
+               NONE => ()
+             | SOME fname => 
+               let 
+                  val f = TextIO.openOut fname
+               in
+                  TextIO.output (f, Int.toString statEpsilonLength^"\n");
+                  TextIO.output (f, Real.toString statAverageLength^"\n");
+                  (* TextIO.output (f, Int.toString statLongestPath^"\n"); *)
+                  TextIO.closeOut f
+               end
 in
    Twee.printTwee outfile twee 
 end
@@ -86,8 +103,10 @@ let
       adddir (OS.Path.joinBaseExt {base = name, ext = SOME "scenes"})
    val outfile =
       adddir (OS.Path.joinBaseExt {base = name, ext = SOME "tw"})
+   val statfile = 
+      adddir (OS.Path.joinBaseExt {base = name, ext = SOME "stats"})
 in
-   go 50 0xc1fface infile scenefile outfile
+   go 5000 0xc1fface infile scenefile (SOME statfile) outfile
 end
 
 end

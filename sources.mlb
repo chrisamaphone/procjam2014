@@ -12,5 +12,6 @@ celftrace.sml
 sceneparse.sml
 compiler.sml
 twee.sml
+stats.sml
 top.sml
 go.sml

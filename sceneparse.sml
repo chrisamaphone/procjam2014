@@ -81,7 +81,7 @@ let
    fun mapper variant = munchText name (String.explode variant) [] []
    val variants_parsed = map mapper variants
 in
-  map mapper variants
+   map mapper variants
 end
 
 fun parseScenes fname: Scenes.scene list = 

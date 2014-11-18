@@ -6,7 +6,7 @@ val () =
       [infile, scenefile, outfile, seed, n] =>
       (case (Int.fromString seed, Int.fromString n) of
           (SOME seed, SOME n) => 
-          (Top.go n seed infile scenefile outfile;
+          (Top.go n seed infile scenefile NONE outfile;
            OS.Process.exit OS.Process.success)
         | _ => (print usage;
                    print "seed or len not an integer\n";
