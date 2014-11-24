@@ -9,6 +9,8 @@ sig
        - the filename .tw of the twee file we're producing *)
    val go: int -> int -> string -> string -> string option -> string -> unit
 
+   val getTwee : int -> int -> string -> string -> ProtoTwee.twee
+
    val world: string -> unit (* Takes world name, sets up call to go *)
 end =
 struct

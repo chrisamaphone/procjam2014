@@ -13,3 +13,4 @@ Group is
   sceneparse.sml 
   top.sml
   stats.sml
+  stats-test.sml

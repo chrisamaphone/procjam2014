@@ -72,7 +72,7 @@ structure CLFtoTwee = struct
     List.find xi_finder e
   end
 
-  fun passageName rule inputs = rule^Int.toString(hd inputs)
+  fun passageName rule inputs = rule^"_"^Int.toString(hd inputs)
 
   exception Error of string
 

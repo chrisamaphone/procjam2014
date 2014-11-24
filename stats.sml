@@ -4,28 +4,38 @@ struct
   fun getPassageFromStory passage_name story = 
     valOf (List.find (fn {name,contents} => name = passage_name) story)
 
+  fun isBranch (ProtoTwee.Display _) = true
+    | isBranch (ProtoTwee.Follow _) = true
+    | isBranch _ = false
+
   fun pathsFromPassage story {name, contents} =
   let
-    val paths1 = List.concat (map (pathsThroughComponent story) contents)
+    (* DEBUG  *)
+    val () = print ("In passage "^name^"\n")
+    val branches = List.filter isBranch contents
+    val nbstring = Int.toString (List.length branches)
+    val () = print ("Number of branches: "^nbstring^"\n")
+    (* END DEBUG *)
+    val paths1 = List.concat (map (pathsThroughComponent story name) contents)
     val paths = List.filter (fn l => not (List.null l)) paths1
   in
     case paths of
-         [] => [[name]]
+         [] => [[name]]  before print "\nLEAF\n\n" 
        | _ => map (fn path => name::path) paths
   end
 
-  and pathsThroughComponent story c =
+  and pathsThroughComponent story parentname c =
     case c of 
           ProtoTwee.Text _ => []
         | ProtoTwee.Display name =>
             let
               val {name, contents} = getPassageFromStory name story
             in
-              List.concat (map (pathsThroughComponent story) contents)
+              List.concat (map (pathsThroughComponent story parentname) contents)
             end
         | ProtoTwee.Follow (link, name) =>
             (
-            print ("following "^link^" to "^name^"\n");
+            print ("following "^link^" to "^name^" from "^parentname^"\n");  
             let
               val paths = pathsFromPassage story (getPassageFromStory name story)
             in
@@ -39,7 +49,7 @@ struct
   let
     fun mapper c =
       let
-        val paths = List.concat (pathsThroughComponent contents c)
+        val paths = List.concat (pathsThroughComponent contents "start"  c)
       in
         map (fn path => "start"::paths) paths
       end
@@ -65,3 +75,4 @@ struct
   end
 
 end
+

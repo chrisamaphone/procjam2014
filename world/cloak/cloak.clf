@@ -114,7 +114,7 @@ observe_with : Pi C. Pi C'. Pi R. Pi O. loc C R * loc C' R * loc_o O (has C')
 
 #trace * init.
 
-#query * * * 10 
+#query * * * 100 
 Pi 'alice. Pi 'bob.
 (loc 'alice foyer * loc 'bob foyer * notcloaked 'bob 
     * disturbances 'alice z * disturbances 'bob z
