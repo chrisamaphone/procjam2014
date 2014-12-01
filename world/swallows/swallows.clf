@@ -162,7 +162,7 @@ leave_together : Pi C. Pi C'. Pi R. Pi O. Pi O'.
  -o {loc_o O (has C) * loc_o O' (has C') * fin (lefttogether C C')}.
 
 drive_away : Pi C. Pi O. Pi O'.
-     loc C garage * loc_o O (has C) * loc_o O' (has C) * treasure O * treasure O'
+     loc C garage * loc_o O (has C) * loc_o O' (has C)
  -o {fin (droveaway C) * loc_o O (has C) * loc_o O' (has C)}.
 
 fin_droveaway : Pi C. Pi C'. Pi R.
@@ -174,11 +174,9 @@ fin_together : Pi C. Pi C1. Pi C2. Pi R.
  -o {fin (lefttogether C1 C2)}.
 
 #query * * * 5
-Pi 'alice. Pi 'bob. Pi 'mallory. Pi 'nero.
+Pi 'alice. Pi 'bob. 
    (loc 'alice bedroom * 
     loc 'bob front_hall *
-    loc 'mallory kitchen *
-    loc 'nero shed *
     loc_o cupboards (inroom kitchen) *
     loc_o cabinet (inroom kitchen) *
     loc_o mailbox (inroom driveway) *
@@ -188,13 +186,13 @@ Pi 'alice. Pi 'bob. Pi 'mallory. Pi 'nero.
     loc_o golden_falcon (inside toolbox) *
     loc_o stolen_jewels (inside bedsheets) *
     loc_o dead_body (inroom bathroom))
--o {loc_o cupboards (A !'alice !'bob !'mallory !'nero) *
-    loc_o cabinet (B !'alice !'bob !'mallory !'nero) *
-    loc_o mailbox (C !'alice !'bob !'mallory !'nero) *
-    loc_o bedsheets (D !'alice !'bob !'mallory !'nero) *
-    loc_o toolbox (E !'alice !'bob !'mallory !'nero) *
-    loc_o revolver (F !'alice !'bob !'mallory !'nero) *
-    loc_o golden_falcon (G !'alice !'bob !'mallory !'nero) *
-    loc_o stolen_jewels (H !'alice !'bob !'mallory !'nero) *
-    loc_o dead_body (I !'alice !'bob !'mallory !'nero) *
-    fin (J !'alice !'bob !'mallory !'nero)}.
+-o {loc_o cupboards (A !'alice !'bob) *
+    loc_o cabinet (B !'alice !'bob) *
+    loc_o mailbox (C !'alice !'bob) *
+    loc_o bedsheets (D !'alice !'bob) *
+    loc_o toolbox (E !'alice !'bob) *
+    loc_o revolver (F !'alice !'bob) *
+    loc_o golden_falcon (G !'alice !'bob) *
+    loc_o stolen_jewels (H !'alice !'bob) *
+    loc_o dead_body (I !'alice !'bob) *
+    fin (J !'alice !'bob)}.
