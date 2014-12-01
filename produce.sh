@@ -25,7 +25,7 @@ do
     celf -s ${seed} ${dir}/${name}.clf > ${dir}/${name}.out
     wc=`wc -l ${dir}/${name}.out | awk {'print $1'}`
     echo "   Produced ${name} script (${name}.out), ${wc} lines."
-    ./tamaraify ${dir}/${name}.out ${dir}/${name}.scenes ${dir}/${name}.tw ${seed} 50
+    ./tamaraify ${dir}/${name}.out ${dir}/${name}.scenes ${dir}/${name}.tw ${seed} 50000
     wc=`wc -w ${dir}/${name}.tw | awk {'print $1'}`
     echo "   Produced ${name} twee (${name}.tw, ${wc} words)"
     twee ${dir}/${name}.tw > ${dir}/index.html
